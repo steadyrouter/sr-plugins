@@ -1,0 +1,4 @@
+# `comfy node publish` packs every file git tracks; these stay out of the Registry archive.
+.github/
+.gitignore
+.comfyignore

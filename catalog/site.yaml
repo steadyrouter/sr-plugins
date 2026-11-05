@@ -1,0 +1,23 @@
+# One place for every public link and name.
+brand: SteadyRouter
+slug: steadyrouter
+api_base: https://api.steadyrouter.com
+site_url: https://www.steadyrouter.com
+pricing_api: https://www.steadyrouter.com/api/pricing
+sign_up_url: https://www.steadyrouter.com/sign-up
+# One sign-up code per plugin, so sign-ups can be counted per plugin. Context.for_channel turns these into get_key_url.
+# Coze plugins carry their own codes in platforms/coze/coze.yaml.
+channel_codes:
+  dify-model: 3M01
+  dify-tools: dza6
+  n8n: G66Y
+  comfyui: cCAq
+  cherry-studio: cimc
+  lobehub: Dn19
+docs_url: https://www.steadyrouter.com/site/docs.html
+video_docs_url: https://www.steadyrouter.com/site/guides/video.html
+models_url: https://www.steadyrouter.com/pricing
+topup_url: https://www.steadyrouter.com/site/docs.html#topup
+privacy_url: https://www.steadyrouter.com/site/privacy.html
+repo_url: https://github.com/steadyrouter/sr-plugins
+contact: support@steadyrouter.com

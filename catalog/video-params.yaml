@@ -1,0 +1,15 @@
+# Copied from the "Parameters by model" table of the public video guide.
+# style: top = size / duration at the top level; metadata = resolution / duration inside "metadata".
+# image_key: where a starting image goes. start_image: optional | required | none.
+viduq3-pro:      {style: top, resolutions: [540p, 720p, 1080p], seconds: {min: 1, max: 16}, start_image: optional, image_key: images}
+viduq3-turbo:    {style: top, resolutions: [540p, 720p, 1080p], seconds: {min: 1, max: 16}, start_image: optional, image_key: images}
+viduq2:          {style: top, resolutions: [540p, 720p, 1080p], seconds: {values: [5]}, start_image: optional, image_key: images}
+viduq2-pro:      {style: top, resolutions: [540p, 720p, 1080p], seconds: {values: [5]}, start_image: required, image_key: images}
+viduq2-turbo:    {style: top, resolutions: [540p, 720p, 1080p], seconds: {values: [5]}, start_image: required, image_key: images}
+doubao-seedance-2-0-260128:      {style: metadata, resolutions: [480p, 720p, 1080p, 4k], seconds: {min: 4, max: 15}, start_image: optional, image_key: images}
+doubao-seedance-2-5-260628:      {style: metadata, resolutions: [480p, 720p, 1080p], seconds: {min: 4, max: 15}, start_image: optional, image_key: images}
+doubao-seedance-2-0-fast-260128: {style: metadata, resolutions: [480p, 720p], seconds: {min: 4, max: 15}, start_image: optional, image_key: images}
+doubao-seedance-2-0-mini-260615: {style: metadata, resolutions: [480p, 720p], seconds: {min: 4, max: 15}, start_image: optional, image_key: images}
+wan2.5-i2v-preview: {style: top, resolutions: [480p, 720p, 1080p], seconds: {values: [5, 10]}, start_image: required, image_key: image}
+wan2.6-i2v:         {style: top, resolutions: [720p, 1080p], seconds: {values: [5, 10, 15]}, start_image: required, image_key: image}
+wan3.0-video:       {style: top, resolutions: [480p, 720p, 1080p], seconds: {values: [5]}, start_image: none, image_key: image}

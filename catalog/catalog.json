@@ -1,0 +1,4747 @@
+{
+ "schema": 1,
+ "counts": {
+  "language": 204,
+  "image": 37,
+  "video": 12,
+  "music": 1,
+  "audio": 13,
+  "embedding": 5,
+  "rerank": 5
+ },
+ "models": [
+  {
+   "name": "BAAI/bge-reranker-v2-m3",
+   "vendor": "BAAI",
+   "description": "BAAI BGE multilingual reranker (v2-m3) for ranking retrieval results.",
+   "category": "rerank",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "jina-rerank"
+   ],
+   "context": 128000,
+   "max_output": 4096,
+   "meta_source": "default"
+  },
+  {
+   "name": "claude-fable-5",
+   "vendor": "Anthropic",
+   "description": "Claude model for creative writing, analysis, and controlled agent workflows",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "anthropic",
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "anthropic/claude-fable-5"
+  },
+  {
+   "name": "claude-fable-5-1",
+   "vendor": "Anthropic",
+   "description": "Claude model for demanding reasoning and long-horizon agentic work",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "anthropic",
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "anthropic/claude-fable-5-1"
+  },
+  {
+   "name": "claude-haiku-4-5-20251001",
+   "vendor": "Anthropic",
+   "description": "Fast Claude model for responsive assistance, classification, and lightweight agents",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "anthropic",
+    "openai"
+   ],
+   "context": 200000,
+   "max_output": 64000,
+   "meta_source": "official",
+   "base_model": "anthropic/claude-haiku-4-5-20251001"
+  },
+  {
+   "name": "claude-haiku-5-5",
+   "vendor": "Anthropic",
+   "description": "Fast Claude model for responsive assistance, classification, and lightweight agents",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "anthropic",
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "anthropic/claude-haiku-5-5"
+  },
+  {
+   "name": "claude-opus-4-1-20250805",
+   "vendor": "Anthropic",
+   "description": "Claude Opus 4.1 from Anthropic for complex reasoning, coding and agentic tasks.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "anthropic",
+    "openai"
+   ],
+   "context": 200000,
+   "max_output": 32000,
+   "meta_source": "other"
+  },
+  {
+   "name": "claude-opus-4-20250514",
+   "vendor": "Anthropic",
+   "description": "Claude Opus 4 from Anthropic for complex reasoning, coding and agentic tasks.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "anthropic",
+    "openai"
+   ],
+   "context": 200000,
+   "max_output": 32000,
+   "meta_source": "other"
+  },
+  {
+   "name": "claude-opus-4-5-20251101",
+   "vendor": "Anthropic",
+   "description": "Flagship Claude model for deep reasoning, coding, and long-horizon agents",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "anthropic",
+    "openai"
+   ],
+   "context": 200000,
+   "max_output": 64000,
+   "meta_source": "official",
+   "base_model": "anthropic/claude-opus-4-5-20251101"
+  },
+  {
+   "name": "claude-opus-4-6",
+   "vendor": "Anthropic",
+   "description": "High-end Claude for difficult coding, planning, and slower expert reasoning",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "anthropic",
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "anthropic/claude-opus-4-6"
+  },
+  {
+   "name": "claude-opus-4-6-thinking",
+   "vendor": "Anthropic",
+   "description": "Claude Opus 4.6 with extended thinking on, for difficult coding, planning, and slower expert reasoning",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "anthropic",
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 4096,
+   "meta_source": "default"
+  },
+  {
+   "name": "claude-opus-4-7",
+   "vendor": "Anthropic",
+   "description": "Stronger Opus tier for advanced software work and high-stakes reasoning",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "anthropic",
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "anthropic/claude-opus-4-7"
+  },
+  {
+   "name": "claude-opus-4-8",
+   "vendor": "Anthropic",
+   "description": "Top Claude Opus tier for the hardest reasoning, coding, and long-horizon agents",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "anthropic",
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "anthropic/claude-opus-4-8"
+  },
+  {
+   "name": "claude-opus-5",
+   "vendor": "Anthropic",
+   "description": "Strongest Claude Opus model for coding, agents, and professional work",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "anthropic",
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "anthropic/claude-opus-5"
+  },
+  {
+   "name": "claude-opus-5-5",
+   "vendor": "Anthropic",
+   "description": "Claude model for long-running agentic coding and knowledge work",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": true,
+   "endpoints": [
+    "anthropic",
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "anthropic/claude-opus-5-5"
+  },
+  {
+   "name": "claude-sonnet-4-20250514",
+   "vendor": "Anthropic",
+   "description": "Claude Sonnet 4 (May 2025) model from Anthropic for coding, analysis, and agent workflows.",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "anthropic",
+    "openai"
+   ],
+   "context": 200000,
+   "max_output": 64000,
+   "meta_source": "other"
+  },
+  {
+   "name": "claude-sonnet-4-5-20250929",
+   "vendor": "Anthropic",
+   "description": "Balanced Claude model for coding, analysis, agent workflows, and cost control",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "anthropic",
+    "openai"
+   ],
+   "context": 200000,
+   "max_output": 64000,
+   "meta_source": "official",
+   "base_model": "anthropic/claude-sonnet-4-5-20250929"
+  },
+  {
+   "name": "claude-sonnet-4-6",
+   "vendor": "Anthropic",
+   "description": "Claude workhorse for coding agents, careful analysis, and production cost control",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "anthropic",
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "anthropic/claude-sonnet-4-6"
+  },
+  {
+   "name": "claude-sonnet-5",
+   "vendor": "Anthropic",
+   "description": "Everyday Claude agent model for coding, planning, browsing, and general work",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "anthropic",
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "anthropic/claude-sonnet-5"
+  },
+  {
+   "name": "claude-sonnet-5-5",
+   "vendor": "Anthropic",
+   "description": "Fast Claude model for everyday coding, agents, and knowledge work",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": true,
+   "endpoints": [
+    "anthropic",
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "anthropic/claude-sonnet-5-5"
+  },
+  {
+   "name": "deepseek-chat",
+   "vendor": "DeepSeek",
+   "description": "DeepSeek general-purpose chat model.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 384000,
+   "meta_source": "other"
+  },
+  {
+   "name": "deepseek-r1",
+   "vendor": "DeepSeek",
+   "description": "DeepSeek reasoning model for multi-step analysis, math, coding, and tools",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 32768,
+   "meta_source": "other"
+  },
+  {
+   "name": "deepseek-r1-250528",
+   "vendor": "DeepSeek",
+   "description": "DeepSeek-R1 reasoning model (2025-05-28 version).",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 32768,
+   "meta_source": "other"
+  },
+  {
+   "name": "deepseek-v3",
+   "vendor": "DeepSeek",
+   "description": "DeepSeek chat model for instruction following, coding, and analysis",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Tools"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 131072,
+   "max_output": 8192,
+   "meta_source": "other"
+  },
+  {
+   "name": "deepseek-v3-1",
+   "vendor": "DeepSeek",
+   "description": "DeepSeek-V3.1 chat model with thinking and non-thinking modes.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 131072,
+   "max_output": 65536,
+   "meta_source": "other"
+  },
+  {
+   "name": "deepseek-v3-1-terminus",
+   "vendor": "DeepSeek",
+   "description": "DeepSeek V3.1 Terminus chat model.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 4096,
+   "meta_source": "default"
+  },
+  {
+   "name": "deepseek-v3.2",
+   "vendor": "DeepSeek",
+   "description": "DeepSeek chat model for instruction following, coding, and analysis",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 128000,
+   "meta_source": "other"
+  },
+  {
+   "name": "deepseek-v4-1-flash",
+   "vendor": "DeepSeek",
+   "description": "DeepSeek V4.1 Flash, a fast and low-cost DeepSeek chat model.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 384000,
+   "meta_source": "other"
+  },
+  {
+   "name": "deepseek-v4-flash",
+   "vendor": "DeepSeek",
+   "description": "DeepSeek V4 Flash, a fast and low-cost DeepSeek chat model.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1048576,
+   "max_output": 393216,
+   "meta_source": "official",
+   "base_model": "deepseek/deepseek-v4-flash"
+  },
+  {
+   "name": "deepseek-v4-flash-0731",
+   "vendor": "DeepSeek",
+   "description": "DeepSeek V4 Flash, a fast and low-cost DeepSeek chat model.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 384000,
+   "meta_source": "other"
+  },
+  {
+   "name": "deepseek-v4-pro",
+   "vendor": "DeepSeek",
+   "description": "DeepSeek V4 Pro snapshot with million-token context and support for thinking and non-thinking modes",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1048576,
+   "max_output": 393216,
+   "meta_source": "official",
+   "base_model": "deepseek/deepseek-v4-pro"
+  },
+  {
+   "name": "deepseek-v4-pro-0813",
+   "vendor": "DeepSeek",
+   "description": "DeepSeek V4 Pro snapshot with million-token context and support for thinking and non-thinking modes",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools"
+   ],
+   "featured": true,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 384000,
+   "meta_source": "other"
+  },
+  {
+   "name": "deepseek-v4.1-flash",
+   "vendor": "DeepSeek",
+   "description": "DeepSeek V4.1 Flash, a fast and low-cost DeepSeek chat model.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 384000,
+   "meta_source": "other"
+  },
+  {
+   "name": "deepseek-v4.1-flash-1017",
+   "vendor": "DeepSeek",
+   "description": "DeepSeek V4.1 Flash, a fast and low-cost DeepSeek chat model.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 384000,
+   "meta_source": "other"
+  },
+  {
+   "name": "doubao-seed-1-6-250615",
+   "vendor": "ByteDance",
+   "description": "Doubao Seed 1.6 chat model from ByteDance (2025-06-15 version).",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 4096,
+   "meta_source": "default"
+  },
+  {
+   "name": "doubao-seed-1-6-251015",
+   "vendor": "ByteDance",
+   "description": "ByteDance Seed model for long-context reasoning, instruction following, and tool-assisted tasks",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 256000,
+   "max_output": 64000,
+   "meta_source": "official",
+   "base_model": "volcengine/doubao-seed-1-6-251015"
+  },
+  {
+   "name": "doubao-seed-1-6-flash-250828",
+   "vendor": "ByteDance",
+   "description": "Low-latency ByteDance Seed model for high-throughput chat, extraction, and lightweight tool use",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 256000,
+   "max_output": 32000,
+   "meta_source": "official",
+   "base_model": "volcengine/doubao-seed-1-6-flash-250828"
+  },
+  {
+   "name": "doubao-seed-1-6-thinking-250615",
+   "vendor": "ByteDance",
+   "description": "Doubao Seed 1.6 Thinking reasoning model from ByteDance (2025-06-15 version).",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 4096,
+   "meta_source": "default"
+  },
+  {
+   "name": "doubao-seed-1-6-thinking-250715",
+   "vendor": "ByteDance",
+   "description": "Doubao Seed 1.6 Thinking reasoning model from ByteDance (2025-07-15 version).",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 256000,
+   "max_output": 16000,
+   "meta_source": "other"
+  },
+  {
+   "name": "doubao-seed-1-6-vision-250815",
+   "vendor": "ByteDance",
+   "description": "ByteDance Seed multimodal model for image understanding, visual reasoning, and tool-assisted tasks",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 256000,
+   "max_output": 32000,
+   "meta_source": "official",
+   "base_model": "volcengine/doubao-seed-1-6-vision-250815"
+  },
+  {
+   "name": "doubao-seed-1-8-251228",
+   "vendor": "ByteDance",
+   "description": "ByteDance Seed model for multimodal reasoning, long-context analysis, and agent workflows",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 256000,
+   "max_output": 64000,
+   "meta_source": "official",
+   "base_model": "volcengine/doubao-seed-1-8-251228"
+  },
+  {
+   "name": "doubao-seed-2-0-code-preview-260215",
+   "vendor": "ByteDance",
+   "description": "ByteDance Seed coding model for multimodal software engineering and long-running agents",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 262144,
+   "max_output": 131072,
+   "meta_source": "official",
+   "base_model": "volcengine/doubao-seed-2-0-code-preview-260215"
+  },
+  {
+   "name": "doubao-seed-2-0-lite-260215",
+   "vendor": "ByteDance",
+   "description": "Doubao Seed 2.0 Lite chat model from ByteDance (2026-02-15 version).",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 256000,
+   "max_output": 32000,
+   "meta_source": "other"
+  },
+  {
+   "name": "doubao-seed-2-0-lite-260428",
+   "vendor": "ByteDance",
+   "description": "Cost-efficient ByteDance Seed 2.0 model for production chat, analysis, and structured generation",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 256000,
+   "max_output": 131072,
+   "meta_source": "official",
+   "base_model": "volcengine/doubao-seed-2-0-lite-260428"
+  },
+  {
+   "name": "doubao-seed-2-0-mini-260215",
+   "vendor": "ByteDance",
+   "description": "Doubao Seed 2.0 Mini chat model from ByteDance (2026-02-15 version).",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 256000,
+   "max_output": 32000,
+   "meta_source": "other"
+  },
+  {
+   "name": "doubao-seed-2-0-mini-260428",
+   "vendor": "ByteDance",
+   "description": "Lightweight ByteDance Seed 2.0 model for low-latency multimodal reasoning and high-volume tasks",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 256000,
+   "max_output": 131072,
+   "meta_source": "official",
+   "base_model": "volcengine/doubao-seed-2-0-mini-260428"
+  },
+  {
+   "name": "doubao-seed-2-0-pro-260215",
+   "vendor": "ByteDance",
+   "description": "Flagship ByteDance Seed 2.0 model for complex multimodal reasoning and long-horizon agent workflows",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 256000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "volcengine/doubao-seed-2-0-pro-260215"
+  },
+  {
+   "name": "doubao-seed-2-1-pro-260628",
+   "vendor": "ByteDance",
+   "description": "Flagship ByteDance Seed 2.1 model for complex multimodal reasoning, coding, and agents",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 256000,
+   "max_output": 256000,
+   "meta_source": "official",
+   "base_model": "volcengine/doubao-seed-2-1-pro-260628"
+  },
+  {
+   "name": "doubao-seed-2-1-pro-260915",
+   "vendor": "ByteDance",
+   "description": "Doubao Seed 2.1 Pro chat model from ByteDance (2026-09-15 version).",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 4096,
+   "meta_source": "default"
+  },
+  {
+   "name": "doubao-seed-2-1-turbo-260628",
+   "vendor": "ByteDance",
+   "description": "Faster ByteDance Seed 2.1 model for multimodal reasoning and latency-sensitive agent workflows",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 256000,
+   "max_output": 256000,
+   "meta_source": "official",
+   "base_model": "volcengine/doubao-seed-2-1-turbo-260628"
+  },
+  {
+   "name": "doubao-seed-evolving",
+   "vendor": "ByteDance",
+   "description": "Rolling ByteDance Seed model for rapidly updated reasoning, coding, and agent capabilities",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 256000,
+   "max_output": 256000,
+   "meta_source": "official",
+   "base_model": "volcengine/doubao-seed-evolving"
+  },
+  {
+   "name": "doubao-seedance-2-0-260128",
+   "vendor": "ByteDance",
+   "description": "Seedance 2.0 video model from ByteDance for text-to-video and image-to-video, with output up to 4K.",
+   "category": "video",
+   "family": "seedance",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai-video"
+   ]
+  },
+  {
+   "name": "doubao-seedance-2-0-fast-260128",
+   "vendor": "ByteDance",
+   "description": "Seedance 2.0 Fast: a faster, lower-cost Seedance 2.0 video model from ByteDance, at 480p or 720p.",
+   "category": "video",
+   "family": "seedance",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai-video"
+   ]
+  },
+  {
+   "name": "doubao-seedance-2-0-mini-260615",
+   "vendor": "ByteDance",
+   "description": "Seedance 2.0 Mini: the lightest, lowest-cost Seedance 2.0 video model from ByteDance, at 480p or 720p.",
+   "category": "video",
+   "family": "seedance",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai-video"
+   ]
+  },
+  {
+   "name": "doubao-seedance-2-5-260628",
+   "vendor": "ByteDance",
+   "description": "Seedance 2.5 video model from ByteDance for text-to-video and image-to-video, with output up to 1080p.",
+   "category": "video",
+   "family": "seedance",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai-video"
+   ]
+  },
+  {
+   "name": "doubao-seedream-3-0-t2i-250415",
+   "vendor": "ByteDance",
+   "description": "Seedream 3.0 text-to-image model from ByteDance.",
+   "category": "image",
+   "family": "seedream",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "protocol": "images"
+  },
+  {
+   "name": "doubao-seedream-4-0-250828",
+   "vendor": "ByteDance",
+   "description": "Seedream 4.0 image generation and editing model from ByteDance.",
+   "category": "image",
+   "family": "seedream",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "protocol": "images"
+  },
+  {
+   "name": "doubao-seedream-4-5-251128",
+   "vendor": "ByteDance",
+   "description": "Seedream 4.5 image generation model from ByteDance.",
+   "category": "image",
+   "family": "seedream",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "protocol": "images"
+  },
+  {
+   "name": "eleven_flash_v2",
+   "vendor": "ElevenLabs",
+   "description": "ElevenLabs Flash v2 text-to-speech model, English only, built for low latency.",
+   "category": "audio",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "audio_kind": "other"
+  },
+  {
+   "name": "eleven_flash_v2_5",
+   "vendor": "ElevenLabs",
+   "description": "ElevenLabs Flash v2.5 low-latency multilingual text-to-speech model.",
+   "category": "audio",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "audio_kind": "other"
+  },
+  {
+   "name": "eleven_multilingual_v2",
+   "vendor": "ElevenLabs",
+   "description": "ElevenLabs Multilingual v2 text-to-speech model for stable, natural long-form speech in many languages.",
+   "category": "audio",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "audio_kind": "other"
+  },
+  {
+   "name": "eleven_v3",
+   "vendor": "ElevenLabs",
+   "description": "ElevenLabs v3 expressive text-to-speech model for dramatic narration and character voices.",
+   "category": "audio",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "audio_kind": "other"
+  },
+  {
+   "name": "eleven_v3_conversational",
+   "vendor": "ElevenLabs",
+   "description": "ElevenLabs v3 Conversational text-to-speech model with a relaxed, natural speaking style for dialogue.",
+   "category": "audio",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "audio_kind": "other"
+  },
+  {
+   "name": "eleven_v4",
+   "vendor": "ElevenLabs",
+   "description": "ElevenLabs v4 flagship text-to-speech model for nuanced, emotional narration.",
+   "category": "audio",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "audio_kind": "other"
+  },
+  {
+   "name": "eleven_v4_turbo",
+   "vendor": "ElevenLabs",
+   "description": "ElevenLabs v4 Turbo low-latency streaming text-to-speech model.",
+   "category": "audio",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "audio_kind": "other"
+  },
+  {
+   "name": "flux-2-max",
+   "vendor": "Black Forest Labs",
+   "description": "FLUX.2 [max] image generation model from Black Forest Labs.",
+   "category": "image",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "image-generation",
+    "openai"
+   ],
+   "protocol": "images"
+  },
+  {
+   "name": "flux-2-pro",
+   "vendor": "Black Forest Labs",
+   "description": "FLUX.2 [pro] image generation model from Black Forest Labs.",
+   "category": "image",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "image-generation",
+    "openai"
+   ],
+   "protocol": "images"
+  },
+  {
+   "name": "flux-kontext-max",
+   "vendor": "Black Forest Labs",
+   "description": "FLUX.1 Kontext [max] image generation and editing model from Black Forest Labs.",
+   "category": "image",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "image-generation",
+    "openai"
+   ],
+   "protocol": "images"
+  },
+  {
+   "name": "flux-kontext-pro",
+   "vendor": "Black Forest Labs",
+   "description": "FLUX.1 Kontext [pro] image generation and editing model from Black Forest Labs.",
+   "category": "image",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "image-generation",
+    "openai"
+   ],
+   "protocol": "images"
+  },
+  {
+   "name": "flux-pro-1.1",
+   "vendor": "Black Forest Labs",
+   "description": "FLUX1.1 [pro] text-to-image model from Black Forest Labs.",
+   "category": "image",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "image-generation",
+    "openai"
+   ],
+   "protocol": "images"
+  },
+  {
+   "name": "gemini-2.5-flash",
+   "vendor": "Google",
+   "description": "Fast Gemini workhorse for multimodal apps where latency and price matter",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1048576,
+   "max_output": 65536,
+   "meta_source": "official",
+   "base_model": "google/gemini-2.5-flash"
+  },
+  {
+   "name": "gemini-2.5-flash-image",
+   "vendor": "Google",
+   "description": "Nano Banana image model for fast generation, edits, and character-consistent assets",
+   "category": "image",
+   "family": "nano_banana",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "protocol": "chat"
+  },
+  {
+   "name": "gemini-2.5-flash-lite",
+   "vendor": "Google",
+   "description": "Lean Gemini 2.5 lane for cheap multimodal traffic and quick agents",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1048576,
+   "max_output": 65536,
+   "meta_source": "official",
+   "base_model": "google/gemini-2.5-flash-lite"
+  },
+  {
+   "name": "gemini-2.5-pro",
+   "vendor": "Google",
+   "description": "Google's proven reasoning model for coding, math, and multimodal analysis",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1048576,
+   "max_output": 65536,
+   "meta_source": "official",
+   "base_model": "google/gemini-2.5-pro"
+  },
+  {
+   "name": "gemini-3-flash-preview",
+   "vendor": "Google",
+   "description": "New Gemini flash lane bringing frontier-style multimodal reasoning to cheaper runs",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1048576,
+   "max_output": 65536,
+   "meta_source": "official",
+   "base_model": "google/gemini-3-flash-preview"
+  },
+  {
+   "name": "gemini-3-pro-image",
+   "vendor": "Google",
+   "description": "Nano Banana Pro for higher-fidelity image generation and design-heavy edits",
+   "category": "image",
+   "family": "nano_banana",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "protocol": "chat"
+  },
+  {
+   "name": "gemini-3-pro-image-preview",
+   "vendor": "Google",
+   "description": "Nano Banana Pro for higher-fidelity image generation and design-heavy edits",
+   "category": "image",
+   "family": "nano_banana",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "protocol": "chat"
+  },
+  {
+   "name": "gemini-3-pro-preview",
+   "vendor": "Google",
+   "description": "Gemini 3 Pro preview model from Google.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1048576,
+   "max_output": 65536,
+   "meta_source": "other"
+  },
+  {
+   "name": "gemini-3.1-flash-image",
+   "vendor": "Google",
+   "description": "Image model for prompt-driven generation, editing, and visual design workflows",
+   "category": "image",
+   "family": "nano_banana",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "protocol": "chat"
+  },
+  {
+   "name": "gemini-3.1-flash-image-preview",
+   "vendor": "Google",
+   "description": "Image model for prompt-driven generation, editing, and visual design workflows; the native Gemini API returns image links, not inline image data",
+   "category": "image",
+   "family": "nano_banana",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "protocol": "chat"
+  },
+  {
+   "name": "gemini-3.1-flash-lite",
+   "vendor": "Google",
+   "description": "Low-latency Gemini model for high-volume multimodal and agent workloads",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1048576,
+   "max_output": 65536,
+   "meta_source": "official",
+   "base_model": "google/gemini-3.1-flash-lite"
+  },
+  {
+   "name": "gemini-3.1-flash-lite-image",
+   "vendor": "Google",
+   "description": "Fastest, most cost-efficient Gemini image model for high-volume 1K generation and editing",
+   "category": "image",
+   "family": "nano_banana",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "protocol": "chat"
+  },
+  {
+   "name": "gemini-3.1-flash-lite-preview",
+   "vendor": "Google",
+   "description": "Legacy model retained for compatibility with older integrations",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1048576,
+   "max_output": 65536,
+   "meta_source": "official",
+   "base_model": "google/gemini-3.1-flash-lite-preview"
+  },
+  {
+   "name": "gemini-3.1-pro-preview",
+   "vendor": "Google",
+   "description": "Reasoning-first Gemini preview for agentic coding and complex problem solving",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1048576,
+   "max_output": 65536,
+   "meta_source": "official",
+   "base_model": "google/gemini-3.1-pro-preview"
+  },
+  {
+   "name": "gemini-3.5-flash",
+   "vendor": "Google",
+   "description": "Fast Gemini model balancing multimodal reasoning, tool use, and cost",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1048576,
+   "max_output": 65536,
+   "meta_source": "official",
+   "base_model": "google/gemini-3.5-flash"
+  },
+  {
+   "name": "gemini-3.5-flash-lite",
+   "vendor": "Google",
+   "description": "Fast Gemini model balancing multimodal reasoning, tool use, and cost",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1048576,
+   "max_output": 65536,
+   "meta_source": "official",
+   "base_model": "google/gemini-3.5-flash-lite"
+  },
+  {
+   "name": "gemini-3.6-flash",
+   "vendor": "Google",
+   "description": "Fast Gemini model balancing multimodal reasoning, tool use, and cost",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1048576,
+   "max_output": 65536,
+   "meta_source": "official",
+   "base_model": "google/gemini-3.6-flash"
+  },
+  {
+   "name": "gemini-3.7-flash",
+   "vendor": "Google",
+   "description": "High-efficiency Gemini model for agentic workflows, coding, and multimodal reasoning",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1048576,
+   "max_output": 65536,
+   "meta_source": "official",
+   "base_model": "google/gemini-3.7-flash"
+  },
+  {
+   "name": "gemini-3.8-flash",
+   "vendor": "Google",
+   "description": "Google's most intelligent Flash model, engineered for long-horizon software engineering, autonomous agents, and complex enterprise workflows",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": true,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1048576,
+   "max_output": 65536,
+   "meta_source": "official",
+   "base_model": "google/gemini-3.8-flash"
+  },
+  {
+   "name": "gemini-4-argon",
+   "vendor": "Google",
+   "description": "Google's flagship reasoning model for complex software engineering, deep math and science, and long-horizon autonomous agents",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": true,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1048576,
+   "max_output": 32768,
+   "meta_source": "official",
+   "base_model": "google/gemini-4-argon"
+  },
+  {
+   "name": "gemini-embedding-001",
+   "vendor": "Google",
+   "description": "Embedding model for semantic search, retrieval, clustering, and ranking pipelines",
+   "category": "embedding",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "embeddings"
+   ],
+   "context": 2048,
+   "max_output": 1,
+   "meta_source": "official",
+   "base_model": "google/gemini-embedding-001"
+  },
+  {
+   "name": "gemini-embedding-2-preview",
+   "vendor": "Google",
+   "description": "Gemini Embedding 2 preview model from Google for semantic search and retrieval.",
+   "category": "embedding",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "embeddings"
+   ],
+   "context": 128000,
+   "max_output": 4096,
+   "meta_source": "default"
+  },
+  {
+   "name": "gemini-nano-banana-2.1",
+   "vendor": "Google",
+   "description": "Nano Banana 2.1 for fast image generation and conversational editing, with better visual quality, prompt adherence, and text rendering",
+   "category": "image",
+   "family": "nano_banana",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "protocol": "chat"
+  },
+  {
+   "name": "gemini-nano-banana-2.1-preview",
+   "vendor": "Google",
+   "description": "Nano Banana 2.1 for fast image generation and conversational editing, with better visual quality, prompt adherence, and text rendering",
+   "category": "image",
+   "family": "nano_banana",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "protocol": "chat"
+  },
+  {
+   "name": "glm-4-airx",
+   "vendor": "Zhipu",
+   "description": "GLM-4-AirX chat model from Zhipu.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 4096,
+   "meta_source": "default"
+  },
+  {
+   "name": "glm-4-flash",
+   "vendor": "Zhipu",
+   "description": "GLM-4-Flash chat model from Zhipu.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 4096,
+   "meta_source": "default"
+  },
+  {
+   "name": "glm-4-long",
+   "vendor": "Zhipu",
+   "description": "GLM-4-Long chat model from Zhipu for long-context input.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 4095,
+   "meta_source": "other"
+  },
+  {
+   "name": "glm-4.5",
+   "vendor": "Zhipu",
+   "description": "Hybrid-reasoning GLM release that made the 4.5 line broadly useful",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 131072,
+   "max_output": 98304,
+   "meta_source": "official",
+   "base_model": "zhipuai/glm-4.5"
+  },
+  {
+   "name": "glm-4.5-air",
+   "vendor": "Zhipu",
+   "description": "Lighter GLM-4.5 variant for fast coding assistance and cheaper agents",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 131072,
+   "max_output": 98304,
+   "meta_source": "official",
+   "base_model": "zhipuai/glm-4.5-air"
+  },
+  {
+   "name": "glm-5",
+   "vendor": "Zhipu",
+   "description": "General GLM flagship for coding, analysis, and tool-heavy engineering workflows",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 204800,
+   "max_output": 131072,
+   "meta_source": "official",
+   "base_model": "zhipuai/glm-5"
+  },
+  {
+   "name": "glm-5.1",
+   "vendor": "Zhipu",
+   "description": "Strong GLM coding model for agentic engineering, terminals, and repository generation",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 200000,
+   "max_output": 131072,
+   "meta_source": "official",
+   "base_model": "zhipuai/glm-5.1"
+  },
+  {
+   "name": "glm-5.2",
+   "vendor": "Zhipu",
+   "description": "GLM-5.2 chat model from Zhipu.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 131072,
+   "meta_source": "official",
+   "base_model": "zhipuai/glm-5.2"
+  },
+  {
+   "name": "glm-5.3",
+   "vendor": "Zhipu",
+   "description": "GLM-5.3 chat model from Zhipu.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 131072,
+   "meta_source": "official",
+   "base_model": "zhipuai/glm-5.3"
+  },
+  {
+   "name": "glm-5.3-flash",
+   "vendor": "Zhipu",
+   "description": "GLM-5.3 Flash, a fast and low-cost GLM chat model from Zhipu.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 131072,
+   "meta_source": "official",
+   "base_model": "zhipuai/glm-5.3-flash"
+  },
+  {
+   "name": "gpt-3.5-turbo",
+   "vendor": "OpenAI",
+   "description": "Compact GPT model for low-latency assistance and high-volume workloads",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 16385,
+   "max_output": 4096,
+   "meta_source": "official",
+   "base_model": "openai/gpt-3.5-turbo"
+  },
+  {
+   "name": "gpt-3.5-turbo-0125",
+   "vendor": "OpenAI",
+   "description": "Compact GPT model for low-latency assistance and high-volume workloads",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 16384,
+   "max_output": 4096,
+   "meta_source": "other"
+  },
+  {
+   "name": "gpt-3.5-turbo-1106",
+   "vendor": "OpenAI",
+   "description": "Compact GPT model for low-latency assistance and high-volume workloads",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 16384,
+   "max_output": 4096,
+   "meta_source": "other"
+  },
+  {
+   "name": "gpt-4",
+   "vendor": "OpenAI",
+   "description": "GPT model for general reasoning, writing, coding, and tool-assisted tasks",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Tools"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 8192,
+   "max_output": 8192,
+   "meta_source": "official",
+   "base_model": "openai/gpt-4"
+  },
+  {
+   "name": "gpt-4-1106-preview",
+   "vendor": "OpenAI",
+   "description": "GPT-4 Turbo preview model (1106) from OpenAI.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 4096,
+   "meta_source": "default"
+  },
+  {
+   "name": "gpt-4-turbo",
+   "vendor": "OpenAI",
+   "description": "Compact GPT model for low-latency assistance and high-volume workloads",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 4096,
+   "meta_source": "official",
+   "base_model": "openai/gpt-4-turbo"
+  },
+  {
+   "name": "gpt-4-turbo-2024-04-09",
+   "vendor": "OpenAI",
+   "description": "Compact GPT model for low-latency assistance and high-volume workloads",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 4096,
+   "meta_source": "official",
+   "base_model": "openai/gpt-4-turbo"
+  },
+  {
+   "name": "gpt-4.1",
+   "vendor": "OpenAI",
+   "description": "Long-lived GPT workhorse for coding, instruction following, and production apps",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1047576,
+   "max_output": 32768,
+   "meta_source": "official",
+   "base_model": "openai/gpt-4.1"
+  },
+  {
+   "name": "gpt-4.1-2025-04-14",
+   "vendor": "OpenAI",
+   "description": "Long-lived GPT workhorse for coding, instruction following, and production apps",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1047576,
+   "max_output": 32768,
+   "meta_source": "official",
+   "base_model": "openai/gpt-4.1"
+  },
+  {
+   "name": "gpt-4.1-mini",
+   "vendor": "OpenAI",
+   "description": "Affordable GPT-4.1 lane for fast coding help and structured extraction",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1047576,
+   "max_output": 32768,
+   "meta_source": "official",
+   "base_model": "openai/gpt-4.1-mini"
+  },
+  {
+   "name": "gpt-4.1-mini-2025-04-14",
+   "vendor": "OpenAI",
+   "description": "Affordable GPT-4.1 lane for fast coding help and structured extraction",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1047576,
+   "max_output": 32768,
+   "meta_source": "official",
+   "base_model": "openai/gpt-4.1-mini"
+  },
+  {
+   "name": "gpt-4.1-nano",
+   "vendor": "OpenAI",
+   "description": "Tiny GPT-4.1 option for classification, routing, and very high-volume tasks",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1047576,
+   "max_output": 32768,
+   "meta_source": "official",
+   "base_model": "openai/gpt-4.1-nano"
+  },
+  {
+   "name": "gpt-4.1-nano-2025-04-14",
+   "vendor": "OpenAI",
+   "description": "Tiny GPT-4.1 option for classification, routing, and very high-volume tasks",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1047576,
+   "max_output": 32768,
+   "meta_source": "official",
+   "base_model": "openai/gpt-4.1-nano"
+  },
+  {
+   "name": "gpt-4o",
+   "vendor": "OpenAI",
+   "description": "Omni-era GPT for multimodal chat, practical coding, and general assistants",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 16384,
+   "meta_source": "official",
+   "base_model": "openai/gpt-4o"
+  },
+  {
+   "name": "gpt-4o-2024-05-13",
+   "vendor": "OpenAI",
+   "description": "GPT model for general reasoning, writing, coding, and tool-assisted tasks",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 4096,
+   "meta_source": "official",
+   "base_model": "openai/gpt-4o-2024-05-13"
+  },
+  {
+   "name": "gpt-4o-2024-08-06",
+   "vendor": "OpenAI",
+   "description": "GPT model for general reasoning, writing, coding, and tool-assisted tasks",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 16384,
+   "meta_source": "official",
+   "base_model": "openai/gpt-4o-2024-08-06"
+  },
+  {
+   "name": "gpt-4o-2024-11-20",
+   "vendor": "OpenAI",
+   "description": "GPT model for general reasoning, writing, coding, and tool-assisted tasks",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 16384,
+   "meta_source": "official",
+   "base_model": "openai/gpt-4o-2024-11-20"
+  },
+  {
+   "name": "gpt-4o-audio-preview-2024-12-17",
+   "vendor": "OpenAI",
+   "description": "GPT-4o audio model for speech input and output (preview).",
+   "category": "audio",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "audio_kind": "other",
+   "exclude": [
+    "dify-model"
+   ]
+  },
+  {
+   "name": "gpt-4o-mini",
+   "vendor": "OpenAI",
+   "description": "Small omni GPT for cheap multimodal assistance and production-scale traffic",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 16384,
+   "meta_source": "official",
+   "base_model": "openai/gpt-4o-mini"
+  },
+  {
+   "name": "gpt-4o-mini-2024-07-18",
+   "vendor": "OpenAI",
+   "description": "Small omni GPT for cheap multimodal assistance and production-scale traffic",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 16384,
+   "meta_source": "official",
+   "base_model": "openai/gpt-4o-mini"
+  },
+  {
+   "name": "gpt-4o-mini-transcribe",
+   "vendor": "OpenAI",
+   "description": "Speech-to-text model from OpenAI based on GPT-4o mini.",
+   "category": "audio",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "audio_kind": "speech2text"
+  },
+  {
+   "name": "gpt-4o-transcribe",
+   "vendor": "OpenAI",
+   "description": "Speech-to-text model from OpenAI based on GPT-4o.",
+   "category": "audio",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "audio_kind": "speech2text"
+  },
+  {
+   "name": "gpt-5",
+   "vendor": "OpenAI",
+   "description": "Original GPT-5 workhorse for reasoning, coding, writing, and tool workflows",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 400000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "openai/gpt-5"
+  },
+  {
+   "name": "gpt-5-2025-08-07",
+   "vendor": "OpenAI",
+   "description": "Original GPT-5 workhorse for reasoning, coding, writing, and tool workflows",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 400000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "openai/gpt-5"
+  },
+  {
+   "name": "gpt-5-chat-latest",
+   "vendor": "OpenAI",
+   "description": "Alias for the GPT-5 model used in ChatGPT.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 16384,
+   "meta_source": "other"
+  },
+  {
+   "name": "gpt-5-mini",
+   "vendor": "OpenAI",
+   "description": "Small GPT-5 for responsive agents, coding help, and everyday automation",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 400000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "openai/gpt-5-mini"
+  },
+  {
+   "name": "gpt-5-mini-2025-08-07",
+   "vendor": "OpenAI",
+   "description": "Small GPT-5 for responsive agents, coding help, and everyday automation",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 400000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "openai/gpt-5-mini"
+  },
+  {
+   "name": "gpt-5-nano",
+   "vendor": "OpenAI",
+   "description": "Tiny GPT-5 lane for routing, extraction, classification, and bulk jobs",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 400000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "openai/gpt-5-nano"
+  },
+  {
+   "name": "gpt-5-nano-2025-08-07",
+   "vendor": "OpenAI",
+   "description": "Tiny GPT-5 lane for routing, extraction, classification, and bulk jobs",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 400000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "openai/gpt-5-nano"
+  },
+  {
+   "name": "gpt-5-pro",
+   "vendor": "OpenAI",
+   "description": "Higher-accuracy GPT-5 tier for tough analysis, coding reviews, and planning",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 400000,
+   "max_output": 272000,
+   "meta_source": "official",
+   "base_model": "openai/gpt-5-pro"
+  },
+  {
+   "name": "gpt-5-search-api",
+   "vendor": "OpenAI",
+   "description": "GPT-5 model with built-in web search for the Chat Completions API.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 272000,
+   "max_output": 100000,
+   "meta_source": "other"
+  },
+  {
+   "name": "gpt-5-search-api-2025-10-14",
+   "vendor": "OpenAI",
+   "description": "GPT-5 model with built-in web search for the Chat Completions API.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 272000,
+   "max_output": 100000,
+   "meta_source": "other"
+  },
+  {
+   "name": "gpt-5.1",
+   "vendor": "OpenAI",
+   "description": "Sharper GPT-5 generation for coding, product work, and tool-assisted tasks",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 400000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "openai/gpt-5.1"
+  },
+  {
+   "name": "gpt-5.1-2025-11-13",
+   "vendor": "OpenAI",
+   "description": "Sharper GPT-5 generation for coding, product work, and tool-assisted tasks",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 400000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "openai/gpt-5.1"
+  },
+  {
+   "name": "gpt-5.1-chat-latest",
+   "vendor": "OpenAI",
+   "description": "Alias for the GPT-5.1 model used in ChatGPT.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 16384,
+   "meta_source": "other"
+  },
+  {
+   "name": "gpt-5.1-codex",
+   "vendor": "OpenAI",
+   "description": "Version of GPT-5.1 optimized for agentic coding in Codex.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 400000,
+   "max_output": 128000,
+   "meta_source": "other"
+  },
+  {
+   "name": "gpt-5.1-codex-mini",
+   "vendor": "OpenAI",
+   "description": "Smaller, lower-cost GPT-5.1 Codex model for agentic coding.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 400000,
+   "max_output": 128000,
+   "meta_source": "other"
+  },
+  {
+   "name": "gpt-5.2",
+   "vendor": "OpenAI",
+   "description": "Reliable GPT generation for broad coding, writing, and tool-assisted product work",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 400000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "openai/gpt-5.2"
+  },
+  {
+   "name": "gpt-5.2-chat-latest",
+   "vendor": "OpenAI",
+   "description": "Chat-tuned GPT model for conversational assistance, writing, and tool workflows",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 16384,
+   "meta_source": "other"
+  },
+  {
+   "name": "gpt-5.2-codex",
+   "vendor": "OpenAI",
+   "description": "Version of GPT-5.2 optimized for agentic coding in Codex.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 400000,
+   "max_output": 128000,
+   "meta_source": "other"
+  },
+  {
+   "name": "gpt-5.2-pro",
+   "vendor": "OpenAI",
+   "description": "Higher-accuracy GPT-5.2 variant for tougher reasoning and review workflows",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 400000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "openai/gpt-5.2-pro"
+  },
+  {
+   "name": "gpt-5.3-codex",
+   "vendor": "OpenAI",
+   "description": "Coding-optimized GPT model for repository edits, reviews, and agentic software work",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 400000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "openai/gpt-5.3-codex"
+  },
+  {
+   "name": "gpt-5.4",
+   "vendor": "OpenAI",
+   "description": "Agent-ready GPT for coding and computer-use workflows at a lower cost",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1050000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "openai/gpt-5.4"
+  },
+  {
+   "name": "gpt-5.4-mini",
+   "vendor": "OpenAI",
+   "description": "Strong small GPT for coding subagents, quick tool use, and high-volume work",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 400000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "openai/gpt-5.4-mini"
+  },
+  {
+   "name": "gpt-5.4-mini-2026-03-17",
+   "vendor": "OpenAI",
+   "description": "Strong small GPT for coding subagents, quick tool use, and high-volume work",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 400000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "openai/gpt-5.4-mini"
+  },
+  {
+   "name": "gpt-5.4-nano",
+   "vendor": "OpenAI",
+   "description": "Cheapest GPT-5.4 lane for simple routing, extraction, and bulk automation",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 400000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "openai/gpt-5.4-nano"
+  },
+  {
+   "name": "gpt-5.4-nano-2026-03-17",
+   "vendor": "OpenAI",
+   "description": "Cheapest GPT-5.4 lane for simple routing, extraction, and bulk automation",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 400000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "openai/gpt-5.4-nano"
+  },
+  {
+   "name": "gpt-5.4-pro",
+   "vendor": "OpenAI",
+   "description": "More exact GPT-5.4 tier for demanding professional reasoning and agent tasks",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1050000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "openai/gpt-5.4-pro"
+  },
+  {
+   "name": "gpt-5.4-pro-2026-03-05",
+   "vendor": "OpenAI",
+   "description": "More exact GPT-5.4 tier for demanding professional reasoning and agent tasks",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1050000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "openai/gpt-5.4-pro"
+  },
+  {
+   "name": "gpt-5.5",
+   "vendor": "OpenAI",
+   "description": "Default frontier GPT for coding, computer use, research, and knowledge work",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1050000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "openai/gpt-5.5"
+  },
+  {
+   "name": "gpt-5.5-pro",
+   "vendor": "OpenAI",
+   "description": "Highest-accuracy GPT-5.5 tier for slower, precision-heavy reasoning and coding",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1050000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "openai/gpt-5.5-pro"
+  },
+  {
+   "name": "gpt-5.6-luna",
+   "vendor": "OpenAI",
+   "description": "Cost-efficient GPT-5.6 model for fast, high-volume workloads",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1050000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "openai/gpt-5.6-luna"
+  },
+  {
+   "name": "gpt-5.6-sol",
+   "vendor": "OpenAI",
+   "description": "Frontier GPT-5.6 model for complex professional work, coding, and agentic workflows",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1050000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "openai/gpt-5.6-sol"
+  },
+  {
+   "name": "gpt-5.6-terra",
+   "vendor": "OpenAI",
+   "description": "Balanced GPT-5.6 model for capable, cost-efficient everyday work",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1050000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "openai/gpt-5.6-terra"
+  },
+  {
+   "name": "gpt-6-astra",
+   "vendor": "OpenAI",
+   "description": "GPT-6 Astra is OpenAI's most capable model for complex reasoning, coding, computer use, research, and document creation.",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": true,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1050000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "openai/gpt-6-astra"
+  },
+  {
+   "name": "gpt-6-luna",
+   "vendor": "OpenAI",
+   "description": "OpenAI's most efficient model for focused, high-volume tasks",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1050000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "openai/gpt-6-luna"
+  },
+  {
+   "name": "gpt-6-sol",
+   "vendor": "OpenAI",
+   "description": "OpenAI model for complex coding and agentic workflows",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1050000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "openai/gpt-6-sol"
+  },
+  {
+   "name": "gpt-6.1-sol",
+   "vendor": "OpenAI",
+   "description": "Near-Astra performance for complex coding, computer use, and professional work at a lower cost.",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": true,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1050000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "openai/gpt-6.1-sol"
+  },
+  {
+   "name": "gpt-6.1-terra",
+   "vendor": "OpenAI",
+   "description": "Fast, efficient model for visual reasoning, precise computer use, and clear, natural writing.",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1050000,
+   "max_output": 128000,
+   "meta_source": "official",
+   "base_model": "openai/gpt-6.1-terra"
+  },
+  {
+   "name": "gpt-audio-2025-08-28",
+   "vendor": "OpenAI",
+   "description": "OpenAI audio model for speech input and output.",
+   "category": "audio",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "audio_kind": "other",
+   "exclude": [
+    "dify-model"
+   ]
+  },
+  {
+   "name": "gpt-chat-latest",
+   "vendor": "OpenAI",
+   "description": "Alias for the latest ChatGPT chat model from OpenAI.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 400000,
+   "max_output": 128000,
+   "meta_source": "other"
+  },
+  {
+   "name": "gpt-image-1",
+   "vendor": "OpenAI",
+   "description": "OpenAI image model for production generation, edits, and brand-safe visual workflows",
+   "category": "image",
+   "family": "gpt_image",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "image-generation",
+    "openai"
+   ],
+   "protocol": "images"
+  },
+  {
+   "name": "gpt-image-1-mini",
+   "vendor": "OpenAI",
+   "description": "Image model for prompt-driven generation, editing, and visual design workflows",
+   "category": "image",
+   "family": "gpt_image",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "image-generation",
+    "openai"
+   ],
+   "protocol": "images"
+  },
+  {
+   "name": "gpt-image-1.5",
+   "vendor": "OpenAI",
+   "description": "Image model for prompt-driven generation, editing, and visual design workflows",
+   "category": "image",
+   "family": "gpt_image",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "image-generation",
+    "openai"
+   ],
+   "protocol": "images"
+  },
+  {
+   "name": "gpt-image-2-c",
+   "vendor": "OpenAI",
+   "description": "GPT Image 2 (c) image generation model from OpenAI.",
+   "category": "image",
+   "family": "gpt_image",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "protocol": "images"
+  },
+  {
+   "name": "gpt-image-2.5-flare",
+   "vendor": "OpenAI",
+   "description": "GPT Image 2.5 Flare image generation model from OpenAI.",
+   "category": "image",
+   "family": "gpt_image",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "protocol": "images"
+  },
+  {
+   "name": "gpt-image-2.5-flare-c",
+   "vendor": "OpenAI",
+   "description": "GPT Image 2.5 Flare (c) image generation model from OpenAI.",
+   "category": "image",
+   "family": "gpt_image",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "protocol": "images"
+  },
+  {
+   "name": "gpt-image-2.5-sunburst",
+   "vendor": "OpenAI",
+   "description": "GPT Image 2.5 Sunburst image generation model from OpenAI.",
+   "category": "image",
+   "family": "gpt_image",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "protocol": "images"
+  },
+  {
+   "name": "gpt-image-2.5-sunburst-c",
+   "vendor": "OpenAI",
+   "description": "GPT Image 2.5 Sunburst (c) image generation model from OpenAI.",
+   "category": "image",
+   "family": "gpt_image",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "protocol": "images"
+  },
+  {
+   "name": "gpt-oss-120b",
+   "vendor": "OpenAI",
+   "description": "OpenAI open-weight 120B reasoning model (gpt-oss).",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 131072,
+   "max_output": 32768,
+   "meta_source": "other"
+  },
+  {
+   "name": "grok-4",
+   "vendor": "xAI",
+   "description": "Grok 4 reasoning model from xAI.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 256000,
+   "max_output": 256000,
+   "meta_source": "other"
+  },
+  {
+   "name": "grok-4-20-non-reasoning",
+   "vendor": "xAI",
+   "description": "Grok 4.20 model from xAI, non-reasoning mode.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 262000,
+   "max_output": 8192,
+   "meta_source": "other"
+  },
+  {
+   "name": "grok-4-20-reasoning",
+   "vendor": "xAI",
+   "description": "Grok 4.20 model from xAI, reasoning mode.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 262000,
+   "max_output": 8192,
+   "meta_source": "other"
+  },
+  {
+   "name": "grok-4.3",
+   "vendor": "xAI",
+   "description": "xAI's Grok for chat, coding, agentic tools, and lower hallucination risk",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 30000,
+   "meta_source": "official",
+   "base_model": "xai/grok-4.3"
+  },
+  {
+   "name": "grok-4.5",
+   "vendor": "xAI",
+   "description": "xAI's Grok model for chat, coding, agentic tools, and lower hallucination risk",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 500000,
+   "max_output": 500000,
+   "meta_source": "official",
+   "base_model": "xai/grok-4.5"
+  },
+  {
+   "name": "grok-4.6",
+   "vendor": "xAI",
+   "description": "xAI's frontier model for long-running agents, coding, knowledge work, and visual projects",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 500000,
+   "max_output": 500000,
+   "meta_source": "official",
+   "base_model": "xai/grok-4.6"
+  },
+  {
+   "name": "grok-4.7",
+   "vendor": "xAI",
+   "description": "xAI's frontier model for long-running agents, coding, knowledge work, and visual projects",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": true,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 500000,
+   "max_output": 500000,
+   "meta_source": "official",
+   "base_model": "xai/grok-4.7"
+  },
+  {
+   "name": "grok-build-0.1",
+   "vendor": "xAI",
+   "description": "Fast Grok coding model tuned for agentic engineering and iterative edits",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 256000,
+   "max_output": 256000,
+   "meta_source": "official",
+   "base_model": "xai/grok-build-0.1"
+  },
+  {
+   "name": "grok-imagine-image",
+   "vendor": "xAI",
+   "description": "Image model for prompt-driven generation, editing, and visual design workflows",
+   "category": "image",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "protocol": "images"
+  },
+  {
+   "name": "hy4-preview",
+   "vendor": "Tencent",
+   "description": "Tencent Hy4 preview, a mixture-of-experts flagship with 1M context, deep reasoning, and tool calling",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1024000,
+   "max_output": 64000,
+   "meta_source": "other"
+  },
+  {
+   "name": "kimi-k2-0711-preview",
+   "vendor": "Moonshot",
+   "description": "Kimi K2 preview (July 2025) MoE model from Moonshot AI for agentic and coding tasks.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 4096,
+   "meta_source": "default"
+  },
+  {
+   "name": "kimi-k2.5",
+   "vendor": "Moonshot",
+   "description": "Kimi K2.5 model from Moonshot AI.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 262144,
+   "max_output": 262144,
+   "meta_source": "other"
+  },
+  {
+   "name": "kimi-k2.6",
+   "vendor": "Moonshot",
+   "description": "Multimodal Kimi workhorse for agent loops, coding tasks, and visual context",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": true,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 262144,
+   "max_output": 262144,
+   "meta_source": "official",
+   "base_model": "moonshotai/kimi-k2.6"
+  },
+  {
+   "name": "kimi-k2.7-code",
+   "vendor": "Moonshot",
+   "description": "Coding-focused Kimi model, stronger on long-horizon repo work with less overthinking",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 262144,
+   "max_output": 262144,
+   "meta_source": "official",
+   "base_model": "moonshotai/kimi-k2.7-code"
+  },
+  {
+   "name": "kimi-k3",
+   "vendor": "Moonshot",
+   "description": "Kimi K3 chat model from Moonshot AI.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1048576,
+   "max_output": 1048576,
+   "meta_source": "official",
+   "base_model": "moonshotai/kimi-k3"
+  },
+  {
+   "name": "kimi-k3.1-pro",
+   "vendor": "Moonshot",
+   "description": "Multimodal Kimi model with 1M context and always-on reasoning for coding, 3D creation, financial research, and agentic work",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1048576,
+   "max_output": 1048576,
+   "meta_source": "official",
+   "base_model": "moonshotai/kimi-k3.1-pro"
+  },
+  {
+   "name": "kimi-k3.1-pro-highspeed",
+   "vendor": "Moonshot",
+   "description": "Multimodal Kimi model with 1M context and always-on reasoning for coding, 3D creation, financial research, and agentic work",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1048576,
+   "max_output": 1048576,
+   "meta_source": "official",
+   "base_model": "moonshotai/kimi-k3.1-pro-highspeed"
+  },
+  {
+   "name": "llama-2-70b",
+   "vendor": "Meta",
+   "description": "Llama 2 70B chat model from Meta.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 4096,
+   "meta_source": "default"
+  },
+  {
+   "name": "llama-2-7b",
+   "vendor": "Meta",
+   "description": "Llama 2 7B chat model from Meta.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 4096,
+   "meta_source": "default"
+  },
+  {
+   "name": "llama-3-70b",
+   "vendor": "Meta",
+   "description": "Llama 3 70B instruct model from Meta.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 4096,
+   "meta_source": "default"
+  },
+  {
+   "name": "llama-3-8b",
+   "vendor": "Meta",
+   "description": "Llama 3 8B instruct model from Meta.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 4096,
+   "meta_source": "default"
+  },
+  {
+   "name": "llama-3.1-405b",
+   "vendor": "Meta",
+   "description": "Llama 3.1 405B instruct model from Meta.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 4096,
+   "meta_source": "default"
+  },
+  {
+   "name": "llama-3.1-70b",
+   "vendor": "Meta",
+   "description": "Llama 3.1 70B instruct model from Meta.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 8192,
+   "meta_source": "other"
+  },
+  {
+   "name": "llama-3.1-8b",
+   "vendor": "Meta",
+   "description": "Llama 3.1 8B instruct model from Meta.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 8192,
+   "meta_source": "other"
+  },
+  {
+   "name": "llama-3.2-11b-vision-instruct",
+   "vendor": "Meta",
+   "description": "Llama 3.2 11B Vision instruct model from Meta with image understanding.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 4096,
+   "meta_source": "other"
+  },
+  {
+   "name": "llama-3.2-1b-instruct",
+   "vendor": "Meta",
+   "description": "Llama 3.2 1B Instruct, a small open-weight chat model from Meta.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 60000,
+   "max_output": 54000,
+   "meta_source": "other"
+  },
+  {
+   "name": "llama-3.2-3b-instruct",
+   "vendor": "Meta",
+   "description": "Llama 3.2 3B Instruct, a small open-weight chat model from Meta.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 16000,
+   "max_output": 4096,
+   "meta_source": "other"
+  },
+  {
+   "name": "llama-3.2-90b-vision-instruct",
+   "vendor": "Meta",
+   "description": "Llama 3.2 90B Vision instruct model from Meta with image understanding.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 8192,
+   "meta_source": "other"
+  },
+  {
+   "name": "llama-3.3-70b-instruct",
+   "vendor": "Meta",
+   "description": "Llama 3.3 70B Instruct, an open-weight chat model from Meta.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 131072,
+   "max_output": 128000,
+   "meta_source": "other"
+  },
+  {
+   "name": "mimo-v2.5",
+   "vendor": "Xiaomi",
+   "description": "Open MiMo model for multimodal coding agents and long-context automation",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1048576,
+   "max_output": 131072,
+   "meta_source": "official",
+   "base_model": "xiaomi/mimo-v2.5"
+  },
+  {
+   "name": "mimo-v2.5-pro",
+   "vendor": "Xiaomi",
+   "description": "Stronger MiMo Pro tier for multimodal reasoning and coding-agent execution",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1048576,
+   "max_output": 131072,
+   "meta_source": "official",
+   "base_model": "xiaomi/mimo-v2.5-pro"
+  },
+  {
+   "name": "mimo-v2.6-flash",
+   "vendor": "Xiaomi",
+   "description": "MiMo Flash model for multimodal coding agents and long-context automation",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1048576,
+   "max_output": 131072,
+   "meta_source": "official",
+   "base_model": "xiaomi/mimo-v2.6-flash"
+  },
+  {
+   "name": "mimo-v2.6-pro",
+   "vendor": "Xiaomi",
+   "description": "MiMo Pro model for multimodal coding agents and long-context automation",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1048576,
+   "max_output": 131072,
+   "meta_source": "official",
+   "base_model": "xiaomi/mimo-v2.6-pro"
+  },
+  {
+   "name": "MiniMax-M2.5",
+   "vendor": "MiniMax",
+   "description": "Prior MiniMax coding model for agent workflows, office edits, and automation",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 204800,
+   "max_output": 131072,
+   "meta_source": "official",
+   "base_model": "minimax/MiniMax-M2.5"
+  },
+  {
+   "name": "MiniMax-M2.7",
+   "vendor": "MiniMax",
+   "description": "Open MiniMax flagship for coding agents, office automation, and complex environments",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 204800,
+   "max_output": 131072,
+   "meta_source": "official",
+   "base_model": "minimax/MiniMax-M2.7"
+  },
+  {
+   "name": "MiniMax-M3",
+   "vendor": "MiniMax",
+   "description": "Natively multimodal MiniMax model with 1M context, accepting text, image, and video, with switchable thinking modes",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 524288,
+   "meta_source": "official",
+   "base_model": "minimax/MiniMax-M3"
+  },
+  {
+   "name": "MiniMax-M3.1-Flash",
+   "vendor": "MiniMax",
+   "description": "Frontier multimodal coding model with 1M context window and tunable thinking depth",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 524288,
+   "meta_source": "official",
+   "base_model": "minimax/MiniMax-M3.1-Flash"
+  },
+  {
+   "name": "mj_imagine",
+   "vendor": "Midjourney",
+   "description": "Midjourney: generate images from a text prompt (imagine).",
+   "category": "image",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "protocol": "images",
+   "exclude": [
+    "image-tools"
+   ]
+  },
+  {
+   "name": "mj_reroll",
+   "vendor": "Midjourney",
+   "description": "Midjourney: run a job again with the same prompt (reroll).",
+   "category": "image",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "protocol": "images",
+   "exclude": [
+    "image-tools"
+   ]
+  },
+  {
+   "name": "mj_upscale",
+   "vendor": "Midjourney",
+   "description": "Midjourney: upscale one image from a grid (upscale).",
+   "category": "image",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "protocol": "images",
+   "exclude": [
+    "image-tools"
+   ]
+  },
+  {
+   "name": "mj_variation",
+   "vendor": "Midjourney",
+   "description": "Midjourney: create variations of one image from a grid (variation).",
+   "category": "image",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "protocol": "images",
+   "exclude": [
+    "image-tools"
+   ]
+  },
+  {
+   "name": "muse-image",
+   "vendor": "Muse",
+   "description": "Muse Image model for generating images from text prompts and editing existing images, with multi-turn refinement.",
+   "category": "image",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "protocol": "images"
+  },
+  {
+   "name": "netease-youdao/bce-reranker-base_v1",
+   "vendor": "NetEase Youdao",
+   "description": "NetEase Youdao BCE reranker (base) for ranking retrieval results.",
+   "category": "rerank",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "jina-rerank"
+   ],
+   "context": 128000,
+   "max_output": 4096,
+   "meta_source": "default",
+   "exclude": [
+    "dify-model"
+   ]
+  },
+  {
+   "name": "o1",
+   "vendor": "OpenAI",
+   "description": "O-series reasoning model for hard analysis, math, coding, and planning",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 200000,
+   "max_output": 100000,
+   "meta_source": "official",
+   "base_model": "openai/o1"
+  },
+  {
+   "name": "o1-2024-12-17",
+   "vendor": "OpenAI",
+   "description": "O-series reasoning model for hard analysis, math, coding, and planning",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 200000,
+   "max_output": 100000,
+   "meta_source": "official",
+   "base_model": "openai/o1"
+  },
+  {
+   "name": "o3",
+   "vendor": "OpenAI",
+   "description": "Deliberate o-series reasoner for hard math, coding, and multi-step analysis",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 200000,
+   "max_output": 100000,
+   "meta_source": "official",
+   "base_model": "openai/o3"
+  },
+  {
+   "name": "o3-2025-04-16",
+   "vendor": "OpenAI",
+   "description": "Deliberate o-series reasoner for hard math, coding, and multi-step analysis",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 200000,
+   "max_output": 100000,
+   "meta_source": "official",
+   "base_model": "openai/o3"
+  },
+  {
+   "name": "o3-mini",
+   "vendor": "OpenAI",
+   "description": "Smaller o-series reasoner for economical coding, math, and planning tasks",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 200000,
+   "max_output": 100000,
+   "meta_source": "official",
+   "base_model": "openai/o3-mini"
+  },
+  {
+   "name": "o3-mini-2025-01-31",
+   "vendor": "OpenAI",
+   "description": "Smaller o-series reasoner for economical coding, math, and planning tasks",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 200000,
+   "max_output": 100000,
+   "meta_source": "official",
+   "base_model": "openai/o3-mini"
+  },
+  {
+   "name": "o3-pro",
+   "vendor": "OpenAI",
+   "description": "High-effort o3 tier for difficult technical reasoning and careful answers",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai-response"
+   ],
+   "context": 200000,
+   "max_output": 100000,
+   "meta_source": "official",
+   "base_model": "openai/o3-pro",
+   "exclude": [
+    "chat-tools",
+    "dify-model"
+   ]
+  },
+  {
+   "name": "o4-mini",
+   "vendor": "OpenAI",
+   "description": "Fast o-series model for compact reasoning, coding, and tool use",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 200000,
+   "max_output": 100000,
+   "meta_source": "official",
+   "base_model": "openai/o4-mini"
+  },
+  {
+   "name": "o4-mini-2025-04-16",
+   "vendor": "OpenAI",
+   "description": "Fast o-series model for compact reasoning, coding, and tool use",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 200000,
+   "max_output": 100000,
+   "meta_source": "official",
+   "base_model": "openai/o4-mini"
+  },
+  {
+   "name": "Pro/BAAI/bge-reranker-v2-m3",
+   "vendor": "BAAI",
+   "description": "BAAI BGE multilingual reranker (v2-m3) for ranking retrieval results.",
+   "category": "rerank",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "jina-rerank"
+   ],
+   "context": 128000,
+   "max_output": 4096,
+   "meta_source": "default"
+  },
+  {
+   "name": "qwen-flash",
+   "vendor": "Alibaba",
+   "description": "Efficient Qwen model for fast chat, extraction, and high-volume workloads",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 32768,
+   "meta_source": "official",
+   "base_model": "alibaba/qwen-flash"
+  },
+  {
+   "name": "qwen-image-2.0-2026-03-03",
+   "vendor": "Alibaba",
+   "description": "Image model for prompt-driven generation, editing, and visual design workflows",
+   "category": "image",
+   "family": "tongyi_image",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "protocol": "images"
+  },
+  {
+   "name": "qwen-image-3.0",
+   "vendor": "Alibaba",
+   "description": "Qwen Image 3.0 image generation model from Alibaba.",
+   "category": "image",
+   "family": "tongyi_image",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "protocol": "images"
+  },
+  {
+   "name": "qwen-image-3.0-pro",
+   "vendor": "Alibaba",
+   "description": "Qwen Image 3.0 Pro image generation model from Alibaba.",
+   "category": "image",
+   "family": "tongyi_image",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "protocol": "images"
+  },
+  {
+   "name": "qwen-image-max",
+   "vendor": "Alibaba",
+   "description": "Qwen Image Max image generation model from Alibaba.",
+   "category": "image",
+   "family": "tongyi_image",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "protocol": "images"
+  },
+  {
+   "name": "qwen-image-max-2025-12-30",
+   "vendor": "Alibaba",
+   "description": "Qwen Image Max image generation model from Alibaba.",
+   "category": "image",
+   "family": "tongyi_image",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "protocol": "images"
+  },
+  {
+   "name": "qwen-max",
+   "vendor": "Alibaba",
+   "description": "Flagship Qwen model for complex reasoning, coding, and agentic workflows",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Tools"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 32768,
+   "max_output": 8192,
+   "meta_source": "official",
+   "base_model": "alibaba/qwen-max"
+  },
+  {
+   "name": "qwen-plus",
+   "vendor": "Alibaba",
+   "description": "Qwen instruction model for multilingual chat, reasoning, and tool use",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 32768,
+   "meta_source": "official",
+   "base_model": "alibaba/qwen-plus"
+  },
+  {
+   "name": "qwen-plus-2025-12-01",
+   "vendor": "Alibaba",
+   "description": "Qwen instruction model for multilingual chat, reasoning, and tool use",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 32768,
+   "meta_source": "official",
+   "base_model": "alibaba/qwen-plus"
+  },
+  {
+   "name": "qwen-plus-character",
+   "vendor": "Alibaba",
+   "description": "Qwen instruction model for multilingual chat, reasoning, and tool use",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Tools"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 32768,
+   "max_output": 4096,
+   "meta_source": "other"
+  },
+  {
+   "name": "Qwen/Qwen3-Reranker-0.6B",
+   "vendor": "Alibaba",
+   "description": "Qwen3 Reranker 0.6B open-weight model from Alibaba for ranking retrieval results.",
+   "category": "rerank",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "jina-rerank"
+   ],
+   "context": 128000,
+   "max_output": 4096,
+   "meta_source": "default"
+  },
+  {
+   "name": "qwen3-rerank",
+   "vendor": "Alibaba",
+   "description": "Qwen3 reranker from Alibaba for ranking retrieval results.",
+   "category": "rerank",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "jina-rerank"
+   ],
+   "context": 128000,
+   "max_output": 4096,
+   "meta_source": "default",
+   "exclude": [
+    "dify-model"
+   ]
+  },
+  {
+   "name": "qwen3-vl-plus",
+   "vendor": "Alibaba",
+   "description": "Qwen vision-language model for visual reasoning, documents, and agent tasks",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 262144,
+   "max_output": 32768,
+   "meta_source": "official",
+   "base_model": "alibaba/qwen3-vl-plus"
+  },
+  {
+   "name": "qwen3.5-122b-a10b",
+   "vendor": "Alibaba",
+   "description": "Qwen vision-language model for visual reasoning, documents, and agent tasks",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 262144,
+   "max_output": 65536,
+   "meta_source": "official",
+   "base_model": "alibaba/qwen3.5-122b-a10b"
+  },
+  {
+   "name": "qwen3.5-27b",
+   "vendor": "Alibaba",
+   "description": "Qwen vision-language model for visual reasoning, documents, and agent tasks",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 262144,
+   "max_output": 65536,
+   "meta_source": "official",
+   "base_model": "alibaba/qwen3.5-27b"
+  },
+  {
+   "name": "qwen3.5-35b-a3b",
+   "vendor": "Alibaba",
+   "description": "Qwen3.5 35B-A3B mixture-of-experts chat model from Alibaba.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 262144,
+   "max_output": 65536,
+   "meta_source": "official",
+   "base_model": "alibaba/qwen3.5-35b-a3b"
+  },
+  {
+   "name": "qwen3.5-397b-a17b",
+   "vendor": "Alibaba",
+   "description": "Large open Qwen multimodal MoE for visual agents and long technical tasks",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 262144,
+   "max_output": 65536,
+   "meta_source": "official",
+   "base_model": "alibaba/qwen3.5-397b-a17b"
+  },
+  {
+   "name": "qwen3.5-plus",
+   "vendor": "Alibaba",
+   "description": "Qwen vision-language model for visual reasoning, documents, and agent tasks",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 65536,
+   "meta_source": "official",
+   "base_model": "alibaba/qwen3.5-plus"
+  },
+  {
+   "name": "qwen3.5-plus-2026-02-15",
+   "vendor": "Alibaba",
+   "description": "Qwen vision-language model for visual reasoning, documents, and agent tasks",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 65536,
+   "meta_source": "official",
+   "base_model": "alibaba/qwen3.5-plus"
+  },
+  {
+   "name": "qwen3.6-27b",
+   "vendor": "Alibaba",
+   "description": "Qwen3.6 27B chat model from Alibaba.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 262144,
+   "max_output": 65536,
+   "meta_source": "official",
+   "base_model": "alibaba/qwen3.6-27b"
+  },
+  {
+   "name": "qwen3.6-35b-a3b",
+   "vendor": "Alibaba",
+   "description": "Qwen3.6 35B-A3B mixture-of-experts chat model from Alibaba.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 262144,
+   "max_output": 65536,
+   "meta_source": "official",
+   "base_model": "alibaba/qwen3.6-35b-a3b"
+  },
+  {
+   "name": "qwen3.6-plus",
+   "vendor": "Alibaba",
+   "description": "Earlier Qwen multimodal workhorse for million-token agent and document tasks",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 65536,
+   "meta_source": "official",
+   "base_model": "alibaba/qwen3.6-plus"
+  },
+  {
+   "name": "qwen3.6-plus-2026-04-02",
+   "vendor": "Alibaba",
+   "description": "Earlier Qwen multimodal workhorse for million-token agent and document tasks",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 65536,
+   "meta_source": "official",
+   "base_model": "alibaba/qwen3.6-plus"
+  },
+  {
+   "name": "qwen3.7-max",
+   "vendor": "Alibaba",
+   "description": "Qwen frontier model tuned for agent frameworks, coding assistants, and long tasks",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 131072,
+   "meta_source": "official",
+   "base_model": "alibaba/qwen3.7-max"
+  },
+  {
+   "name": "qwen3.7-plus",
+   "vendor": "Alibaba",
+   "description": "Qwen3.7 Plus chat model from Alibaba.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 131072,
+   "meta_source": "official",
+   "base_model": "alibaba/qwen3.7-plus"
+  },
+  {
+   "name": "qwen3.8-27b",
+   "vendor": "Alibaba",
+   "description": "Qwen3.8 27B chat model from Alibaba.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 262144,
+   "max_output": 32768,
+   "meta_source": "other"
+  },
+  {
+   "name": "qwen3.8-flash",
+   "vendor": "Alibaba",
+   "description": "Qwen vision-language model for visual reasoning, documents, and agent tasks",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 131072,
+   "meta_source": "official",
+   "base_model": "alibaba/qwen3.8-flash"
+  },
+  {
+   "name": "qwen3.8-max",
+   "vendor": "Alibaba",
+   "description": "2.4-trillion-parameter MoE flagship for coding, professional work, multimodal understanding, and long-horizon agentic workflows",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": true,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 131072,
+   "meta_source": "official",
+   "base_model": "alibaba/qwen3.8-max"
+  },
+  {
+   "name": "qwen3.8-max-0902",
+   "vendor": "Alibaba",
+   "description": "2.4-trillion-parameter MoE flagship for coding, professional work, multimodal understanding, and long-horizon agentic workflows",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 131072,
+   "meta_source": "other"
+  },
+  {
+   "name": "qwen3.8-omni-flash",
+   "vendor": "Alibaba",
+   "description": "Qwen omni model for text, vision, audio, and multimodal agent tasks",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools",
+    "Vision"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 1000000,
+   "max_output": 131072,
+   "meta_source": "official",
+   "base_model": "alibaba/qwen3.8-omni-flash"
+  },
+  {
+   "name": "qwq-32b",
+   "vendor": "Alibaba",
+   "description": "Qwen reasoning model for deliberate problem solving, math, and coding",
+   "category": "language",
+   "family": null,
+   "features": [
+    "Reasoning",
+    "Tools"
+   ],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 24000,
+   "max_output": 24000,
+   "meta_source": "other"
+  },
+  {
+   "name": "SparkDesk-v1.1",
+   "vendor": "iFlytek",
+   "description": "iFlytek Spark v1.1 chat model.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 4096,
+   "meta_source": "default"
+  },
+  {
+   "name": "SparkDesk-v2.1",
+   "vendor": "iFlytek",
+   "description": "iFlytek Spark v2.1 chat model.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 4096,
+   "meta_source": "default"
+  },
+  {
+   "name": "SparkDesk-v3.1",
+   "vendor": "iFlytek",
+   "description": "iFlytek Spark v3.1 chat model.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 4096,
+   "meta_source": "default"
+  },
+  {
+   "name": "SparkDesk-v3.5",
+   "vendor": "iFlytek",
+   "description": "iFlytek Spark v3.5 chat model.",
+   "category": "language",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "context": 128000,
+   "max_output": 4096,
+   "meta_source": "default"
+  },
+  {
+   "name": "speech-02-hd",
+   "vendor": "MiniMax",
+   "description": "MiniMax Speech-02 HD text-to-speech model.",
+   "category": "audio",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "audio_kind": "other",
+   "exclude": [
+    "dify-model"
+   ]
+  },
+  {
+   "name": "suno_music",
+   "vendor": "Suno",
+   "description": "Suno: generate songs from a text prompt.",
+   "category": "music",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ]
+  },
+  {
+   "name": "text-embedding-3-large",
+   "vendor": "OpenAI",
+   "description": "Embedding model for semantic search, retrieval, clustering, and ranking pipelines",
+   "category": "embedding",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "embeddings"
+   ],
+   "context": 8191,
+   "max_output": 3072,
+   "meta_source": "official",
+   "base_model": "openai/text-embedding-3-large"
+  },
+  {
+   "name": "text-embedding-3-small",
+   "vendor": "OpenAI",
+   "description": "Embedding model for semantic search, retrieval, clustering, and ranking pipelines",
+   "category": "embedding",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "embeddings"
+   ],
+   "context": 8191,
+   "max_output": 1536,
+   "meta_source": "official",
+   "base_model": "openai/text-embedding-3-small"
+  },
+  {
+   "name": "text-embedding-ada-002",
+   "vendor": "OpenAI",
+   "description": "Embedding model for semantic search, retrieval, clustering, and ranking pipelines",
+   "category": "embedding",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "embeddings"
+   ],
+   "context": 8192,
+   "max_output": 1536,
+   "meta_source": "official",
+   "base_model": "openai/text-embedding-ada-002"
+  },
+  {
+   "name": "viduq2",
+   "vendor": "ShengShu",
+   "description": "Vidu Q2 video model from ShengShu for text-to-video, image-to-video and reference-to-video, up to 1080p.",
+   "category": "video",
+   "family": "vidu",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai-video"
+   ]
+  },
+  {
+   "name": "viduq2-pro",
+   "vendor": "ShengShu",
+   "description": "Vidu Q2 Pro video model from ShengShu for image-to-video and first-and-last-frame video, up to 1080p.",
+   "category": "video",
+   "family": "vidu",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai-video"
+   ]
+  },
+  {
+   "name": "viduq2-turbo",
+   "vendor": "ShengShu",
+   "description": "Vidu Q2 Turbo: a faster Vidu Q2 video model from ShengShu for image-to-video and first-and-last-frame video, up to 1080p.",
+   "category": "video",
+   "family": "vidu",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai-video"
+   ]
+  },
+  {
+   "name": "viduq3-pro",
+   "vendor": "ShengShu",
+   "description": "Vidu Q3 Pro video model from ShengShu for text-to-video, image-to-video and first-and-last-frame video, up to 1080p and 16 seconds.",
+   "category": "video",
+   "family": "vidu",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai-video"
+   ]
+  },
+  {
+   "name": "viduq3-turbo",
+   "vendor": "ShengShu",
+   "description": "Vidu Q3 Turbo: a faster, lower-cost Vidu Q3 video model from ShengShu for text-to-video and image-to-video, up to 1080p and 16 seconds.",
+   "category": "video",
+   "family": "vidu",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai-video"
+   ]
+  },
+  {
+   "name": "wan2.5-i2v-preview",
+   "vendor": "Alibaba",
+   "description": "Wan 2.5 image-to-video model (preview) from Alibaba: turns a still image into a 480p to 1080p video.",
+   "category": "video",
+   "family": "wan_video",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai-video"
+   ]
+  },
+  {
+   "name": "wan2.6-i2v",
+   "vendor": "Alibaba",
+   "description": "Wan 2.6 image-to-video model from Alibaba: turns a still image into a 720p or 1080p video.",
+   "category": "video",
+   "family": "wan_video",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai-video"
+   ]
+  },
+  {
+   "name": "wan2.7-image-pro",
+   "vendor": "Alibaba",
+   "description": "Image model for prompt-driven generation, editing, and visual design workflows",
+   "category": "image",
+   "family": "tongyi_image",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "protocol": "images"
+  },
+  {
+   "name": "wan3.0-video",
+   "vendor": "Alibaba",
+   "description": "Wan 3.0 video model from Alibaba for text-to-video, at 480p, 720p or 1080p.",
+   "category": "video",
+   "family": "wan_video",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai-video"
+   ]
+  },
+  {
+   "name": "whisper-1",
+   "vendor": "OpenAI",
+   "description": "OpenAI Whisper speech-to-text model.",
+   "category": "audio",
+   "family": null,
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "audio_kind": "speech2text"
+  },
+  {
+   "name": "z-image-turbo",
+   "vendor": "Alibaba",
+   "description": "Z-Image Turbo image generation model from Alibaba.",
+   "category": "image",
+   "family": "tongyi_image",
+   "features": [],
+   "featured": false,
+   "endpoints": [
+    "openai"
+   ],
+   "protocol": "images"
+  }
+ ]
+}

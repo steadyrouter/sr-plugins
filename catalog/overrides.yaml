@@ -1,0 +1,26 @@
+# Hand-kept corrections on top of /api/pricing. Keep the reason next to each entry.
+category:
+  qwen-image-edit-2509: image   # no category tag on the pricing page
+audio_kind:
+  whisper-1: speech2text
+  gpt-4o-transcribe: speech2text
+  gpt-4o-mini-transcribe: speech2text
+exclude:
+  dify-model:
+    o3-pro: only served on /v1/responses, the chat base class cannot call it
+    gpt-4o-audio-preview-2024-12-17: audio input and output over chat, Dify has no such model type
+    gpt-audio-2025-08-28: audio input and output over chat, Dify has no such model type
+    speech-02-hd: voices not verified against the gateway, left out of the first version
+    qwen3-rerank: every request failed in the 2026-11-05 live run, list it again when it answers
+    netease-youdao/bce-reranker-base_v1: every request failed in the 2026-11-05 live run, list it again when it answers
+  # Text nodes that call /v1/chat/completions (n8n, ComfyUI).
+  chat-tools:
+    o3-pro: only served on /v1/responses
+  # Image and video tools on every platform (Dify tools, n8n, ComfyUI).
+  image-tools:
+    mj_imagine: multi-step flow on /mj/, first version leaves it out
+    mj_reroll: multi-step flow on /mj/, first version leaves it out
+    mj_upscale: multi-step flow on /mj/, first version leaves it out
+    mj_variation: multi-step flow on /mj/, first version leaves it out
+# Models served through the chat endpoint instead of /v1/images/generations.
+chat_image_match: ['^gemini-.*image', '^gemini-nano-banana']

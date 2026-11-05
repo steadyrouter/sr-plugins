@@ -1,0 +1,10 @@
+{
+	"node": "n8n-nodes-steadyrouter.steadyRouter",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": ["Development", "Marketing & Content"],
+	"resources": {
+		"credentialDocumentation": [{ "url": "{{get_key_url}}" }],
+		"primaryDocumentation": [{ "url": "{{docs_url}}" }]
+	}
+}

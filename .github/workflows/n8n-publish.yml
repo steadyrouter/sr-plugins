@@ -1,0 +1,50 @@
+# n8n only verifies community nodes published from GitHub Actions with npm provenance (from 2026-05-01).
+# First release: a trusted publisher can only be set on a package that exists, so the first tag publishes with a
+# short-lived granular npm token saved as the secret NPM_TOKEN. Then, on npmjs.com: package settings → Publish access →
+# Trusted Publishers → GitHub Actions, repository steadyrouter/sr-plugins, workflow file n8n-publish.yml; delete the secret.
+# Release: bump `n8n` in catalog/versions.yaml and CHANGELOG, commit, push a tag n8n-v<version>.
+name: Publish n8n package
+
+on:
+  push:
+    tags: ['n8n-v*.*.*']
+
+permissions:
+  contents: read
+  id-token: write # npm provenance and trusted publishing
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Generate the package
+        run: |
+          pip install pyyaml==6.0.3
+          python tools/build.py n8n
+          version="$(python -c "import yaml; print(yaml.safe_load(open('catalog/versions.yaml'))['n8n'])")"
+          test "n8n-v${version}" = "${GITHUB_REF_NAME}" || { echo "tag ${GITHUB_REF_NAME} does not match version ${version}"; exit 1; }
+
+      - name: Build and lint
+        working-directory: dist/n8n
+        run: |
+          npm install --ignore-scripts --no-audit --no-fund
+          npx n8n-node build
+          npx n8n-node lint
+
+      - name: Publish with provenance
+        working-directory: dist/n8n
+        env:
+          RELEASE_MODE: 'true' # the package's prepublishOnly hook refuses to publish without it
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }} # first release only, see the top of this file
+        run: npm publish --provenance --access public

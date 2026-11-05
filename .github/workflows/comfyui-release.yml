@@ -1,0 +1,47 @@
+# Builds dist/comfyui and pushes it to github.com/steadyrouter/comfyui-steadyrouter, whose own workflow
+# (files/.github/workflows/publish_action.yml) then publishes it to the Comfy Registry.
+# One-time setup: a deploy key with write access on comfyui-steadyrouter; its private half is the secret
+# COMFYUI_DEPLOY_KEY here. Release: bump `comfyui` in catalog/versions.yaml, commit, push a tag comfyui-v<version>.
+name: Release ComfyUI package
+
+on:
+  push:
+    tags: ['comfyui-v*.*.*']
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Generate the package
+        run: |
+          pip install pyyaml==6.0.3
+          python tools/build.py comfyui
+          version="$(python -c "import yaml; print(yaml.safe_load(open('catalog/versions.yaml'))['comfyui'])")"
+          test "comfyui-v${version}" = "${GITHUB_REF_NAME}" || { echo "tag ${GITHUB_REF_NAME} does not match version ${version}"; exit 1; }
+          grep -q '^PublisherId = ""' dist/comfyui/pyproject.toml && { echo "fill in PublisherId first"; exit 1; } || true
+          python tools/check.py comfyui
+
+      - name: Push to the package repository
+        env:
+          DEPLOY_KEY: ${{ secrets.COMFYUI_DEPLOY_KEY }}
+        run: |
+          mkdir -p ~/.ssh && printf '%s\n' "$DEPLOY_KEY" > ~/.ssh/id_ed25519 && chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          git clone git@github.com:steadyrouter/comfyui-steadyrouter.git mirror
+          rsync -a --delete --exclude .git dist/comfyui/ mirror/
+          cd mirror
+          git config user.name "SteadyRouter release"
+          git config user.email "support@steadyrouter.com"
+          git add -A
+          git commit -m "Release ${GITHUB_REF_NAME#comfyui-v}" || { echo "nothing changed"; exit 0; }
+          git tag "v${GITHUB_REF_NAME#comfyui-v}"
+          git push origin main --tags

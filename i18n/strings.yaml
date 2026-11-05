@@ -1,0 +1,32 @@
+# English is the source. Platforms take the locales they need. Wording follows the approved messaging:
+# no price numbers, no group names, no guarantees.
+brand:
+  en_US: SteadyRouter
+  zh_Hans: SteadyRouter
+  ja_JP: SteadyRouter
+  pt_BR: SteadyRouter
+tagline:
+  en_US: One API key for hundreds of models, with automatic failover between upstream sources.
+  zh_Hans: 一个 Key 用几百个型号，一个来源失败自动换下一个。
+  ja_JP: 1 つの API キーで数百のモデルを利用でき、上流ソースが失敗すると自動で次に切り替えます。
+  pt_BR: Uma chave de API para centenas de modelos, com failover automático entre fontes upstream.
+tools_tagline:
+  en_US: Generate images and videos with Nano Banana, GPT Image, Seedream, Qwen Image, Flux, Seedance, Wan and Vidu using one SteadyRouter API key.
+  zh_Hans: 用一个 SteadyRouter Key 生成图片和视频，支持 Nano Banana、GPT Image、Seedream、Qwen Image、Flux、Seedance、万相、Vidu。
+  ja_JP: 1 つの SteadyRouter API キーで、Nano Banana、GPT Image、Seedream、Qwen Image、Flux、Seedance、Wan、Vidu による画像と動画を生成します。
+  pt_BR: Gere imagens e vídeos com Nano Banana, GPT Image, Seedream, Qwen Image, Flux, Seedance, Wan e Vidu usando uma chave de API da SteadyRouter.
+api_key:
+  en_US: API Key
+  zh_Hans: API Key
+  ja_JP: API キー
+  pt_BR: Chave de API
+api_key_placeholder:
+  en_US: Enter your SteadyRouter API key
+  zh_Hans: 输入你的 SteadyRouter API Key
+  ja_JP: SteadyRouter の API キーを入力
+  pt_BR: Insira sua chave de API da SteadyRouter
+get_key:
+  en_US: Get your API key from SteadyRouter
+  zh_Hans: 从 SteadyRouter 获取 API Key
+  ja_JP: SteadyRouter で API キーを取得
+  pt_BR: Obtenha sua chave de API na SteadyRouter

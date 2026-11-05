@@ -1,0 +1,37 @@
+# Popular model families. `match` is a list of regexes on the model name.
+# A family becomes one named tool / node on platforms that do not allow one plugin per model.
+nano_banana:
+  label: Nano Banana
+  category: image
+  match: ['^gemini-.*image', '^gemini-nano-banana']
+  default: gemini-3.1-flash-image
+gpt_image:
+  label: GPT Image
+  category: image
+  match: ['^gpt-image-']
+  default: gpt-image-2-c
+seedream:
+  label: Seedream
+  category: image
+  match: ['^doubao-seedream-']
+  default: doubao-seedream-4-5-251128
+tongyi_image:
+  label: Qwen Image & Wan
+  category: image
+  match: ['^qwen-image', '^wan.*-image', '^z-image']
+  default: qwen-image-3.0
+seedance:
+  label: Seedance
+  category: video
+  match: ['^doubao-seedance-']
+  default: doubao-seedance-2-0-mini-260615
+wan_video:
+  label: Wan
+  category: video
+  match: ['^wan.*(i2v|video)']
+  default: wan3.0-video
+vidu:
+  label: Vidu
+  category: video
+  match: ['^vidu']
+  default: viduq3-turbo

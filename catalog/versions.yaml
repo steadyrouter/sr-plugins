@@ -1,0 +1,6 @@
+# Bump a version for each release. Dify refuses a version that already exists.
+dify-model: 0.1.0
+dify-tools: 0.1.0
+n8n: 0.1.0
+comfyui: 0.1.0
+coze: 0.1.0
