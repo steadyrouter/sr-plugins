@@ -11,7 +11,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from common import ROOT, load_context
 
-PLATFORMS = ["dify-model", "dify-tools", "pr-kits", "n8n", "comfyui", "coze"]
+PLATFORMS = ["dify-model", "dify-tools", "dify-nano-banana-pro", "pr-kits", "n8n", "comfyui", "coze"]
 
 
 def load_builder(platform: str):

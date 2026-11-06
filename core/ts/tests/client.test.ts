@@ -130,25 +130,47 @@ describe('images', () => {
 		assert.equal((await seen('/upstream/org-private-account'))[0].auth, null);
 	});
 
-	for (const model of ['gemini-md-data-image', 'gemini-md-link-image', 'gemini-bare-image', 'gemini-parts-image', 'gemini-images-image']) {
-		test(`chat image shape ${model}`, async () => {
-			assert.deepEqual((await client().generateImage(model, 'cat'))[0].data, PNG);
-			assert.ok((await seen('/v1/chat/completions')).length);
+	for (const model of ['gemini-inline-image', 'gemini-snake-image', 'gemini-thought-image', 'gemini-file-image', 'gemini-md-data-image', 'gemini-md-link-image', 'gemini-bare-image']) {
+		test(`gemini image shape ${model}`, async () => {
+			const files = await client().generateImage(model, 'cat');
+			assert.equal(files.length, 1); // the thought draft is never returned
+			assert.deepEqual(files[0].data, PNG);
+			assert.ok((await seen(`/v1beta/models/${model}:generateContent`)).length);
+			assert.equal((await seen('/v1/chat/completions')).length, 0);
 		});
 	}
 
-	test('chat image sends aspect and size', async () => {
-		await client().generateImage('gemini-bare-image', 'cat', { aspectRatio: '16:9', imageSize: '2K' });
-		const body = (await seen('/v1/chat/completions'))[0].body as Record<string, unknown>;
-		assert.deepEqual(body.extra_body, { google: { image_config: { aspect_ratio: '16:9', image_size: '2K' } } });
+	test('gemini image sends size, ratio and references natively', async () => {
+		await client().generateImage('gemini-inline-image', 'cat', { aspectRatio: '16:9', imageSize: '2K', images: [{ data: PNG, mime: 'image/png' }] });
+		const body = (await seen('/v1beta/models/gemini-inline-image:generateContent'))[0].body as any;
+		assert.deepEqual(body.generationConfig.imageConfig, { aspectRatio: '16:9', imageSize: '2K' });
+		assert.deepEqual(body.generationConfig.responseModalities, ['TEXT', 'IMAGE']);
+		assert.equal(body.contents[0].parts[0].text, 'cat');
+		assert.equal(body.contents[0].parts[1].inlineData.mimeType, 'image/png');
+		assert.ok(!('extra_body' in body));
 	});
 
-	test('chat image auto sends no config', async () => {
-		await client().generateImage('gemini-bare-image', 'cat', { aspectRatio: 'auto' });
-		assert.ok(!('extra_body' in ((await seen('/v1/chat/completions'))[0].body as object)));
+	test('gemini image auto sends no config', async () => {
+		await client().generateImage('gemini-inline-image', 'cat', { aspectRatio: 'auto', imageSize: 'auto' });
+		assert.ok(!('imageConfig' in ((await seen('/v1beta/models/'))[0].body as any).generationConfig));
 	});
 
-	for (const model of ['gemini-text-image', 'gemini-badlink-image']) {
+	test('blocked gemini reply says why', async () => {
+		await rejects(client().generateImage('gemini-blocked-image', 'cat'), SRError, /IMAGE_SAFETY/);
+	});
+
+	for (const model of ['gemini-md-data-image', 'gemini-md-link-image', 'gemini-bare-image', 'gemini-parts-image', 'gemini-images-image']) {
+		test(`reference links go through chat ${model}`, async () => {
+			const out = await client().generateImage(model, 'cat', { imageUrls: ['https://images.example/a.png'], aspectRatio: '16:9', imageSize: '2K' });
+			assert.deepEqual(out[0].data, PNG);
+			const body = (await seen('/v1/chat/completions'))[0].body as any;
+			assert.deepEqual(body.extra_body, { google: { image_config: { aspect_ratio: '16:9', image_size: '2K' } } });
+			assert.deepEqual(body.messages[0].content[1], { type: 'image_url', image_url: { url: 'https://images.example/a.png' } });
+			assert.equal((await seen('/v1beta/')).length, 0);
+		});
+	}
+
+	for (const model of ['gemini-text-image', 'gemini-badlink-image', 'gemini-thoughts-only-image']) {
 		test(`chat text reply is a clean error ${model}`, async () => {
 			const err = await rejects(client().generateImage(model, 'cat'), SRError);
 			assertClean(err.message);

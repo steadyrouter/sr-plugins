@@ -17,7 +17,6 @@ from common import DIST, ROOT, Context, dump_yaml, fresh_dir, load_yaml
 PLATFORM = "coze"
 HERE = Path(__file__).resolve().parent
 COMPATIBILITY_DATE = "2026-02-12"  # the newest date the tested runtime supports (workerd in wrangler 4.65)
-GPT_SIZES = ["auto", "1024x1024", "1536x1024", "1024x1536"]
 QUALITIES = ["auto", "low", "medium", "high"]
 ASPECTS = ["auto", "1:1", "16:9", "9:16", "4:3", "3:4", "3:2", "2:3", "21:9"]
 IMAGE_SIZES = ["auto", "1K", "2K", "4K"]
@@ -36,7 +35,7 @@ def get_key_url(ctx: Context, conf: dict, plugin: dict, region: str) -> str:
 
 # ---- which models ----
 
-def region_models(ctx: Context, conf: dict, region: str, category: str, families: list[str] | None) -> list[str]:
+def region_models(ctx: Context, conf: dict, region: str, category: str) -> list[str]:
     allowed = conf["regions"][region]["families"]
     names = []
     for m in ctx.models(category):
@@ -44,14 +43,12 @@ def region_models(ctx: Context, conf: dict, region: str, category: str, families
             continue
         if allowed != "all" and m.get("family") not in allowed:
             continue
-        if families is not None and m.get("family") not in families:
-            continue
         names.append(m["name"])
     return sorted(names)
 
 
-def default_model(ctx: Context, conf: dict, category: str, families: list[str] | None, models: list[str]) -> str:
-    wanted = ctx.families[families[0]]["default"] if families else conf["defaults"][category]
+def default_model(conf: dict, category: str, models: list[str]) -> str:
+    wanted = conf["defaults"][category]
     return wanted if wanted in models else models[0]
 
 
@@ -65,7 +62,6 @@ T = {
         "model": "Model. Options: {options}. Default: {default}.",
         "aspect_ratio": "Aspect ratio, Nano Banana (Gemini) models only. Options: {options}.",
         "image_size": "Resolution, Nano Banana (Gemini) models only; higher costs more. Options: {options}.",
-        "gpt_size": "Size. Options: {options}.",
         "quality": "Quality; higher costs more. Options: {options}.",
         "free_size": "Optional size, for example 1024x1024 or 2048x2048. Each model takes its own sizes; leave empty for the default.",
         "reference_images": "Optional reference images (up to {n} public https links) to edit or combine. Nano Banana (Gemini) models only.",
@@ -103,7 +99,6 @@ T = {
         "model": "型号。可选：{options}。默认：{default}。",
         "aspect_ratio": "宽高比，只对 Nano Banana（Gemini）型号有效。可选：{options}。",
         "image_size": "清晰度，只对 Nano Banana（Gemini）型号有效，越高越贵。可选：{options}。",
-        "gpt_size": "尺寸。可选：{options}。",
         "quality": "质量，越高越贵。可选：{options}。",
         "free_size": "可选的尺寸，例如 1024x1024、2048x2048。每个型号支持的尺寸不同，不填用默认。",
         "reference_images": "可选的参考图（最多 {n} 个公开的 https 链接），用来修改或融合。只对 Nano Banana（Gemini）型号有效。",
@@ -163,34 +158,22 @@ def key_param(t: dict) -> dict:
             "schema": {"type": "string"}}
 
 
-def image_op(ctx: Context, conf: dict, region: str, spec: dict, t: dict, lang: str) -> dict:
-    families = spec["families"]
-    models = region_models(ctx, conf, region, "image", families)
-    default = default_model(ctx, conf, "image", families, models)
+def image_op(ctx: Context, conf: dict, region: str, t: dict, lang: str) -> dict:
+    models = region_models(ctx, conf, region, "image")
+    default = default_model(conf, "image", models)
     days = conf["keep_days"]
     props = {
         "prompt": string(t["prompt_image"]),
         "model": enum_param(models, default, t["model"].format(options=", ".join(models), default=default)),
     }
-    kind = spec["kind"]
-    banana = {
+    props |= {
+        "size": string(t["free_size"]),
+        "quality": enum_param(QUALITIES, "auto", t["quality"].format(options=", ".join(QUALITIES))),
         "aspect_ratio": enum_param(ASPECTS, "auto", t["aspect_ratio"].format(options=", ".join(ASPECTS))),
         "image_size": enum_param(IMAGE_SIZES, "auto", t["image_size"].format(options=", ".join(IMAGE_SIZES))),
         "reference_images": {"type": "array", "description": t["reference_images"].format(n=conf["limits"]["reference_images"]),
                              "items": {"type": "string", "format": "image_url"}},
     }
-    quality = enum_param(QUALITIES, "auto", t["quality"].format(options=", ".join(QUALITIES)))
-    if kind == "nano_banana":
-        props.update(banana)
-    elif kind == "gpt_image":
-        props["size"] = enum_param(GPT_SIZES, "auto", t["gpt_size"].format(options=", ".join(GPT_SIZES)))
-        props["quality"] = quality
-    elif kind == "plain":
-        props["size"] = string(t["free_size"])
-    else:  # all
-        props["size"] = string(t["free_size"])
-        props["quality"] = quality
-        props.update(banana)
     reply = {
         "image_url": string(t["image_url"].format(days=days), format="image_url"),
         "image_urls": {"type": "array", "description": t["image_urls"].format(days=days),
@@ -203,10 +186,9 @@ def image_op(ctx: Context, conf: dict, region: str, spec: dict, t: dict, lang: s
                      "responses": json_reply(reply, t)}}
 
 
-def video_ops(ctx: Context, conf: dict, region: str, spec: dict, t: dict, lang: str) -> dict:
-    families = spec["families"]
-    models = region_models(ctx, conf, region, "video", families)
-    default = default_model(ctx, conf, "video", families, models)
+def video_ops(ctx: Context, conf: dict, region: str, t: dict, lang: str) -> dict:
+    models = region_models(ctx, conf, region, "video")
+    default = default_model(conf, "video", models)
     rules = [ctx.video[m] for m in models if m in ctx.video]
     resolutions = [r for r in RESOLUTION_ORDER if any(r in rule["resolutions"] for rule in rules)]
     res_default = "720p" if "720p" in resolutions else resolutions[0]
@@ -240,16 +222,11 @@ def openapi(ctx: Context, conf: dict, plugin: dict, region: str) -> dict:
     lang = conf["regions"][region]["lang"]
     t = T[lang]
     prefix = f"/coze/{region}"
-    paths = {}
-    if "image" in plugin:
-        paths[prefix + PATHS["image"]] = image_op(ctx, conf, region, plugin["image"], t, lang)
-    if "video" in plugin:
-        ops = video_ops(ctx, conf, region, plugin["video"], t, lang)
-        paths[prefix + PATHS["submit"]] = ops["submit"]
-        paths[prefix + PATHS["status"]] = ops["status"]
+    ops = video_ops(ctx, conf, region, t, lang)
+    paths = {prefix + PATHS["image"]: image_op(ctx, conf, region, t, lang),
+             prefix + PATHS["submit"]: ops["submit"], prefix + PATHS["status"]: ops["status"]}
     description = t["plugin"].format(what=plugin["what"][lang], link=get_key_url(ctx, conf, plugin, region), days=conf["keep_days"])
-    if "video" in plugin:
-        description += t["plugin_video"]
+    description += t["plugin_video"]
     return {
         "openapi": "3.0.1",
         "info": {"title": plugin["name"][lang], "version": ctx.versions[PLATFORM], "description": description},

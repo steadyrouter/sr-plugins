@@ -1,0 +1,68 @@
+# Plugins named after one popular model, for people who look for that model by name in the Marketplace.
+# Same code as SteadyRouter Image & Video, with one model family and its own listing, version and sign-up code.
+# package: the key in catalog/site.yaml channel_codes and catalog/versions.yaml, and the folder under dist/.
+# only: a model-name prefix, for a plugin whose name promises less than its family holds.
+# default: leave out to use the family's default from catalog/families.yaml.
+# icon: under brand/. Our own drawing: never the model owner's logo (the Marketplace may ask for proof of rights to one), and
+# not the SteadyRouter logo, which stays on the plugins named after the brand.
+- package: dify-seedream
+  icon: single/dify-seedream.svg
+  name: seedream_steadyrouter
+  model: Seedream
+  owner: ByteDance
+  family: seedream
+  kind: plain
+  what:
+    en_US: Generate images with Doubao Seedream
+    zh_Hans: 用豆包 Seedream 生成图片
+- package: dify-seedance
+  icon: single/dify-seedance.svg
+  name: seedance_steadyrouter
+  model: Seedance
+  owner: ByteDance
+  family: seedance
+  kind: video
+  what:
+    en_US: Generate videos with Doubao Seedance
+    zh_Hans: 用豆包 Seedance 生成视频
+- package: dify-wan
+  icon: single/dify-wan.svg
+  name: wan_steadyrouter
+  model: Wan
+  owner: Alibaba
+  family: wan_video
+  kind: video
+  what:
+    en_US: Generate videos with Wan
+    zh_Hans: 用通义万相 Wan 生成视频
+- package: dify-vidu
+  icon: single/dify-vidu.svg
+  name: vidu_steadyrouter
+  model: Vidu
+  owner: ShengShu
+  family: vidu
+  kind: video
+  what:
+    en_US: Generate videos with Vidu
+    zh_Hans: 用 Vidu 生成视频
+- package: dify-gpt-image
+  icon: single/dify-gpt-image.svg
+  name: gpt_image_steadyrouter
+  model: GPT Image
+  owner: OpenAI
+  family: gpt_image
+  kind: gpt_image
+  what:
+    en_US: Generate and edit images with GPT Image
+    zh_Hans: 用 GPT Image 生成、修改图片
+- package: dify-qwen-image
+  icon: single/dify-qwen-image.svg
+  name: qwen_image_steadyrouter
+  model: Qwen Image
+  owner: Alibaba
+  family: tongyi_image
+  only: qwen-image
+  kind: plain
+  what:
+    en_US: Generate images with Qwen Image
+    zh_Hans: 用千问 Qwen Image 生成图片

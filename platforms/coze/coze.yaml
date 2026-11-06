@@ -37,8 +37,6 @@ defaults:
   image: gemini-3.1-flash-image
   video: doubao-seedance-2-0-mini-260615
 
-# image.kind picks the image options: nano_banana (aspect ratio, resolution, reference images),
-# gpt_image (size, quality), plain (free size), all (every option).
 plugins:
   - id: steadyrouter
     aff: it75
@@ -47,46 +45,3 @@ plugins:
     what:
       en: Generate images and videos with the image and video models on SteadyRouter, from one API key
       zh: 用一个 SteadyRouter Key 调用上面的生图、生视频型号
-    image: {families: null, kind: all}
-    video: {families: null}
-  - id: nano_banana
-    aff: qpa5
-    regions: [com, cn]
-    name: {en: Nano Banana (SteadyRouter), zh: Nano Banana（SteadyRouter）}
-    what:
-      en: Generate and edit images with Gemini image models (Nano Banana) through SteadyRouter
-      zh: 通过 SteadyRouter 用 Gemini 生图型号（Nano Banana）生成、修改图片
-    image: {families: [nano_banana], kind: nano_banana}
-  - id: gpt_image
-    aff: EFTl
-    regions: [com]
-    name: {en: GPT Image (SteadyRouter), zh: GPT Image（SteadyRouter）}
-    what:
-      en: Generate images with GPT Image models through SteadyRouter
-      zh: 通过 SteadyRouter 用 GPT Image 型号生成图片
-    image: {families: [gpt_image], kind: gpt_image}
-  - id: seedream
-    aff: CpN5
-    regions: [com, cn]
-    name: {en: Seedream (SteadyRouter), zh: Seedream（SteadyRouter）}
-    what:
-      en: Generate images with Doubao Seedream models through SteadyRouter
-      zh: 通过 SteadyRouter 用豆包 Seedream 型号生成图片
-    image: {families: [seedream], kind: plain}
-  - id: seedance
-    aff: t07T
-    regions: [com, cn]
-    name: {en: Seedance (SteadyRouter), zh: Seedance（SteadyRouter）}
-    what:
-      en: Generate videos with Doubao Seedance models through SteadyRouter
-      zh: 通过 SteadyRouter 用豆包 Seedance 型号生成视频
-    video: {families: [seedance]}
-  - id: tongyi
-    aff: pjx7
-    regions: [com, cn]
-    name: {en: Wan & Qwen Image (SteadyRouter), zh: 通义万相 & Qwen Image（SteadyRouter）}
-    what:
-      en: Generate images with Qwen Image and Wan, and videos with Wan, through SteadyRouter
-      zh: 通过 SteadyRouter 用 Qwen Image、万相生成图片，用万相生成视频
-    image: {families: [tongyi_image], kind: plain}
-    video: {families: [wan_video]}

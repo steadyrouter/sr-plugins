@@ -143,11 +143,11 @@ describe('image', () => {
 		assert.ok(!JSON.stringify(out[0].json).includes('upstream'));
 	});
 
-	test('gemini through chat with aspect ratio', async () => {
+	test('gemini through the native route with aspect ratio', async () => {
 		const { out } = await run({ resource: 'image', operation: 'generate', model: 'gemini-md-data-image', prompt: 'cat', options: { aspectRatio: '16:9', imageSize: '2K' } });
 		assert.equal(out[0].binary.data.mimeType, 'image/png');
-		const body = (await seen('/v1/chat/completions'))[0].body;
-		assert.deepEqual(body.extra_body, { google: { image_config: { aspect_ratio: '16:9', image_size: '2K' } } });
+		const body = (await seen('/v1beta/models/gemini-md-data-image:generateContent'))[0].body;
+		assert.deepEqual(body.generationConfig.imageConfig, { aspectRatio: '16:9', imageSize: '2K' });
 	});
 
 	test('edit sends the input images as multipart', async () => {

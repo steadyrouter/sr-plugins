@@ -56,9 +56,8 @@ def enums(doc, field):
 
 def test_plugin_set(release):
     assert set(docs(release)) == {
-        ("com", "steadyrouter"), ("com", "nano_banana"), ("com", "gpt_image"), ("com", "seedream"), ("com", "seedance"),
-        ("com", "tongyi"),
-        ("cn", "steadyrouter"), ("cn", "nano_banana"), ("cn", "seedream"), ("cn", "seedance"), ("cn", "tongyi"),
+        ("com", "steadyrouter"),
+        ("cn", "steadyrouter"),
     }
 
 
@@ -76,12 +75,10 @@ def test_models_follow_region_and_family(release):
         assert not set(models) & set(CONF["exclude"])
         if region == "cn":
             assert {catalog[m]["family"] for m in models} <= DOMESTIC, plugin
-    assert {catalog[m]["family"] for m in enums(all_docs[("com", "gpt_image")], "model")} == {"gpt_image"}
     assert any(m.startswith("flux") for m in enums(all_docs[("com", "steadyrouter")], "model"))
     assert not any(m.startswith(("flux", "gpt-image", "grok")) for m in enums(all_docs[("cn", "steadyrouter")], "model"))
-    tongyi = all_docs[("com", "tongyi")]
-    assert sorted(op["post"]["operationId"] for op in tongyi["paths"].values()) == ["check_video", "generate_image", "submit_video"]
-    assert sorted(all_docs[("com", "seedance")]["paths"]) == ["/coze/com/v1/videos", "/coze/com/v1/videos/status"]
+    full = all_docs[("com", "steadyrouter")]
+    assert sorted(op["post"]["operationId"] for op in full["paths"].values()) == ["check_video", "generate_image", "submit_video"]
 
 
 def test_texts(release):

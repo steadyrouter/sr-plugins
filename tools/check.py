@@ -13,6 +13,8 @@ import sys
 import tarfile
 from pathlib import Path
 
+import yaml
+
 ROOT = Path(__file__).resolve().parent.parent
 DIST = ROOT / "dist"
 BANNED_NAMES = {".env", ".git", ".DS_Store", "__pycache__", ".venv", ".pytest_cache", ".ruff_cache", ".idea", ".vscode"}
@@ -101,7 +103,9 @@ def main() -> int:
         print("check: ok" if not problems else "\n".join(problems))
         return 1 if problems else 0
     problems = check_n8n() + check_comfyui() + check_coze()
-    for name in ("dify-model", "dify-tools"):
+    singles = yaml.safe_load((ROOT / "platforms" / "dify-tools" / "single.yaml").read_text())
+    private = ["dify-nano-banana-pro"] if (ROOT / "platforms" / "dify-nano-banana-pro").exists() else []
+    for name in ("dify-model", "dify-tools", *private, *(s["package"] for s in singles)):
         package = DIST / name
         if not package.exists():
             problems.append(f"{name}: run `make build` first")

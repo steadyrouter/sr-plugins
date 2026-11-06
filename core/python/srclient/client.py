@@ -17,7 +17,7 @@ import time
 from collections.abc import Callable, Iterable, Mapping
 from dataclasses import dataclass, field
 from typing import Any
-from urllib.parse import urljoin, urlparse
+from urllib.parse import quote, urljoin, urlparse
 
 import requests
 
@@ -50,6 +50,16 @@ RUNNING = {"NOT_START", "SUBMITTED", "QUEUED", "IN_PROGRESS", "RUNNING", "PENDIN
 _MD_IMAGE = re.compile(r"!\[[^\]]*\]\(\s*(data:image/[^)\s]+|https?://[^)\s]+)\s*\)")
 _BARE_DATA = re.compile(r"data:image/[a-zA-Z0-9.+-]+;base64,[A-Za-z0-9+/=_-]+")
 _BARE_LINK = re.compile(r"https?://[^\s\"'<>)\]]+")
+# These refuse 2K and 4K outright. A form field cannot depend on another field, so a default of 2K would always fail.
+ONE_K_ONLY_MODELS = frozenset({"gemini-3.1-flash-lite-image"})
+ONE_K_NOTE = "This model only supports 1K, so 1K was used. 这个型号只支持 1K，已改用 1K。"
+
+
+def image_size_for(model: str | None, image_size: str | None) -> tuple[str | None, str | None]:
+    """The quality to send, and a note for the user when that is not the one they asked for."""
+    if model in ONE_K_ONLY_MODELS and image_size and image_size not in ("1K", "auto"):
+        return "1K", ONE_K_NOTE
+    return image_size, None
 
 
 @dataclass
@@ -276,12 +286,14 @@ class SRClient:
 
     def _file_from_ref(self, ref: str, limit: int) -> GeneratedFile:
         if ref.startswith("data:"):
-            try:
-                data = base64.b64decode(ref.split(",", 1)[1] + "==", validate=False)
-            except (IndexError, binascii.Error, ValueError) as exc:
-                raise SRError("The model returned an image that could not be read.") from exc
-        else:
-            data = self._download_public(ref, limit)
+            return self._file_from_b64(ref.partition(",")[2], limit)
+        return self._as_image(self._download_public(ref, limit), limit)
+
+    def _file_from_b64(self, text: str, limit: int) -> GeneratedFile:
+        try:
+            data = base64.b64decode(text + "==", validate=False)
+        except (binascii.Error, ValueError) as exc:
+            raise SRError("The model returned an image that could not be read.") from exc
         return self._as_image(data, limit)
 
     @staticmethod
@@ -308,52 +320,41 @@ class SRClient:
             raise SRError("The model returned no image. Change the prompt and try again.")
         return files
 
-    @staticmethod
-    def _refs_from_chat(body: Mapping[str, Any]) -> tuple[list[str], str]:
-        try:
-            message = (body.get("choices") or [{}])[0].get("message") or {}
-        except (AttributeError, IndexError):
-            return [], ""
-        refs: list[str] = []
-        texts: list[str] = []
-        content = message.get("content")
-        for part in content if isinstance(content, list) else [content]:
-            if isinstance(part, str):
-                texts.append(part)
-            elif isinstance(part, Mapping):
-                if part.get("type") == "text":
-                    texts.append(str(part.get("text") or ""))
-                url = part.get("image_url")
-                url = url.get("url") if isinstance(url, Mapping) else url
-                if url:
-                    refs.append(url)
-        for extra in message.get("images") or []:
-            url = extra.get("image_url") if isinstance(extra, Mapping) else None
-            url = url.get("url") if isinstance(url, Mapping) else url
-            if url:
-                refs.append(url)
-        text = "\n".join(t for t in texts if t)
-        found = _MD_IMAGE.findall(text)
-        if not found and not refs:
-            found = _BARE_DATA.findall(text) or _BARE_LINK.findall(text)
-        return refs + found, text
-
-    def _chat_image(self, model: str, prompt: str, *, aspect_ratio: str | None, image_size: str | None,
-                    images: Iterable[GeneratedFile], limit: int) -> list[GeneratedFile]:
-        content: list[dict[str, Any]] = [{"type": "text", "text": prompt}]
+    def _gemini_image(self, model: str, prompt: str, *, aspect_ratio: str | None, image_size: str | None,
+                      images: Iterable[GeneratedFile], limit: int) -> list[GeneratedFile]:
+        """The native route, because some upstreams ignore size and ratio when asked in the OpenAI format."""
+        parts: list[dict[str, Any]] = [{"text": prompt}]
         for image in images:
-            encoded = base64.b64encode(image.data).decode()
-            content.append({"type": "image_url", "image_url": {"url": f"data:{image.mime};base64,{encoded}"}})
-        payload: dict[str, Any] = {"model": model, "stream": False,
-                                   "messages": [{"role": "user", "content": content}]}
-        config = {k: v for k, v in (("aspect_ratio", aspect_ratio), ("image_size", image_size))
-                  if v and v != "auto"}
+            parts.append({"inlineData": {"mimeType": image.mime, "data": base64.b64encode(image.data).decode()}})
+        generation: dict[str, Any] = {"responseModalities": ["TEXT", "IMAGE"]}
+        config = {k: v for k, v in (("aspectRatio", aspect_ratio), ("imageSize", image_size)) if v and v != "auto"}
         if config:
-            payload["extra_body"] = {"google": {"image_config": config}}
-        body = self._call("POST", "/v1/chat/completions", json=payload, timeout=IMAGE_TIMEOUT)
-        refs, text = self._refs_from_chat(body)
+            generation["imageConfig"] = config
+        body = self._call("POST", f"/v1beta/models/{quote(model, safe='')}:generateContent",
+                          json={"contents": [{"role": "user", "parts": parts}], "generationConfig": generation},
+                          timeout=IMAGE_TIMEOUT)
+        candidates = body.get("candidates")
+        first = candidates[0] if isinstance(candidates, list) and candidates and isinstance(candidates[0], Mapping) else {}
+        content = first.get("content") if isinstance(first.get("content"), Mapping) else {}
+        files: list[GeneratedFile] = []
+        texts: list[str] = []
+        for part in content.get("parts") or []:
+            if not isinstance(part, Mapping) or part.get("thought"):  # the model's notes and drafts, not the result
+                continue
+            inline = part.get("inlineData") or part.get("inline_data")
+            linked = part.get("fileData") or part.get("file_data")
+            if isinstance(inline, Mapping) and inline.get("data"):
+                files.append(self._file_from_b64(str(inline["data"]), limit))
+            elif isinstance(linked, Mapping) and (linked.get("fileUri") or linked.get("file_uri")):
+                files.append(self._file_from_ref(str(linked.get("fileUri") or linked.get("file_uri")), limit))
+            elif part.get("text"):
+                texts.append(str(part["text"]))
+        if files:
+            return files
+        text = "\n".join(texts)
+        refs = _MD_IMAGE.findall(text) or _BARE_DATA.findall(text) or _BARE_LINK.findall(text)
         if not refs:
-            hint = scrub(text, self.api_key)
+            hint = scrub(text or str(first.get("finishReason") or ""), self.api_key)
             raise SRError(f"The model returned no image. {hint}".strip())
         return [self._file_from_ref(ref, limit) for ref in refs]
 
@@ -367,8 +368,8 @@ class SRClient:
             raise ValidationError("Choose a model.")
         images = list(images)
         if matches_any(model, gen.CHAT_IMAGE_MATCH):
-            return self._chat_image(model, prompt, aspect_ratio=aspect_ratio, image_size=image_size,
-                                    images=images, limit=limit)
+            return self._gemini_image(model, prompt, aspect_ratio=aspect_ratio, image_size=image_size,
+                                      images=images, limit=limit)
         fields: dict[str, Any] = {"model": model, "prompt": prompt, "n": n}
         if size and size != "auto":
             fields["size"] = size

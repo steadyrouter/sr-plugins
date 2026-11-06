@@ -12,11 +12,11 @@ Adds SteadyRouter as a model provider. SteadyRouter is an AI model API gateway: 
 
 #### Test
 
-- [ ] Tested locally
+- [x] Tested locally
 - [x] Added/updated tests
 - [ ] No tests needed
 
-- Acceptance: `vitest run src/providers/steadyrouter` in `packages/model-runtime`: 7 passed. `vitest run` in `packages/model-bank`: 151 passed. A real Gemini image reply on chat completions has the markdown shape `createImage` reads (checked against the gateway on 2026-11-02, outside LobeHub). Not done: the provider has not been opened in the app, so model fetch, a chat and an image have not been tried there.
+- Acceptance: `vitest run src/providers/steadyrouter` in `packages/model-runtime`: 7 passed. `vitest run` in `packages/model-bank`: 151 passed. A real Gemini image reply on chat completions has the markdown shape `createImage` reads (checked against the gateway on 2026-11-02, outside LobeHub). In a local self-hosted build with a real key, 2026-11-06: Check passed; Fetch models listed 275; `deepseek-v4-flash` answered in an Agent conversation; `gpt-image-2-c` made two 1024x1024 images in Generation, stored in the local object store. Not confirmed: `flux-2-pro` (the gateway's only source answered 429 that day) and Gemini image models in the app (only the reply shape above). Seen and not looked into: a thinking block showed `Deep Thinking...` for about a minute after the reply, and `Thought` once the page was reopened. The settings page shows a placeholder icon until the lobe-icons PR lands.
 
 #### 🔗 Related Issue
 

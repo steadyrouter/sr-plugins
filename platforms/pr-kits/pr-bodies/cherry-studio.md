@@ -24,7 +24,8 @@ Acceptance criteria: N/A
 
 - `pnpm --filter @cherrystudio/provider-registry test`: 647 passed with this change.
 - `pnpm --filter @cherrystudio/provider-registry generate`: the SteadyRouter entry it produces is identical to the one in this PR. The rest of its output is left out: it pulls newer catalog data for other providers, and 8 tests about those providers (OpenRouter, Fireworks, LongCat and others) then fail. None of them involve SteadyRouter.
-- Not done: the app has not been run with this provider, and I have not checked whether the painting page lists its image models.
+- Ran the app from this branch (`electron-vite dev`, macOS arm64) against the real gateway: the provider shows after TokenDance with its icon, the key check passes, `/v1/models` lists 277 models sorted into types, chat answers, and the painting page returns images from `gpt-image-2-c` and `flux-2-pro`.
+- Painting page: `gpt-image-2-c` is our id for GPT Image 2, so it has an override with `modelId: gpt-image-2`. Gemini image models answer on chat completions on SteadyRouter, not on `/v1/images/generations`, so their overrides remove `image-generation` and they stay off the painting page.
 
 ### Breaking changes
 

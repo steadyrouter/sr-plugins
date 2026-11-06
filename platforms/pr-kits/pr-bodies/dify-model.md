@@ -29,15 +29,15 @@ It sends user content to an external service (`api.steadyrouter.com`), which is 
 
 ## Required checks
 
-- [x] I have read and followed the Marketplace submission requirements.
-- [x] I have read and comply with the Plugin Development Guidelines.
+- [x] I have read and followed the [Marketplace submission requirements](https://github.com/langgenius/dify-plugins/blob/main/docs/plugin-submission-requirements.md).
+- [x] I have read and comply with the [Plugin Development Guidelines](https://docs.dify.ai/en/develop-plugin/publishing/standards/contributor-covenant-code-of-conduct).
 - [x] I tested this plugin on Dify Community Edition and Dify Cloud, or documented any limitation below.
 - [x] The package contains only files needed at runtime.
 - [x] The package does not contain secrets, local credentials, `.env` files, `.git` directories, virtual environments, caches, logs, or IDE files.
-- [x] The package does not contain executables or bundled binaries.
+- [x] The package does not contain executables or bundled binaries, or I explained why they are required below.
 - [x] The plugin README includes setup steps, usage instructions, required APIs or credentials, connection requirements, and the source repository link.
-- [x] The plugin includes `PRIVACY.md`, and `manifest.yaml` references it.
-- [x] All user-facing text is primarily in English.
+- [x] The plugin includes `PRIVACY.md` or a hosted privacy policy, and `manifest.yaml` references it.
+- [x] All user-facing text is primarily in English, with any localized README files following the [i18n guidance](https://docs.dify.ai/en/develop-plugin/features-and-specs/plugin-types/multilingual-readme).
 
 ## Security and privacy notes
 
@@ -46,7 +46,8 @@ Requests go only to the fixed address `https://api.steadyrouter.com`. Requests h
 ## Local validation
 
 - `dify plugin package`: packaged.
-- Dify Community Edition 1.19.0 (local docker), this package: installs; a wrong key is refused with a clear message.
+- Dify Community Edition 1.19.0 (local docker), this exact package: installs; a wrong key is refused with a clear message.
+- Same Dify against the real gateway: 214 models listed, and `deepseek-v4-flash` answered in a chat.
 - Same Dify, a build pointed at a local test gateway: the right key is accepted; 203 language, 5 embedding, 3 rerank and 3 speech-to-text models are listed; an LLM node in a workflow returns text.
 - This plugin's classes against the real gateway, 2026-11-05: chat (blocking and streaming), embedding, rerank. Speech-to-text only ran against the test gateway: the real speech models answered 429 (busy) that day.
 - Not tested on Dify Cloud.

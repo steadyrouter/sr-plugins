@@ -207,9 +207,8 @@ def check(results: dict[str, dict], fake: Fake, out: Path) -> list[str]:
     text_chat = [b for b in chats if b.get("model") == "some-chat"]
     expect(text_chat and text_chat[0].get("max_completion_tokens") == 32
            and text_chat[0]["messages"][0] == {"role": "system", "content": "be brief"}, f"chat body: {text_chat}")
-    gemini = [b for b in chats if str(b.get("model")).startswith("gemini")]
-    expect(gemini and gemini[0].get("extra_body") == {"google": {"image_config": {"aspect_ratio": "16:9",
-                                                                                   "image_size": "2K"}}},
+    gemini = [r["body"] for r in fake.requests if r["path"].startswith("/v1beta/models/gemini")]
+    expect(gemini and gemini[0]["generationConfig"].get("imageConfig") == {"aspectRatio": "16:9", "imageSize": "2K"},
            f"gemini body: {gemini}")
     gens = [r["body"] for r in fake.requests if r["path"] == "/v1/images/generations"]
     expect(any(b.get("size") == "1536x1024" and b.get("quality") == "high" for b in gens), f"gpt image: {gens}")

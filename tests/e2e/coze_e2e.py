@@ -175,8 +175,8 @@ def run_checks(base: str, fake: Fake, state: Path) -> None:
 
     r = tool(base, "com", "image", {"prompt": "a cat", "model": "gemini-md-data-image", "aspect_ratio": "16:9", "image_size": "2K"})
     check(r["code"] == 0 and HEX_FILE.search(r["image_url"]), "Nano Banana (markdown data URI, lifted) is stored")
-    chat = fake.seen("/v1/chat/completions")[-1]["body"]
-    check(chat["extra_body"]["google"]["image_config"] == {"aspect_ratio": "16:9", "image_size": "2K"},
+    native = fake.seen("/v1beta/models/gemini-md-data-image")[-1]["body"]
+    check(native["generationConfig"]["imageConfig"] == {"aspectRatio": "16:9", "imageSize": "2K"},
           "aspect ratio and resolution reach the gateway")
     for model in ("gemini-parts-image", "gemini-images-image"):
         r = tool(base, "com", "image", {"prompt": "x", "model": model})

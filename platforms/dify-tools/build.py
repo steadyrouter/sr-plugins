@@ -1,13 +1,15 @@
-"""Generate the Dify tool plugin: images and video, one named tool per popular family."""
+"""Generate the Dify tool plugins: SteadyRouter Image & Video (one named tool per popular family) and the plugins
+named after one model, listed in single.yaml."""
 
 from __future__ import annotations
 
 import datetime as dt
 import re
 import shutil
+from dataclasses import replace
 from pathlib import Path
 
-from common import DIST, ROOT, Context, copy_tree, dump_yaml, fill, fresh_dir
+from common import DIST, ROOT, Context, copy_tree, dump_yaml, fill, fresh_dir, load_yaml
 
 PLATFORM = "dify-tools"
 HERE = Path(__file__).resolve().parent
@@ -41,8 +43,13 @@ def select_param(name, en, zh, human_en, human_zh, values, default) -> dict:
             "label": label(en, zh), "human_description": label(human_en, human_zh), "options": options(values)}
 
 
-def model_param(default: str | None) -> dict:
-    param = {"name": "model", "type": "dynamic-select", "required": True, "form": "form",
+def model_param(default: str | None, suggest: str | None = None) -> dict:
+    # form: llm, not form: Dify's workflow panel only fetches dynamic options for this section. Under SETTINGS
+    # (form: form) it never asks and the dropdown stays empty (seen in the browser on Dify 1.19.0).
+    # In an Agent the model fills this in, so tell it what to pick.
+    pick = default or suggest
+    param = {"name": "model", "type": "dynamic-select", "required": True, "form": "llm",
+             "llm_description": f"The SteadyRouter model ID. Use {pick} unless the user names another model.",
              "label": label("Model", "型号"),
              "human_description": label("The list comes live from SteadyRouter, so new models appear on their own.",
                                         "列表实时取自 SteadyRouter，新上架的型号会自动出现。")}
@@ -63,8 +70,8 @@ def reference_images() -> dict:
             "llm_description": "Optional images to edit or combine according to the prompt."}
 
 
-def image_params(kind: str, default: str | None) -> list[dict]:
-    params = [prompt_param("image", "图片"), model_param(default), reference_images()]
+def image_params(kind: str, default: str | None, suggest: str | None = None) -> list[dict]:
+    params = [prompt_param("image", "图片"), model_param(default, suggest), reference_images()]
     aspect = select_param("aspect_ratio", "Aspect ratio", "宽高比", "Used by Gemini image models.",
                           "Gemini 生图型号使用。", ASPECTS, "auto")
     clarity = select_param("image_size", "Resolution", "清晰度", "Used by Gemini image models. Higher costs more.",
@@ -82,10 +89,10 @@ def image_params(kind: str, default: str | None) -> list[dict]:
     return params + [free_size]
 
 
-def video_params(default: str | None) -> list[dict]:
+def video_params(default: str | None, suggest: str | None = None) -> list[dict]:
     return [
         prompt_param("video", "视频"),
-        model_param(default),
+        model_param(default, suggest),
         select_param("resolution", "Resolution", "分辨率", "Each model takes its own resolutions. Higher costs more.",
                      "每个型号支持的分辨率不同。越高越贵。", RESOLUTIONS, "720p"),
         {"name": "seconds", "type": "number", "required": False, "form": "form", "default": 5, "min": 1, "max": 16,
@@ -105,6 +112,7 @@ def tool_defs(ctx: Context) -> list[dict]:
     image_note = "Results come back as files."
     return [
         {"id": "generate_image", "mixin": "ImageTool", "family": None, "kind": "all", "default": None,
+         "suggest": fam["gpt_image"]["default"],
          "en": "Generate Image", "zh": "生成图片", "desc_en": f"Generate or edit images with any SteadyRouter image model. {image_note}",
          "desc_zh": "用 SteadyRouter 上任意生图型号生成或修改图片。"},
         {"id": "nano_banana", "mixin": "ImageTool", "family": "nano_banana", "kind": "nano_banana",
@@ -121,6 +129,7 @@ def tool_defs(ctx: Context) -> list[dict]:
          "default": fam["tongyi_image"]["default"], "en": "Qwen Image & Wan (SteadyRouter)", "zh": "通义万相 & Qwen Image（SteadyRouter）",
          "desc_en": f"Generate images with Qwen Image and Wan models. {image_note}", "desc_zh": "用 Qwen Image 和万相型号生成图片。"},
         {"id": "generate_video", "mixin": "VideoTool", "family": None, "kind": "video", "default": None,
+         "suggest": fam["seedance"]["default"],
          "en": "Generate Video", "zh": "生成视频",
          "desc_en": "Generate a video with any SteadyRouter video model and wait for it (up to 8 minutes). If it takes longer, you get a task ID for Check Video Task.",
          "desc_zh": "用 SteadyRouter 上任意视频型号生成视频并等待结果（最多 8 分钟）。超时会给出任务 ID，用「查视频任务」接着查。"},
@@ -136,12 +145,12 @@ def tool_defs(ctx: Context) -> list[dict]:
 
 def tool_yaml(ctx: Context, tool: dict) -> dict:
     if tool["kind"] == "video":
-        params = video_params(tool["default"])
+        params = video_params(tool["default"], tool.get("suggest"))
     elif tool["kind"] == "check":
         params = [text_param("task_id", "Task ID", "任务 ID", "The ID returned when the video was submitted.",
                              "提交视频时返回的任务 ID。", llm="The video task ID.", required=True, form="llm")]
     else:
-        params = image_params(tool["kind"], tool["default"])
+        params = image_params(tool["kind"], tool["default"], tool.get("suggest"))
     return {
         "identity": {"name": tool["id"], "author": ctx.site["slug"], "label": label(tool["en"], tool["zh"])},
         "description": {"human": label(tool["desc_en"], tool["desc_zh"]), "llm": tool["desc_en"]},
@@ -154,14 +163,16 @@ def tool_source(tool: dict) -> str:
     cls = re.sub(r"(?:^|_)(\w)", lambda m: m.group(1).upper(), tool["id"])
     family = f'"{tool["family"]}"' if tool["family"] else "None"
     attrs = "    pass" if tool["kind"] == "check" else f"    FAMILY = {family}"
+    if tool.get("only"):
+        attrs += f'\n    ONLY = "{tool["only"]}"'
     return (f"from dify_plugin import Tool\n\nfrom tools._base import {tool['mixin']}\n\n\n"
             f"class {cls}({tool['mixin']}, Tool):\n{attrs}\n")
 
 
-def provider_yaml(ctx: Context, tools: list[dict]) -> dict:
+def provider_yaml(ctx: Context, listing: dict, tools: list[dict]) -> dict:
     return {
-        "identity": {"author": ctx.site["slug"], "name": PROVIDER, "label": {"en_US": f"{ctx.site['brand']} Image & Video"},
-                     "description": {k: ctx.strings["tools_tagline"][k] for k in LOCALES}, "icon": "icon.svg"},
+        "identity": {"author": ctx.site["slug"], "name": PROVIDER, "label": {"en_US": listing["label"]},
+                     "description": listing["tagline"], "icon": "icon.svg"},
         "credentials_for_provider": {"api_key": {
             "type": "secret-input", "required": True, "label": {k: ctx.strings["api_key"][k] for k in LOCALES},
             "placeholder": {k: ctx.strings["api_key_placeholder"][k] for k in LOCALES},
@@ -171,15 +182,15 @@ def provider_yaml(ctx: Context, tools: list[dict]) -> dict:
     }
 
 
-def manifest(ctx: Context) -> dict:
+def manifest(ctx: Context, listing: dict) -> dict:
     return {
-        "version": ctx.versions[PLATFORM],
+        "version": ctx.versions[listing["package"]],
         "type": "plugin",
         "author": ctx.site["slug"],
-        "name": "steadyrouter_image_video",
+        "name": listing["name"],
         "repo": ctx.site["repo_url"],
-        "label": {"en_US": f"{ctx.site['brand']} Image & Video"},
-        "description": {k: ctx.strings["tools_tagline"][k] for k in LOCALES},
+        "label": {"en_US": listing["label"]},
+        "description": listing["tagline"],
         "icon": "icon.svg",
         "created_at": CREATED_AT.isoformat(),
         "resource": {"memory": 536870912, "permission": {"tool": {"enabled": True}}},
@@ -190,14 +201,38 @@ def manifest(ctx: Context) -> dict:
     }
 
 
-def build(ctx: Context) -> Path:
-    ctx = ctx.for_channel(PLATFORM)
-    out = fresh_dir(DIST / PLATFORM)
+def single_listing(ctx: Context, spec: dict) -> dict:
+    brand = ctx.site["brand"]
+    what, owner = spec["what"], spec["owner"]
+    return {
+        "package": spec["package"],
+        "name": spec["name"],
+        "label": f"{spec['model']} by {brand}",
+        "tagline": {"en_US": f"{what['en_US']} through {brand}, an independent API gateway not affiliated with {owner}.",
+                    "zh_Hans": f"通过 {brand} {what['zh_Hans']}。{brand} 是独立的 API 网关，与 {owner} 没有关联。"},
+    }
+
+
+def single_tools(ctx: Context, spec: dict) -> list[dict]:
+    what = spec["what"]
+    video = spec["kind"] == "video"
+    tool = {"id": spec["name"].removesuffix(f"_{ctx.site['slug']}"), "mixin": "VideoTool" if video else "ImageTool",
+            "family": spec["family"], "only": spec.get("only"), "kind": spec["kind"],
+            "default": spec.get("default") or ctx.families[spec["family"]]["default"], "en": spec["model"], "zh": spec["model"]}
+    if not video:
+        return [{**tool, "desc_en": f"{what['en_US']}. Results come back as files.", "desc_zh": f"{what['zh_Hans']}。"}]
+    check = next(t for t in tool_defs(ctx) if t["id"] == "check_video_task")
+    return [{**tool, "desc_en": f"{what['en_US']} and wait for it (up to 8 minutes). If it takes longer, you get a task ID for Check Video Task.",
+             "desc_zh": f"{what['zh_Hans']}并等待结果（最多 8 分钟）。超时会给出任务 ID，用「查视频任务」接着查。"}, check]
+
+
+def write_package(ctx: Context, listing: dict, tools: list[dict], readme: str, privacy: str, icon: str = "logo.svg") -> Path:
+    out = fresh_dir(DIST / listing["package"])
     copy_tree(HERE / "files", out)
-    for name in ("README.md", "PRIVACY.md"):
-        (out / name).write_text(fill((HERE / "files" / name).read_text(), ctx))
+    (out / "README.md").write_text(readme)
+    (out / "PRIVACY.md").write_text(privacy)
     (out / "_assets").mkdir()
-    shutil.copy(ROOT / "brand" / "logo.svg", out / "_assets" / "icon.svg")
+    shutil.copy(ROOT / "brand" / icon, out / "_assets" / "icon.svg")
     copy_tree(ROOT / "core" / "python" / "srclient", out / "srclient")
     test_build = ctx.api_base != ctx.site["api_base"]
     if test_build:
@@ -206,10 +241,31 @@ def build(ctx: Context) -> Path:
         text = text.replace(ctx.site["pricing_api"], f"{ctx.api_base}/api/pricing")
         generated.write_text(text)
     (out / "tools" / "_site.py").write_text(f"TEST_BUILD = {test_build}\n")
-    tools = tool_defs(ctx)
     for tool in tools:
         (out / "tools" / f"{tool['id']}.yaml").write_text(dump_yaml(tool_yaml(ctx, tool)))
         (out / "tools" / f"{tool['id']}.py").write_text(tool_source(tool))
-    (out / "manifest.yaml").write_text(dump_yaml(manifest(ctx)))
-    (out / "provider" / "steadyrouter_media.yaml").write_text(dump_yaml(provider_yaml(ctx, tools)))
+    (out / "manifest.yaml").write_text(dump_yaml(manifest(ctx, listing)))
+    (out / "provider" / "steadyrouter_media.yaml").write_text(dump_yaml(provider_yaml(ctx, listing, tools)))
     return out
+
+
+def build_single(ctx: Context, spec: dict) -> Path:
+    listing = single_listing(ctx, spec)
+    ctx = ctx.for_channel(spec["package"])
+    ctx = replace(ctx, site={**ctx.site, "plugin_label": listing["label"], "tagline": listing["tagline"]["en_US"],
+                             "model": spec["model"], "owner": spec["owner"]})
+    template = "video" if spec["kind"] == "video" else "image"
+    readme = fill((HERE / "single" / f"README.{template}.md").read_text(), ctx)
+    notice = f"{ctx.site['brand']} is an independent API gateway, not affiliated with {spec['owner']}.\n\nQuestions:"
+    privacy = fill((HERE / "files" / "PRIVACY.md").read_text().replace("Questions:", notice), ctx)
+    return write_package(ctx, listing, single_tools(ctx, spec), readme, privacy, spec.get("icon", "logo.svg"))
+
+
+def build(ctx: Context) -> Path:
+    for spec in load_yaml(HERE / "single.yaml"):
+        build_single(ctx, spec)
+    ctx = ctx.for_channel(PLATFORM)
+    listing = {"package": PLATFORM, "name": "steadyrouter_image_video", "label": f"{ctx.site['brand']} Image & Video",
+               "tagline": {k: ctx.strings["tools_tagline"][k] for k in LOCALES}}
+    readme, privacy = (fill((HERE / "files" / name).read_text(), ctx) for name in ("README.md", "PRIVACY.md"))
+    return write_package(ctx, listing, tool_defs(ctx), readme, privacy)

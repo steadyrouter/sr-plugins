@@ -78,6 +78,48 @@ def models_dev(ctx: Context, out: Path) -> None:
 
 # ---- Cherry Studio ----
 
+# The painting page goes by the catalog's model names and calls /v1/images/generations.
+# gpt-image-2-c is our id for GPT Image 2: not in the catalog, so the page would not list it. Real images came back (11-05).
+# Gemini image models answer on chat completions: the catalog says they paint, and the page's call gets a 400.
+CHERRY_GPT_IMAGE = {"apiModelId": "gpt-image-2-c", "modelId": "gpt-image-2", "capabilities": {"add": ["image-generation"]},
+                    "endpointTypes": ["openai-image-generation"], "inputModalities": ["text", "image"], "outputModalities": ["image"],
+                    "reason": "SteadyRouter serves GPT Image 2 under this id on /v1/images/generations"}
+CHERRY_CHAT_IMAGE_MODELS = ["gemini-2.5-flash-image", "gemini-3-pro-image", "gemini-3-pro-image-preview", "gemini-3.1-flash-image",
+                            "gemini-3.1-flash-image-preview", "gemini-3.1-flash-lite-image", "gemini-nano-banana-2.1"]
+
+
+def cherry_overrides() -> list[dict]:
+    chat_image = [{"apiModelId": name, "modelId": name.replace(".", "-"), "capabilities": {"remove": ["image-generation"]},
+                   "reason": "SteadyRouter serves Gemini image models on chat completions, not /v1/images/generations"}
+                  for name in CHERRY_CHAT_IMAGE_MODELS]
+    return sorted([CHERRY_GPT_IMAGE, *chat_image], key=lambda o: o["modelId"])
+
+
+def cherry_override_source() -> str:
+    def one(o: dict) -> str:
+        lines = [f"      apiModelId: '{o['apiModelId']}',", f"      modelId: '{o['modelId']}',"]
+        for verb, caps in o["capabilities"].items():
+            quoted = ", ".join(f"'{c}'" for c in caps)
+            lines.append(f"      capabilities: {{ {verb}: [{quoted}] }},")
+        for field in ("endpointTypes", "inputModalities", "outputModalities"):
+            if field in o:
+                quoted = ", ".join(f"'{v}'" for v in o[field])
+                lines.append(f"      {field}: [{quoted}],")
+        lines.append(f"      reason: '{o['reason']}'")
+        return "    {\n" + "\n".join(lines) + "\n    }"
+    return "  overrides: [\n" + ",\n".join(one(o) for o in cherry_overrides()) + "\n  ]"
+
+
+def cherry_override_entries() -> str:
+    """provider-models.json is generated too: sorted by provider and model, keys sorted, two-space indent."""
+    out = ""
+    for o in cherry_overrides():
+        text = json.dumps({**o, "providerId": "steadyrouter"}, indent=2, sort_keys=True, ensure_ascii=False)
+        text = re.sub(r'\[\s+("[^"\]]*"(?:,\s+"[^"\]]*")*)\s+\]', lambda m: "[" + re.sub(r"\s+", " ", m.group(1)) + "]", text)
+        out += "".join(f"    {line}\n" for line in text.splitlines())[:-1] + ",\n"
+    return out
+
+
 def cherry_registry_entry(site: dict) -> str:
     """providers.json is generated; this matches the generator's formatting so the diff is only this entry."""
     api = site["api_base"]
@@ -173,7 +215,8 @@ export default defineProvider({{
       models: '{site["models_url"]}',
       official: '{site["site_url"]}'
     }}
-  }}
+  }},
+{cherry_override_source()}
 }})""")
     write(root, "packages/ui/icons/providers/light/steadyrouter.svg", LOGO)
     icons = "packages/ui/src/components/icons/providers"
@@ -250,14 +293,19 @@ export default SteadyrouterIcon""")
                f'      {{\n        "id": "steadyrouter",\n        "name": "{site["brand"]}"\n      }},\n'),
         before("packages/provider-registry/data/providers.json", r'    \{\n      "availableInEditions": \[[^\]]*\],\n      "description": "New API',
                cherry_registry_entry(site)),
+        before("packages/provider-registry/data/provider-models.json",
+               r'    \{\n      "apiModelId": "deepseek-ai/DeepSeek-V4-Pro",\n      "modelId": "deepseek-v4-pro",\n      "providerId": "together"',
+               cherry_override_entries()),
     ]
     edits.append({"file": "src/renderer/i18n/locales/*.json", "kind": "before_glob",
                   "anchor": r'  "provider\.stepfun"', "text": f'  "provider.steadyrouter": "{site["brand"]}",\n'})
     edits.append({"file": "packages/provider-registry/data/providers.json", "kind": "catalog_version"})
+    edits.append({"file": "packages/provider-registry/data/provider-models.json", "kind": "catalog_version"})
     save_edits(root, edits, {"repo": "CherryHQ/cherry-studio", "branch": "feat/steadyrouter-provider",
                              "commit": "feat(provider): add SteadyRouter", "signoff": True,
                              "sparse": [f"/{icons}/steadyrouter/**", "/packages/provider-registry/src/providers/*.ts",
                                         "/packages/provider-registry/data/providers.json",
+                                        "/packages/provider-registry/data/provider-models.json",
                                         "/packages/ui/icons/providers/light/steadyrouter.svg"]})
 
 

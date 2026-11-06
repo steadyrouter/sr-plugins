@@ -506,6 +506,44 @@ export class SRClient {
 		return { refs: [...refs, ...found], text };
 	}
 
+	/** The native route, because some upstreams ignore size and ratio when asked in the OpenAI format. */
+	private async geminiImage(model: string, prompt: string, options: ImageOptions, limit: number): Promise<GeneratedFile[]> {
+		const parts: Array<Record<string, unknown>> = [{ text: prompt }];
+		for (const image of options.images ?? []) {
+			parts.push({ inlineData: { mimeType: image.mime, data: encodeBase64(image.data) } });
+		}
+		const generationConfig: Record<string, unknown> = { responseModalities: ['TEXT', 'IMAGE'] };
+		const config: Record<string, string> = {};
+		if (options.aspectRatio && options.aspectRatio !== 'auto') config.aspectRatio = options.aspectRatio;
+		if (options.imageSize && options.imageSize !== 'auto') config.imageSize = options.imageSize;
+		if (Object.keys(config).length) generationConfig.imageConfig = config;
+		const body = await this.call('POST', `/v1beta/models/${encodeURIComponent(model)}:generateContent`, {
+			json: { contents: [{ role: 'user', parts }], generationConfig },
+			timeoutMs: IMAGE_TIMEOUT_MS,
+		});
+		const first = Array.isArray(body.candidates) && isRecord(body.candidates[0]) ? body.candidates[0] : {};
+		const content = isRecord(first.content) ? first.content : {};
+		const files: GeneratedFile[] = [];
+		const texts: string[] = [];
+		for (const part of Array.isArray(content.parts) ? content.parts : []) {
+			if (!isRecord(part) || part.thought) continue; // the model's notes and drafts, not the result
+			const inline = part.inlineData ?? part.inline_data;
+			const linked = part.fileData ?? part.file_data;
+			if (isRecord(inline) && inline.data) files.push(this.asImage(this.decode(String(inline.data)), limit));
+			else if (isRecord(linked) && (linked.fileUri || linked.file_uri)) {
+				files.push(await this.fileFromRef(String(linked.fileUri ?? linked.file_uri), limit));
+			} else if (part.text) texts.push(String(part.text));
+		}
+		if (files.length) return files;
+		const text = texts.join('\n');
+		const marked = Array.from(text.matchAll(MD_IMAGE), (m) => m[1]);
+		const refs = marked.length ? marked : text.match(BARE_DATA) ?? text.match(BARE_LINK) ?? [];
+		if (!refs.length) throw new SRError(`The model returned no image. ${scrub(text || String(first.finishReason ?? ''), this.secret)}`.trim());
+		for (const ref of refs) files.push(await this.fileFromRef(ref, limit));
+		return files;
+	}
+
+	/** Only for reference links: the native route has no way to pass an arbitrary link, and fetching them here costs a Worker its CPU budget. */
 	private async chatImage(model: string, prompt: string, options: ImageOptions, limit: number): Promise<GeneratedFile[]> {
 		const content: Array<Record<string, unknown>> = [{ type: 'text', text: prompt }];
 		for (const image of options.images ?? []) {
@@ -530,7 +568,9 @@ export class SRClient {
 		if (!prompt || !prompt.trim()) throw new ValidationError('A prompt is required.');
 		if (!model) throw new ValidationError('Choose a model.');
 		const limit = options.limit ?? MAX_FILE_BYTES;
-		if (matchesAny(model, gen.CHAT_IMAGE_MATCH)) return this.chatImage(model, prompt, options, limit);
+		if (matchesAny(model, gen.CHAT_IMAGE_MATCH)) {
+			return options.imageUrls?.length ? this.chatImage(model, prompt, options, limit) : this.geminiImage(model, prompt, options, limit);
+		}
 		if (options.imageUrls?.length) throw new ValidationError('This model does not take reference image links.');
 		const fields: Record<string, unknown> = { model, prompt, n: options.n ?? 1 };
 		if (options.size && options.size !== 'auto') fields.size = options.size;

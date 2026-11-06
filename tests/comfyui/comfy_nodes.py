@@ -247,8 +247,8 @@ def test_image_reply_becomes_a_tensor(pkg, fake, model):
 def test_nano_banana_sends_aspect_and_resolution(pkg, fake):
     run(pkg, "SteadyRouterNanoBanana", model="gemini-bare-image", prompt="a cat", seed=1, aspect_ratio="16:9",
         resolution="2K")
-    body = gateway(fake, "/v1/chat/completions")[0]["body"]
-    assert body["extra_body"] == {"google": {"image_config": {"aspect_ratio": "16:9", "image_size": "2K"}}}
+    body = gateway(fake, "/v1beta/models/gemini-bare-image:generateContent")[0]["body"]
+    assert body["generationConfig"]["imageConfig"] == {"aspectRatio": "16:9", "imageSize": "2K"}
 
 
 def test_gpt_image_sends_size_and_quality_but_not_auto(pkg, fake):

@@ -13,4 +13,4 @@ Adds the SteadyRouter icon ({{site_url}}), for the LobeHub provider PR. Mono and
 
 #### 📝 补充信息 | Additional Information
 
-Written with AI assistance (Claude Code). No human code review yet. `tsc --noEmit` passes. The docs page has not been opened to look at the icon.
+Written with AI assistance (Claude Code). No human code review yet. `tsc --noEmit` passes. In a local docs build the icon is in the list, and its Icons and Avatars pages render.

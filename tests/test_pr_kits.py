@@ -81,7 +81,9 @@ def test_lobe_icons_toc_entry():
     assert toc["entry"]["id"] == "SteadyRouter" and toc["entry"]["param"]["hasCombine"] is False
 
 
-@pytest.mark.parametrize("name", ["dify-model", "dify-tools", "models.dev", "cherry-studio", "lobehub", "lobe-icons"])
+@pytest.mark.parametrize("name", ["dify-model", "dify-tools", "dify-seedream", "dify-seedance",
+                                  "dify-gpt-image", "dify-qwen-image", "dify-wan", "dify-vidu",
+                                  "models.dev", "cherry-studio", "lobehub", "lobe-icons"])
 def test_pr_bodies_filled(name):
     body = (KITS / name / "PR.md").read_text()
     assert "{{" not in body and "steadyrouter" in body.lower()

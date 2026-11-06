@@ -122,8 +122,9 @@ def check(results: dict[str, dict], fake: Fake) -> list[str]:
     edits = [r for r in fake.requests if r["path"] == "/v1/images/edits"]
     expect(edits and edits[0]["ctype"].startswith("multipart/form-data; boundary="), f"edit request: {edits}")
     chats = [r for r in fake.requests if r["path"] == "/v1/chat/completions" and isinstance(r["body"], dict)]
-    gemini = [r for r in chats if r["body"].get("model", "").startswith("gemini")]
-    expect(gemini and gemini[0]["body"].get("extra_body") == {"google": {"image_config": {"aspect_ratio": "16:9"}}},
+    gemini = [r for r in fake.requests if r["path"].startswith("/v1beta/models/gemini") and isinstance(r["body"], dict)]
+    expect(gemini and gemini[0]["auth"] == f"Bearer {KEY}"
+           and gemini[0]["body"]["generationConfig"].get("imageConfig") == {"aspectRatio": "16:9"},
            f"gemini request: {gemini}")
     # The Text resource sends max_completion_tokens; the chat model goes through LangChain, which sends max_tokens
     # (and switches to max_completion_tokens for reasoning models by itself).

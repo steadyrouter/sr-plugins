@@ -11,3 +11,5 @@ This adds the provider and {{MODEL_COUNT}} popular models, each pointing at its 
 - Video models are not included.
 
 `bun validate` passes. `bun run v1:check` exits 1 because a new provider adds to v1: every change is SteadyRouter's own provider fields and its {{MODEL_COUNT}} models being added, and nothing is removed or changed for anyone else. The models are not marked `v2_only` because clients that read v1 (`api.json`) would not see the provider; happy to change that if you prefer.
+
+Tried in OpenCode against a local build of this branch, 2026-11-06: `/connect` saved the key, and `opencode run -m steadyrouter/deepseek-v4-flash` answered without an environment variable. Picking a model through `/models` in the TUI was not confirmed.

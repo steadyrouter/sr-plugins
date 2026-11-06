@@ -16,6 +16,7 @@ from srclient import (
     VideoFailed,
     VideoStatus,
     VideoStillRunning,
+    image_size_for,
     list_models,
     sniff,
     video_download_hint,
@@ -51,11 +52,13 @@ def read_upload(upload: Any) -> GeneratedFile:
 
 class ImageTool:
     FAMILY: str | None = None
+    ONLY: str | None = None  # a model-name prefix, for a plugin named after one model in a family
 
     def _fetch_parameter_options(self, parameter: str) -> list[ParameterOption]:
         if parameter != "model":
             return []
-        return to_options(list_models("image", self.FAMILY, exclude=gen.EXCLUDE["image-tools"]))
+        names = list_models("image", self.FAMILY, exclude=gen.EXCLUDE["image-tools"])
+        return to_options([n for n in names if n.startswith(self.ONLY or "")])
 
     def _invoke(self, tool_parameters: dict[str, Any]) -> Generator[Any, None, None]:
         uploads = tool_parameters.get("images") or []
@@ -64,6 +67,7 @@ class ImageTool:
             raise ValueError(f"At most {MAX_REFERENCE_IMAGES} reference images are accepted.")
         references = [read_upload(u) for u in uploads]
         model = tool_parameters.get("model")
+        image_size, note = image_size_for(model, tool_parameters.get("image_size"))
         try:
             files = client_for(self).generate_image(
                 model,
@@ -71,11 +75,13 @@ class ImageTool:
                 size=tool_parameters.get("size"),
                 quality=tool_parameters.get("quality"),
                 aspect_ratio=tool_parameters.get("aspect_ratio"),
-                image_size=tool_parameters.get("image_size"),
+                image_size=image_size,
                 images=references,
             )
         except SRError as exc:
             raise ValueError(str(exc)) from None
+        if note:
+            yield self.create_text_message(note)
         for index, item in enumerate(files):
             yield self.create_blob_message(
                 blob=item.data,

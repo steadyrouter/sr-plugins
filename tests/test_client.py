@@ -1,3 +1,5 @@
+import base64
+
 import pytest
 from fake_upstream import KEY, MP4, PNG, UPSTREAM_PATH, Fake
 from srclient import (
@@ -47,29 +49,41 @@ def test_url_reply_is_downloaded_without_key(fake):
     assert fake.seen(UPSTREAM_PATH)[0]["auth"] is None
 
 
-@pytest.mark.parametrize("model", ["gemini-md-data-image", "gemini-md-link-image", "gemini-bare-image",
-                                   "gemini-parts-image", "gemini-images-image"])
-def test_chat_image_shapes(fake, model):
-    assert client(fake).generate_image(model, "cat")[0].data == PNG
-    assert fake.seen("/v1/chat/completions")
+@pytest.mark.parametrize("model", ["gemini-inline-image", "gemini-snake-image", "gemini-thought-image", "gemini-file-image",
+                                   "gemini-md-data-image", "gemini-md-link-image", "gemini-bare-image"])
+def test_gemini_image_shapes(fake, model):
+    files = client(fake).generate_image(model, "cat")
+    assert [f.data for f in files] == [PNG]  # the thought draft is never returned
+    assert fake.seen(f"/v1beta/models/{model}:generateContent") and not fake.seen("/v1/chat/completions")
 
 
-def test_chat_image_sends_aspect_and_size(fake):
-    client(fake).generate_image("gemini-bare-image", "cat", aspect_ratio="16:9", image_size="2K")
-    body = fake.seen("/v1/chat/completions")[0]["body"]
-    assert body["extra_body"] == {"google": {"image_config": {"aspect_ratio": "16:9", "image_size": "2K"}}}
+def test_gemini_image_sends_size_ratio_and_references_natively(fake):
+    # In the OpenAI format some upstreams ignore both and return their default 1024x1024.
+    reference = GeneratedFile(PNG, "image/png")
+    client(fake).generate_image("gemini-inline-image", "cat", aspect_ratio="16:9", image_size="2K", images=[reference])
+    body = fake.seen("/v1beta/models/gemini-inline-image:generateContent")[0]["body"]
+    assert body["generationConfig"]["imageConfig"] == {"aspectRatio": "16:9", "imageSize": "2K"}
+    assert body["generationConfig"]["responseModalities"] == ["TEXT", "IMAGE"]
+    assert body["contents"][0]["parts"] == [{"text": "cat"}, {"inlineData": {"mimeType": "image/png",
+                                                                             "data": base64.b64encode(PNG).decode()}}]
+    assert "extra_body" not in body and "model" not in body
 
 
-def test_chat_image_auto_sends_no_config(fake):
-    client(fake).generate_image("gemini-bare-image", "cat", aspect_ratio="auto")
-    assert "extra_body" not in fake.seen("/v1/chat/completions")[0]["body"]
+def test_gemini_image_auto_sends_no_config(fake):
+    client(fake).generate_image("gemini-inline-image", "cat", aspect_ratio="auto", image_size="auto")
+    assert "imageConfig" not in fake.seen("/v1beta/models/")[0]["body"]["generationConfig"]
 
 
-@pytest.mark.parametrize("model", ["gemini-text-image", "gemini-badlink-image"])
+@pytest.mark.parametrize("model", ["gemini-text-image", "gemini-badlink-image", "gemini-thoughts-only-image"])
 def test_chat_text_reply_is_a_clean_error(fake, model):
     with pytest.raises(SRError) as err:
         client(fake).generate_image(model, "cat")
     assert_clean(str(err.value))
+
+
+def test_blocked_gemini_reply_says_why(fake):
+    with pytest.raises(SRError, match="IMAGE_SAFETY"):
+        client(fake).generate_image("gemini-blocked-image", "cat")
 
 
 def test_edit_uses_multipart(fake):

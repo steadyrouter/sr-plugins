@@ -136,6 +136,8 @@ class Fake:
                     return self._send(200, {"data": [{"b64_json": base64.b64encode(fake.png).decode()}]})
                 if self.path == "/v1/chat/completions":
                     return self._chat(model, body)
+                if self.path.startswith("/v1beta/models/") and self.path.endswith(":generateContent"):
+                    return self._gemini(self.path.split("/")[-1].removesuffix(":generateContent"))
                 if self.path == "/v1/embeddings":
                     return self._send(200, {"model": model, "usage": {"prompt_tokens": 2, "total_tokens": 2},
                                             "data": [{"index": 0, "embedding": [0.1, 0.2]}]})
@@ -189,6 +191,29 @@ class Fake:
                 if model == "gemini-images-image":
                     message.update(content="", images=[{"type": "image_url", "image_url": {"url": data_uri}}])
                 return self._send(200, {"choices": [{"message": message}]})
+
+            def _gemini(self, model):
+                encoded = base64.b64encode(fake.png).decode()
+                data_uri = "data:image/png;base64," + encoded
+                link = fake.base + UPSTREAM_PATH
+                image = {"inlineData": {"mimeType": "image/png", "data": encoded}}
+                draft = {"inlineData": {"mimeType": "image/png", "data": base64.b64encode(b"a draft").decode()},
+                         "thought": True}
+                parts = {
+                    "gemini-snake-image": [{"inline_data": {"mime_type": "image/png", "data": encoded}}],
+                    "gemini-thought-image": [{"text": "Planning.", "thought": True}, draft, image],
+                    "gemini-file-image": [{"fileData": {"mimeType": "image/png", "fileUri": link}}],
+                    "gemini-md-data-image": [{"text": f"Here it is ![img]({data_uri}) done"}],
+                    "gemini-md-link-image": [{"text": f"![img]({link})"}],
+                    "gemini-bare-image": [{"text": data_uri}],
+                    "gemini-text-image": [{"text": f"Sorry, I cannot. Token {KEY} rejected."}],
+                    "gemini-badlink-image": [{"text": f"Sorry, I cannot. See {fake.base}/upstream/html"}],
+                    "gemini-thoughts-only-image": [{"text": "Only thinking.", "thought": True}],
+                }.get(model, [image])
+                if model == "gemini-blocked-image":
+                    return self._send(200, {"candidates": [{"finishReason": "IMAGE_SAFETY"}]})
+                return self._send(200, {"candidates": [{"content": {"role": "model", "parts": parts},
+                                                        "finishReason": "STOP"}]})
 
             def _plain_chat(self, model, body):
                 if body.get("stream"):

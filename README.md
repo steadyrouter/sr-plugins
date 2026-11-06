@@ -6,7 +6,7 @@ API gateway: language, image and video models through one API key.
 | Folder | What it builds |
 |---|---|
 | `platforms/dify-model` | Dify model provider plugin (language, embedding, rerank, speech-to-text) |
-| `platforms/dify-tools` | Dify tool plugin (image and video) |
+| `platforms/dify-tools` | Dify tool plugin (image and video), and plugins named after one model (`single.yaml`) |
 | `platforms/n8n` | n8n community node package `n8n-nodes-steadyrouter` |
 | `platforms/comfyui` | ComfyUI custom nodes |
 | `platforms/coze` | Coze plugins (OpenAPI files) and the Cloudflare Worker they call |
