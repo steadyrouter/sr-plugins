@@ -59,12 +59,19 @@ def models_dev(ctx: Context, out: Path) -> None:
     write(root, f"{base}/logo.svg", mono_svg())
     for name, spec in chosen["chat"].items():
         probe = f"# Live probe through {site['api_base']}/v1/chat/completions, {spec.get('probed', '2026-11-02')}."
-        lines = [probe, "schema = 2", f'base_model = "{spec["lab"]}"', "", "[capabilities]"]
+        lines = [f"# Toggle: {spec['toggle_wire']}"] if spec.get("toggle_wire") else []
+        lines += [f"# Effort: {spec['effort_wire']}"] if spec.get("effort_wire") else []
+        lines += [probe, *(f"# {note}" for note in spec.get("notes", []))]
+        lines += ["schema = 2", f'base_model = "{spec["lab"]}"', "", "[capabilities]"]
+        if spec.get("freeform"):
+            formats = ", ".join(f'"{f}"' for f in spec["freeform"])
+            lines.append(f"tools = {{ supported = true, freeform = [{formats}] }}")
+        reasoning = ["supported = true"]
         if spec.get("toggle"):
-            lines.append("reasoning = { supported = true, toggle = true }")
-        else:
-            effort = ", ".join(f'"{e}"' for e in spec["effort"])
-            lines.append(f"reasoning = {{ supported = true, effort = [{effort}] }}")
+            reasoning.append("toggle = true")
+        if spec.get("effort"):
+            reasoning.append("effort = [" + ", ".join(f'"{e}"' for e in spec["effort"]) + "]")
+        lines.append("reasoning = { " + ", ".join(reasoning) + " }")
         if spec.get("reasoning_field"):
             lines += ["", "[api.chat-completions]", f'compatibility = {{ reasoning_field = "{spec["reasoning_field"]}" }}']
         write(root, f"{base}/models/{name}.toml", "\n".join(lines))
@@ -316,6 +323,7 @@ LOBE_CREATE_IMAGE = """import OpenAI from 'openai';
 import type { CreateImageOptions } from '../../core/openaiCompatibleFactory';
 import { createOpenAICompatibleImage } from '../../core/openaiCompatibleFactory/createImage';
 import type { CreateImagePayload, CreateImageResponse } from '../../types/image';
+import { resolveMappedModelId } from '../../utils/modelIdMapping';
 
 const MARKDOWN_IMAGE = /!\\[[^\\]]*\\]\\(\\s*(data:image\\/[^)\\s]+|https?:\\/\\/[^)\\s]+)\\s*\\)/;
 
@@ -329,8 +337,14 @@ export async function createSteadyRouterImage(
 ): Promise<CreateImageResponse> {
   const client = new OpenAI({ apiKey: options.apiKey, baseURL: options.baseURL ?? undefined });
 
+  const requestModel = resolveMappedModelId(payload.model, options);
+
   if (!payload.model.endsWith(':image')) {
-    return createOpenAICompatibleImage(client, payload, options.provider);
+    return createOpenAICompatibleImage(client, payload, options.provider, {
+      pricingModel: payload.model,
+      requestModel,
+      routingModel: payload.model,
+    });
   }
 
   const { imageUrls, prompt } = payload.params;
@@ -340,7 +354,7 @@ export async function createSteadyRouterImage(
   ];
   const response = await client.chat.completions.create({
     messages: [{ content, role: 'user' }],
-    model: payload.model.replace(/:image$/, ''),
+    model: requestModel.replace(/:image$/, ''),
     stream: false,
   });
 
@@ -405,7 +419,64 @@ describe('createSteadyRouterImage', () => {
     expect(create).not.toHaveBeenCalled();
     expect(result.imageUrl).toContain('AAAA');
   });
+
+  it('sends the mapped model id on the chat route', async () => {
+    create.mockResolvedValue({ choices: [{ message: { content: '![image](data:image/jpeg;base64,AAAA)' } }] });
+
+    await createSteadyRouterImage(
+      { model: 'my-banana:image', params: { prompt: 'cat' } } as any,
+      { ...options, modelIdMapping: { 'my-banana:image': 'gemini-3.1-flash-image' } },
+    );
+
+    expect(create.mock.calls[0][0].model).toBe('gemini-3.1-flash-image');
+  });
+
+  it('sends the mapped model id on the images endpoint', async () => {
+    generate.mockResolvedValue({ data: [{ b64_json: 'AAAA' }] });
+
+    await createSteadyRouterImage(
+      { model: 'my-image', params: { prompt: 'cat' } } as any,
+      { ...options, modelIdMapping: { 'my-image': 'gpt-image-2-c' } },
+    );
+
+    expect(generate.mock.calls[0][0].model).toBe('gpt-image-2-c');
+  });
 });"""
+
+LOBE_ENV_DOC_EN = """## SteadyRouter
+
+### `STEADYROUTER_API_KEY`
+
+- Type: Required
+- Description: This is the API key you can obtain from SteadyRouter
+- Default: -
+- Example: `sk-xxxxx...xxxxx`
+
+### `STEADYROUTER_MODEL_LIST`
+
+- Type: Optional
+- Description: Used to control the model list, use `+` to add a model, use `-` to hide a model, use `model_name->deploymentName=display_name<extension_config>` to customize the display name of a model, separated by commas. Definition syntax rules see [model-list][model-list]
+- Default: `-`
+- Example: `-all,+deepseek-v4-flash,+gpt-5.4-mini`
+
+"""
+LOBE_ENV_DOC_ZH = """## SteadyRouter
+
+### `STEADYROUTER_API_KEY`
+
+- 类型：必选
+- 描述：这是你在 SteadyRouter 申请的 API 密钥
+- 默认值：-
+- 示例：`sk-xxxxx...xxxxx`
+
+### `STEADYROUTER_MODEL_LIST`
+
+- 类型：可选
+- 描述：用来控制模型列表，使用 `+` 增加一个模型，使用 `-` 来隐藏一个模型，使用 `模型名->部署名=展示名<扩展配置>` 来自定义模型的展示名，用英文逗号隔开。模型定义语法规则见 [模型列表][model-list]
+- 默认值：`-`
+- 示例：`-all,+deepseek-v4-flash,+gpt-5.4-mini`
+
+"""
 
 
 def lobe_image_models(ctx: Context) -> str:
@@ -622,6 +693,13 @@ tags:
         before(f"{runtime}/runtimeMap.ts", r"  stepfun: LobeStepfunAI", "  steadyrouter: LobeSteadyRouterAI,\n"),
         before("locales/en-US/providers.json", r'  "stepfun\.description"', f'  "steadyrouter.description": "{en}",\n'),
         before("locales/zh-CN/providers.json", r'  "stepfun\.description"', f'  "steadyrouter.description": "{zh}",\n'),
+        before("packages/env/src/llm.ts", r"      ENABLED_STEPFUN: z\.boolean\(\),",
+               "      ENABLED_STEADYROUTER: z.boolean(),\n      STEADYROUTER_API_KEY: z.string().optional(),\n\n"),
+        before("packages/env/src/llm.ts", r"      ENABLED_STEPFUN: !!process",
+               "      ENABLED_STEADYROUTER: !!process.env.STEADYROUTER_API_KEY,\n      STEADYROUTER_API_KEY: process.env.STEADYROUTER_API_KEY,\n\n"),
+        before("Dockerfile", r"    # Stepfun\n", '    # SteadyRouter\n    STEADYROUTER_API_KEY="" STEADYROUTER_MODEL_LIST="" \\\n'),
+        before("docs/self-hosting/environment-variables/model-provider.mdx", r"^## Stepfun AI\n", LOBE_ENV_DOC_EN),
+        before("docs/self-hosting/environment-variables/model-provider.zh-CN.mdx", r"^## Stepfun AI\n", LOBE_ENV_DOC_ZH),
     ]
     save_edits(root, edits, {"repo": "lobehub/lobehub", "branch": "feat/steadyrouter-provider",
                              "commit": "✨ feat: add SteadyRouter as a model provider",
@@ -734,22 +812,128 @@ import DocsPreview from '../components/DocsPreview';
   }}
 </DocsPreview>
 
+```tsx
+import {{ SteadyRouter }} from '@lobehub/icons';
+import {{ Flexbox }} from '@lobehub/ui';
+
+export default () => (
+  <Flexbox gap={{16}} horizontal>
+    <SteadyRouter size={{64}} />
+  </Flexbox>
+);
+```
+
 ## Avatars
 
 <DocsPreview>
   {{
     <Flexbox gap={{16}} horizontal>
       <SteadyRouter.Avatar size={{64}} />
-      <SteadyRouter.Avatar shape={{'square'}} size={{64}} />
+      <SteadyRouter.Avatar size={{64}} shape={{'square'}} />
     </Flexbox>
   }}
 </DocsPreview>
 
+```tsx
+import {{ SteadyRouter }} from '@lobehub/icons';
+import {{ Flexbox }} from '@lobehub/ui';
+
+export default () => (
+  <Flexbox gap={{16}} horizontal>
+    <SteadyRouter.Avatar size={{64}} />
+    <SteadyRouter.Avatar size={{64}} shape={{'square'}} />
+  </Flexbox>
+);
+```
+
 ## Colors
 
-<Flexbox gap={{16}} horizontal>
-  <ColorPreview color={{SteadyRouter.colorPrimary}} />
-</Flexbox>""")
+<DocsPreview>
+  {{
+    <Flexbox gap={{16}} horizontal>
+      <ColorPreview color={{SteadyRouter.colorPrimary}} />
+    </Flexbox>
+  }}
+</DocsPreview>
+
+```tsx
+import {{ SteadyRouter }} from '@lobehub/icons';
+import {{ Flexbox }} from '@lobehub/ui';
+
+import ColorPreview from '../components/ColorPreview';
+
+export default () => (
+  <Flexbox gap={{16}} horizontal>
+    <ColorPreview color={{SteadyRouter.colorPrimary}} />
+  </Flexbox>
+);
+```""")
+    rn = "packages/react-native/src"
+    write(root, f"{rn}/icons/SteadyRouter/style.ts", f"""export const TITLE = '{site["brand"]}';
+export const COLOR_PRIMARY = '{COLOR}';
+
+// Avatar constants
+export const AVATAR_BACKGROUND = COLOR_PRIMARY;
+export const AVATAR_COLOR = '#fff';
+export const AVATAR_ICON_MULTIPLE = 0.7;""")
+    write(root, f"{rn}/icons/SteadyRouter/components/Mono.tsx", f"""import React, {{ memo }} from 'react';
+import {{ Path, Svg }} from 'react-native-svg';
+
+import type {{ RNIconProps }} from '@/features';
+
+const Icon = memo<RNIconProps>(({{ size = 24, style, color = '#000000', ...rest }}) => {{
+  return (
+    <Svg color={{color}} fill="none" height={{size}} style={{style}} viewBox="0 0 64 64" width={{size}} {{...rest}}>
+      <Path
+        d="{PATH_D}"
+        stroke={{color}}
+        strokeWidth={{10}}
+      />
+    </Svg>
+  );
+}});
+
+Icon.displayName = 'SteadyRouterMono';
+
+export default Icon;""")
+    write(root, f"{rn}/icons/SteadyRouter/components/Avatar.tsx", """import React, { memo } from 'react';
+
+import { RNIconAvatar, type RNIconAvatarProps } from '@/features';
+
+import { AVATAR_BACKGROUND, AVATAR_COLOR, AVATAR_ICON_MULTIPLE, TITLE } from '../style';
+import Mono from './Mono';
+
+export type AvatarProps = Omit<RNIconAvatarProps, 'Icon'>;
+
+const Avatar = memo<AvatarProps>(({ background, ...rest }) => {
+  return (
+    <RNIconAvatar
+      Icon={Mono}
+      aria-label={TITLE}
+      background={background || AVATAR_BACKGROUND}
+      color={AVATAR_COLOR}
+      iconMultiple={AVATAR_ICON_MULTIPLE}
+      {...rest}
+    />
+  );
+});
+export default Avatar;""")
+    write(root, f"{rn}/icons/SteadyRouter/index.ts", """import Avatar from './components/Avatar';
+import Mono from './components/Mono';
+import { COLOR_PRIMARY, TITLE } from './style';
+
+export type CompoundedIcon = typeof Mono & {
+  Avatar: typeof Avatar;
+  colorPrimary: string;
+  title: string;
+};
+
+const Icons = Mono as CompoundedIcon;
+Icons.Avatar = Avatar;
+Icons.colorPrimary = COLOR_PRIMARY;
+Icons.title = TITLE;
+
+export default Icons;""")
     edits = [
         before("src/icons.ts", r"export \{ default as Stepfun,",
                "export { default as SteadyRouter, type CompoundedIcon as SteadyRouterProps } from './SteadyRouter';\n"),
@@ -757,6 +941,13 @@ import DocsPreview from '../components/DocsPreview';
         before("src/features/providerConfig.tsx", r"import Stepfun from '@/Stepfun';", "import SteadyRouter from '@/SteadyRouter';\n"),
         before("src/features/providerConfig.tsx", r"  \{ Icon: ZenMux,",
                "  { Icon: SteadyRouter, keywords: [ModelProvider.SteadyRouter] },\n"),
+        before(f"{rn}/index.ts", r"export \{ default as Stepfun,",
+               "export { default as SteadyRouter, type CompoundedIcon as SteadyRouterProps } from './icons/SteadyRouter';\n"),
+        before(f"{rn}/features/providerEnum.ts", r"  Stepfun = 'stepfun',", "  SteadyRouter = 'steadyrouter',\n"),
+        before(f"{rn}/features/providerConfig.tsx", r"import Stepfun from '\.\./icons/Stepfun';",
+               "import SteadyRouter from '../icons/SteadyRouter';\n"),
+        before(f"{rn}/features/providerConfig.tsx", r"  \{ Icon: XiaomiMiMo,",
+               "  { Icon: SteadyRouter, keywords: [RNModelProvider.SteadyRouter] },\n"),
         {"file": "src/toc.json", "kind": "json_toc", "before_id": "Stepfun", "entry": {
             "color": COLOR, "desc": site["site_url"], "docsUrl": "steady-router", "fullTitle": site["brand"],
             "group": "provider", "id": "SteadyRouter",
@@ -765,7 +956,8 @@ import DocsPreview from '../components/DocsPreview';
             "title": site["brand"]}},
     ]
     save_edits(root, edits, {"repo": "lobehub/lobe-icons", "branch": "feat/steadyrouter-icon",
-                             "commit": "✨ feat: add SteadyRouter icon", "sparse": ["/src/SteadyRouter/**"]})
+                             "commit": "✨ feat: add SteadyRouter icon",
+                             "sparse": ["/src/SteadyRouter/**", "/packages/react-native/src/icons/SteadyRouter/**"]})
 
 
 def pr_bodies(ctx: Context, out: Path) -> None:

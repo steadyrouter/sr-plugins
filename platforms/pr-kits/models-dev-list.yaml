@@ -1,6 +1,7 @@
 # SteadyRouter model name -> models.dev lab model, with what a live probe through the gateway showed
 # (2026-11-02, Claude and images 2026-11-05).
-# effort: values from the lab's own host entry; "low" was sent to each and accepted, the others were not sent.
+# effort: values from the lab's own host entry; "low" was sent to each and accepted; a few others were sent on 2026-11-06.
+# toggle_wire, effort_wire, notes: the header comments models.dev asks for.
 # reasoning_field: the field the reply carried reasoning in. Claude's reply carries none.
 # glm-5.3 is left out: both probes timed out at 70 seconds.
 chat:
@@ -8,21 +9,21 @@ chat:
   claude-sonnet-5-5: {lab: anthropic/claude-sonnet-5-5, effort: [low, medium, high, xhigh, max], probed: 2026-11-05}
   claude-haiku-5-5: {lab: anthropic/claude-haiku-5-5, effort: [low, medium, high, xhigh, max], probed: 2026-11-05}
   claude-fable-5-1: {lab: anthropic/claude-fable-5-1, effort: [low, medium, high, xhigh, max], probed: 2026-11-05}
-  gpt-6-astra: {lab: openai/gpt-6-astra, effort: [low, medium, high, xhigh, max]}
-  gpt-6.1-sol: {lab: openai/gpt-6.1-sol, effort: [low, medium, high, xhigh, max]}
-  gpt-5.4: {lab: openai/gpt-5.4, effort: [none, low, medium, high, xhigh]}
-  gpt-5.4-mini: {lab: openai/gpt-5.4-mini, effort: [none, low, medium, high, xhigh]}
+  gpt-6-astra: {lab: openai/gpt-6-astra, effort: [low, medium, high, xhigh, max], probed: 2026-11-06, notes: ['tools.freeform left out: with a custom tool forced by tool_choice, replies were plain text and said no tool was available (regex, lark, text), 2026-11-06. A function tool worked.']}
+  gpt-6.1-sol: {lab: openai/gpt-6.1-sol, effort: [low, medium, high, xhigh, max], probed: 2026-11-06, notes: ['tools.freeform left out: with a custom tool forced by tool_choice, replies were plain text asking which tool to call (regex, lark, text), 2026-11-06.']}
+  gpt-5.4: {lab: openai/gpt-5.4, effort: [none, low, medium, high, xhigh], probed: 2026-11-06, notes: ['tools.freeform left out: Chat Completions refused custom tools with 400 "Missing required parameter: tools[0].custom" in 6 of 6 tries (regex, lark, text), 2026-11-06.']}
+  gpt-5.4-mini: {lab: openai/gpt-5.4-mini, effort: [none, low, medium, high, xhigh], freeform: [text, lark, regex], probed: 2026-11-06, notes: ['tools.freeform, Chat Completions: custom tools forced with tool_choice, 2026-11-06. Regex ZZ[0-9]{3} (4 tries) and the equivalent lark both returned ZZ123; text returned free text. The Azure sources refuse custom tools and the gateway moves the request to another source, so this relies on that fallback.']}
   gemini-4-argon: {lab: google/gemini-4-argon, effort: [low, medium, high]}
   gemini-3.8-flash: {lab: google/gemini-3.8-flash, effort: [low, medium, high]}
   grok-4.7: {lab: xai/grok-4.7, effort: [low, medium, high, xhigh]}
-  deepseek-v4-pro-0813: {lab: deepseek/deepseek-v4-pro-0813, effort: [low, high, max], reasoning_field: reasoning_content}
-  deepseek-v4-flash: {lab: deepseek/deepseek-v4-flash, effort: [low, high, max], reasoning_field: reasoning_content}
-  deepseek-v4.1-flash: {lab: deepseek/deepseek-v4.1-flash, effort: [low, high, max], reasoning_field: reasoning_content}
+  deepseek-v4-pro-0813: {lab: deepseek/deepseek-v4-pro-0813, effort: [low, high, max], reasoning_field: reasoning_content, toggle: true, toggle_wire: 'thinking.type = enabled|disabled', effort_wire: 'reasoning_effort = low|high|max', probed: 2026-11-06, notes: ['Live 2026-11-06: thinking.type = disabled returned no reasoning (0 reasoning tokens); enabled returned reasoning_content.']}
+  deepseek-v4-flash: {lab: deepseek/deepseek-v4-flash, effort: [low, high, max], reasoning_field: reasoning_content, toggle: true, toggle_wire: 'thinking.type = enabled|disabled', effort_wire: 'reasoning_effort = low|high|max', probed: 2026-11-06, notes: ['Live 2026-11-06: thinking.type = disabled returned no reasoning (0 reasoning tokens); enabled returned reasoning_content.']}
+  deepseek-v4.1-flash: {lab: deepseek/deepseek-v4.1-flash, effort: [low, high, max], reasoning_field: reasoning_content, toggle: true, toggle_wire: 'thinking.type = enabled|disabled', effort_wire: 'reasoning_effort = low|high|max', probed: 2026-11-06, notes: ['Live 2026-11-06: thinking.type = disabled returned no reasoning (0 reasoning tokens); enabled returned reasoning_content.']}
   kimi-k3: {lab: moonshotai/kimi-k3, effort: [low, high, max], reasoning_field: reasoning_content}
-  kimi-k2.6: {lab: moonshotai/kimi-k2.6, toggle: true, reasoning_field: reasoning_content}
-  glm-5.3-flash: {lab: zhipuai/glm-5.3-flash, effort: [low, high, max]}
-  qwen3.8-max: {lab: alibaba/qwen3.8-max, effort: [low, medium, xhigh]}
-  qwen3.8-flash: {lab: alibaba/qwen3.8-flash, effort: [low, medium, xhigh], reasoning_field: reasoning_content}
-  MiniMax-M3: {lab: minimax/MiniMax-M3, toggle: true, reasoning_field: reasoning_content}
+  kimi-k2.6: {lab: moonshotai/kimi-k2.6, toggle: true, toggle_wire: 'thinking.type = enabled|disabled', reasoning_field: reasoning_content, probed: 2026-11-06, notes: ['Control copied from the lab entry. Both values were accepted on 2026-11-06, but those replies carried no reasoning_content either way, so the effect was not confirmed there. The 2026-11-02 probe did return reasoning_content.']}
+  glm-5.3-flash: {lab: zhipuai/glm-5.3-flash, effort: [low, high, max], reasoning_field: reasoning_content, effort_wire: 'reasoning_effort = low|high|max', probed: 2026-11-06, notes: ['Live 2026-11-06: reasoning came back in reasoning_content at every effort tried; reasoning tokens went with effort (low 20, high 48, unset 435).']}
+  qwen3.8-max: {lab: alibaba/qwen3.8-max, effort: [low, medium, xhigh], toggle: true, toggle_wire: 'enable_thinking true|false', effort_wire: 'reasoning_effort = low|medium|xhigh', reasoning_field: reasoning_content, probed: 2026-11-06, notes: ['Live 2026-11-06: enable_thinking false returned no reasoning; true and reasoning_effort returned it. 4 of 5 replies with reasoning used reasoning_content, one (thinking_budget = 64) used reasoning.', 'budget left out: thinking_budget = 32 was accepted and the reply still had 152 reasoning tokens, against 147 with no budget, so it does not cap reasoning here.']}
+  qwen3.8-flash: {lab: alibaba/qwen3.8-flash, effort: [low, medium, xhigh], toggle: true, toggle_wire: 'enable_thinking true|false', effort_wire: 'reasoning_effort = low|medium|xhigh', reasoning_field: reasoning_content, probed: 2026-11-06, notes: ['Live 2026-11-06: enable_thinking false returned no reasoning; true and reasoning_effort returned it in reasoning_content.', 'budget left out: thinking_budget = 32 was accepted and replies still had 154 and 145 reasoning tokens, so it does not cap reasoning here.']}
+  MiniMax-M3: {lab: minimax/MiniMax-M3, toggle: true, toggle_wire: 'thinking.type = adaptive|disabled', reasoning_field: reasoning_content, probed: 2026-11-06, notes: ['Live 2026-11-06: adaptive returned reasoning_content; disabled returned none.']}
 images:
   gpt-image-2-c: {lab: openai/gpt-image-2}
