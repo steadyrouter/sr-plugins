@@ -97,7 +97,7 @@ Documentation = "{ctx.site['docs_url']}"
 "Bug Tracker" = "{repo}/issues"
 
 [tool.comfy]
-PublisherId = ""
+PublisherId = "steadyrouter"
 DisplayName = "{DISPLAY_NAME}"
 Icon = "https://raw.githubusercontent.com/{repo.split('github.com/', 1)[1]}/main/icon.svg"
 requires-comfyui = "{REQUIRES_COMFYUI}"

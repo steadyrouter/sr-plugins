@@ -181,7 +181,7 @@ def image_op(ctx: Context, conf: dict, region: str, t: dict, lang: str) -> dict:
         "model": string(t["used_model"]),
         "expires_in_days": {"type": "integer", "description": t["expires_in_days"]},
     }
-    return {"post": {"operationId": "generate_image", "summary": f"{TOOL_NAMES[lang]['image']}: {t['image_summary']}",
+    return {"post": {"operationId": "generate_image", "summary": f"{TOOL_NAMES[lang]['image']}: {t['image_summary']}", "description": t['image_summary'],
                      "parameters": [key_param(t)], "requestBody": json_body(props, ["prompt", "model"]),
                      "responses": json_reply(reply, t)}}
 
@@ -200,11 +200,11 @@ def video_ops(ctx: Context, conf: dict, region: str, t: dict, lang: str) -> dict
         "seconds": {"type": "integer", "default": 5, "description": t["seconds"]},
         "start_image": string(t["start_image"], format="image_url"),
     }
-    submit = {"post": {"operationId": "submit_video", "summary": f"{TOOL_NAMES[lang]['submit']}: {t['submit_summary']}",
+    submit = {"post": {"operationId": "submit_video", "summary": f"{TOOL_NAMES[lang]['submit']}: {t['submit_summary']}", "description": t['submit_summary'],
                        "parameters": [key_param(t)], "requestBody": json_body(submit_props, ["prompt", "model"]),
                        "responses": json_reply({"task_id": string(t["task_id"]),
                                                 "status": string(t["submit_status"])}, t)}}
-    status = {"post": {"operationId": "check_video", "summary": f"{TOOL_NAMES[lang]['status']}: {t['status_summary']}",
+    status = {"post": {"operationId": "check_video", "summary": f"{TOOL_NAMES[lang]['status']}: {t['status_summary']}", "description": t['status_summary'],
                        "parameters": [key_param(t)],
                        "requestBody": json_body({"task_id": string(t["task_id"])}, ["task_id"]),
                        "responses": json_reply({
