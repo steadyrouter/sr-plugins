@@ -1,0 +1,14 @@
+{
+	"node": "n8n-nodes-steadyrouter.lmChatSteadyRouter",
+	"nodeVersion": "1.0",
+	"codexVersion": "1.0",
+	"categories": ["Development"],
+	"subcategories": {
+		"AI": ["Language Models", "Root Nodes"],
+		"Language Models": ["Chat Models (Recommended)"]
+	},
+	"resources": {
+		"credentialDocumentation": [{ "url": "https://www.steadyrouter.com/sign-up?aff=G66Y" }],
+		"primaryDocumentation": [{ "url": "https://www.steadyrouter.com/site/docs.html" }]
+	}
+}

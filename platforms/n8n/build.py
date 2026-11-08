@@ -32,7 +32,7 @@ def package_json(ctx: Context) -> dict:
         "homepage": ctx.site["docs_url"],
         "keywords": ["n8n-community-node-package", "steadyrouter", "llm", "ai", "image-generation", "video-generation"],
         "author": {"name": ctx.site["brand"], "email": ctx.site["contact"]},
-        "repository": {"type": "git", "url": f"git+{ctx.site['repo_url']}.git", "directory": "platforms/n8n"},
+        "repository": {"type": "git", "url": f"git+{ctx.site['repo_url']}.git", "directory": "packages/n8n-nodes-steadyrouter"},
         "scripts": {
             "build": "n8n-node build",
             "lint": "n8n-node lint",
