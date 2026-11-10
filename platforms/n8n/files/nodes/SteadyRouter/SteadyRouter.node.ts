@@ -12,6 +12,7 @@ import { NodeApiError, NodeConnectionTypes, NodeOperationError } from 'n8n-workf
 
 import { CREDENTIALS, makeClient, modelOptions } from '../shared/transport';
 import {
+	MAX_VIDEO_BYTES,
 	SRError,
 	ValidationError,
 	VideoStillRunning,
@@ -110,6 +111,8 @@ async function runImage(ctx: IExecuteFunctions, client: SRClient, operation: str
 		aspectRatio: options.aspectRatio,
 		imageSize: options.imageSize,
 		images,
+		// n8n has no 50 MB file cap (that default is Dify's); a 4K image can be larger than 20 MB.
+		limit: MAX_VIDEO_BYTES,
 	});
 	const field = options.binaryPropertyOutput || 'data';
 	const out: INodeExecutionData[] = [];

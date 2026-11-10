@@ -10,10 +10,10 @@ Chat, image and video models in ComfyUI with one SteadyRouter API key. The nodes
 
 1. Install **SteadyRouter** from the ComfyUI Manager (or the Comfy Registry) and restart ComfyUI.
 2. [Create a SteadyRouter account]({{get_key_url}}), add funds, and open **API Keys** → **Create API Key** in the console.
-3. In ComfyUI open **Settings** → **SteadyRouter** and paste the key. Or set the `STEADYROUTER_API_KEY` environment variable before starting ComfyUI; when it is set, it is used instead of the field.
+3. In ComfyUI open **Settings** → **SteadyRouter** and paste the key.
 4. Add a node from the **SteadyRouter** category, or search for "SteadyRouter".
 
-The key is never a node input, so it does not travel with workflows you share or with images that carry their workflow. The settings field is saved on the ComfyUI server in `user/default/comfy.settings.json`, where anyone who can open this ComfyUI can read it. If others can reach your ComfyUI, use the environment variable. When ComfyUI runs with `--multi-user`, only the environment variable is read.
+The key is never a node input, so it does not travel with workflows you share or with images that carry their workflow. The settings field is saved on the ComfyUI server in `user/default/comfy.settings.json`, where anyone who can open this ComfyUI can read it. Do not save it on a ComfyUI that others can reach. ComfyUI started with `--multi-user` cannot use the key.
 
 ## Nodes
 

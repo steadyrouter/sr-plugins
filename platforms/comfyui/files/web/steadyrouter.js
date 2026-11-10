@@ -1,6 +1,5 @@
 // Settings > SteadyRouter: the API key, and where to get one. The key is saved in ComfyUI's user settings on the
-// server (user/default/comfy.settings.json), never in a workflow. The STEADYROUTER_API_KEY environment variable,
-// if set, wins over this field.
+// server (user/default/comfy.settings.json), never in a workflow.
 import { app } from '../../scripts/app.js';
 
 const GET_KEY_URL = '{{get_key_url}}';
@@ -21,8 +20,7 @@ app.registerExtension({
 			id: 'SteadyRouter.ApiKey',
 			category: ['SteadyRouter', 'Account', 'API key'],
 			name: 'API key',
-			tooltip: 'Used by every SteadyRouter node. Saved on this ComfyUI server, not in workflows. ' +
-				'The STEADYROUTER_API_KEY environment variable, if set, is used instead.',
+			tooltip: 'Used by every SteadyRouter node. Saved on this ComfyUI server, not in workflows.',
 			type: 'text',
 			sortOrder: 100, // higher comes first: the key, then the link
 			defaultValue: '',

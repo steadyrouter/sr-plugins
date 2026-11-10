@@ -133,7 +133,7 @@ def video_download_hint(task_id: str, api_base: str = API_BASE) -> str:
     return (
         f"Task ID: {task_id}\n"
         f"Download it from SteadyRouter with your API key (the request must carry the key):\n"
-        f'curl -o video.mp4 {api_base}/v1/videos/{task_id}/content -H "Authorization: Bearer YOUR_API_KEY"\n'
+        f"GET {api_base}/v1/videos/{task_id}/content with the header Authorization: Bearer YOUR_API_KEY\n"
         "Videos are kept for a limited time only, so save yours soon."
     )
 

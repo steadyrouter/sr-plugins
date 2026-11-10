@@ -1,0 +1,41 @@
+# Publishes n8n-nodes-steadyrouter to npm with a provenance statement when a tag v<version> is pushed. n8n verifies
+# only community nodes published from GitHub Actions with provenance. Publishing uses npm trusted publishing (no
+# token): on npmjs.com the package's trusted publisher is this repository with the workflow file publish.yml.
+# The files here are generated from github.com/steadyrouter/sr-plugins (platforms/n8n); change them there.
+name: Publish
+
+on:
+  push:
+    tags: ['v*.*.*']
+
+permissions:
+  contents: read
+  id-token: write # npm provenance and trusted publishing
+
+jobs:
+  publish:
+    if: ${{ github.repository_owner == 'steadyrouter' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Check the tag matches the package version
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          test "v${version}" = "${GITHUB_REF_NAME}" || { echo "tag ${GITHUB_REF_NAME} does not match version ${version}"; exit 1; }
+
+      - name: Build and lint
+        run: |
+          npm install --ignore-scripts --no-audit --no-fund
+          npx n8n-node build
+          npx n8n-node lint
+
+      - name: Publish with provenance
+        env:
+          RELEASE_MODE: 'true' # the package's prepublishOnly hook refuses to publish without it
+        run: npm publish --provenance --access public

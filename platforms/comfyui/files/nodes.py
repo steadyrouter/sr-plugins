@@ -1,7 +1,7 @@
 """SteadyRouter nodes: chat, image and video models through one API key.
 
 The model lists come from _models.py (generated from the SteadyRouter catalog when the package is built).
-The API key is read from the environment or ComfyUI's settings (key.py), never from a node input.
+The API key is read from ComfyUI's settings (key.py), never from a node input.
 Files that come back are handed to ComfyUI as IMAGE / VIDEO; this package stores nothing.
 """
 
@@ -15,7 +15,7 @@ from comfy_api.latest import IO, InputImpl
 
 from . import _models as models
 from .convert import batch_to_pngs, to_batch
-from .key import ENV, api_key
+from .key import api_key
 from .srclient import (
     MAX_VIDEO_BYTES,
     FileTooLarge,
@@ -62,8 +62,8 @@ def _sleep(seconds: float) -> None:
 def client(wait_minutes: int = DEFAULT_WAIT_MINUTES) -> SRClient:
     key = api_key()
     if not key:
-        raise SteadyRouterError(f"No SteadyRouter API key. Add it in Settings > SteadyRouter, or set the {ENV} "
-                                "environment variable before starting ComfyUI, then run again.")
+        raise SteadyRouterError("No SteadyRouter API key. Add it in Settings > SteadyRouter, then run again. "
+                                "ComfyUI started with --multi-user cannot use the key.")
     options = {"base_url": models.API_BASE, "user_agent": f"steadyrouter-comfyui/{models.VERSION}",
                "sleep": _sleep, "poll_seconds": POLL_SECONDS, "video_wait_seconds": max(0, wait_minutes) * 60}
     if models.TEST_BUILD:  # a build made with --base-url talks to a fake gateway on a private address
@@ -214,7 +214,9 @@ class _ImageNode(IO.ComfyNode):
         try:
             files = client().generate_image(_model(model, custom_model), prompt or "", size=(size or "").strip(),
                                             quality=quality, aspect_ratio=aspect_ratio, image_size=resolution,
-                                            images=references)
+                                            images=references,
+                                            # ComfyUI has no 50 MB file cap (that default is Dify's); a 4K image can pass 20 MB.
+                                            limit=MAX_VIDEO_BYTES)
         except SRError as exc:
             raise _shown(exc) from None
         return IO.NodeOutput(to_batch([f.data for f in files]))

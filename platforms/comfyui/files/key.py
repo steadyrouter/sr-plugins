@@ -3,10 +3,8 @@
 from __future__ import annotations
 
 import json
-import os
 from pathlib import Path
 
-ENV = "STEADYROUTER_API_KEY"
 SETTING = "SteadyRouter.ApiKey"  # registered by web/steadyrouter.js
 
 
@@ -21,10 +19,7 @@ def settings_file() -> Path | None:
 
 
 def api_key() -> str:
-    """The environment variable first, then the key saved in ComfyUI's settings. Empty if neither is set."""
-    key = os.environ.get(ENV, "").strip()
-    if key:
-        return key
+    """The key saved in ComfyUI's settings. Empty if it is not set or ComfyUI runs with --multi-user."""
     path = settings_file()
     if path is None:
         return ""

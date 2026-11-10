@@ -192,7 +192,7 @@ export function videoDownloadHint(taskId: string, apiBase: string = API_BASE): s
 	return (
 		`Task ID: ${taskId}\n` +
 		'Download it from SteadyRouter with your API key (the request must carry the key):\n' +
-		`curl -o video.mp4 ${apiBase}/v1/videos/${taskId}/content -H "Authorization: Bearer YOUR_API_KEY"\n` +
+		`GET ${apiBase}/v1/videos/${taskId}/content with the header Authorization: Bearer YOUR_API_KEY\n` +
 		'Videos are kept for a limited time only, so save yours soon.'
 	);
 }

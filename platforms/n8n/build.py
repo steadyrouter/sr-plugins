@@ -16,6 +16,9 @@ from common import DIST, ROOT, Context, copy_tree, fresh_dir
 PLATFORM = "n8n"
 HERE = Path(__file__).resolve().parent
 PACKAGE = "n8n-nodes-steadyrouter"
+# n8n verifies only packages that sit alone at the root of their repository (review of 0.1.1), so the generated
+# package is exported to its own public repository and published from there (see SUBMIT.md).
+REPO_URL = f"https://github.com/steadyrouter/{PACKAGE}"
 N8N_TESTED = "2.45.7"
 # Dev dependencies, pinned to what the package was built and linted with. Nothing is needed at runtime.
 DEV_DEPENDENCIES = {"@n8n/node-cli": "0.54.6", "eslint": "9.32.0", "prettier": "3.6.2", "typescript": "5.9.2",
@@ -32,7 +35,7 @@ def package_json(ctx: Context) -> dict:
         "homepage": ctx.site["docs_url"],
         "keywords": ["n8n-community-node-package", "steadyrouter", "llm", "ai", "image-generation", "video-generation"],
         "author": {"name": ctx.site["brand"], "email": ctx.site["contact"]},
-        "repository": {"type": "git", "url": f"git+{ctx.site['repo_url']}.git", "directory": "packages/n8n-nodes-steadyrouter"},
+        "repository": {"type": "git", "url": f"git+{REPO_URL}.git"},
         "scripts": {
             "build": "n8n-node build",
             "lint": "n8n-node lint",
@@ -75,7 +78,7 @@ def build(ctx: Context, out: Path | None = None) -> Path:
     ctx = ctx.for_channel(PLATFORM)
     out = fresh_dir(out or DIST / PLATFORM)
     copy_tree(HERE / "files", out)
-    values = {**ctx.site, "api_base": ctx.api_base, "n8n_version": N8N_TESTED}
+    values = {**ctx.site, "api_base": ctx.api_base, "n8n_version": N8N_TESTED, "repo_url": REPO_URL}
     for path in out.rglob("*"):
         if path.is_file() and path.suffix in TEXT_SUFFIXES:
             path.write_text(fill_all(path.read_text(), values))

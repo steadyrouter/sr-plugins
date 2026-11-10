@@ -84,8 +84,10 @@ def setup(fake, monkeypatch, tmp_path):
     fake.requests.clear()
     fake.polls.clear()
     fake.content_status, fake.content_body = 200, MP4
-    monkeypatch.setenv("STEADYROUTER_API_KEY", KEY)
     folder_paths.set_user_directory(str(tmp_path / "user"))
+    settings = tmp_path / "user" / "default" / "comfy.settings.json"
+    settings.parent.mkdir(parents=True)
+    settings.write_text(json.dumps({"SteadyRouter.ApiKey": KEY}))
     yield
     comfy.model_management.interrupt_current_processing(False)
 
@@ -156,29 +158,22 @@ def test_release_build_is_not_a_test_build(pkg, tmp_path):
 # ---- the key ----
 
 def test_no_key_is_a_clear_error_and_sends_nothing(pkg, fake, monkeypatch):
-    monkeypatch.delenv("STEADYROUTER_API_KEY")
+    (Path(folder_paths.get_user_directory()) / "default" / "comfy.settings.json").unlink()
     with pytest.raises(pkg.nodes.SteadyRouterError, match="Settings > SteadyRouter"):
         run(pkg, "SteadyRouterChat", model="some-chat", prompt="hi", seed=0)
     assert not fake.requests
 
 
-def test_key_from_settings_and_env_wins(pkg, fake, monkeypatch, tmp_path):
-    monkeypatch.delenv("STEADYROUTER_API_KEY")
+def test_key_from_settings_only(pkg, fake, monkeypatch):
     settings = Path(folder_paths.get_user_directory()) / "default" / "comfy.settings.json"
-    settings.parent.mkdir(parents=True)
     settings.write_text(json.dumps({"SteadyRouter.ApiKey": f"  {KEY} ", "Comfy.Other": 1}))
     assert run(pkg, "SteadyRouterChat", model="some-chat", prompt="hi", seed=0) == ("Hello",)
-    monkeypatch.setenv("STEADYROUTER_API_KEY", "sk-from-env-0000000")
-    with pytest.raises(pkg.nodes.SteadyRouterError):  # the fake only knows KEY, so a 401 proves the env was used
-        run(pkg, "SteadyRouterChat", model="some-chat", prompt="hi", seed=0)
-    assert fake.requests[-1]["auth"] == "Bearer sk-from-env-0000000"
+    assert fake.requests[-1]["auth"] == f"Bearer {KEY}"
+    monkeypatch.setenv("STEADYROUTER_API_KEY", "sk-from-env-0000000")  # 0.1.1 no longer reads the environment
+    assert pkg.key.api_key() == KEY
 
 
-def test_multi_user_reads_only_the_environment(pkg, monkeypatch):
-    monkeypatch.delenv("STEADYROUTER_API_KEY")
-    settings = Path(folder_paths.get_user_directory()) / "default" / "comfy.settings.json"
-    settings.parent.mkdir(parents=True)
-    settings.write_text(json.dumps({"SteadyRouter.ApiKey": KEY}))
+def test_multi_user_has_no_key(pkg, monkeypatch):
     monkeypatch.setattr(args, "multi_user", True)
     assert pkg.key.api_key() == ""
     monkeypatch.setattr(args, "multi_user", False)
@@ -186,9 +181,7 @@ def test_multi_user_reads_only_the_environment(pkg, monkeypatch):
 
 
 def test_broken_settings_file_means_no_key(pkg, monkeypatch):
-    monkeypatch.delenv("STEADYROUTER_API_KEY")
     settings = Path(folder_paths.get_user_directory()) / "default" / "comfy.settings.json"
-    settings.parent.mkdir(parents=True)
     settings.write_text("{not json")
     assert pkg.key.api_key() == ""
     settings.write_text(json.dumps({"SteadyRouter.ApiKey": 123}))
