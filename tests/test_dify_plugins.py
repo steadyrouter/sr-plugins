@@ -3,6 +3,7 @@
 import importlib
 import io
 import json
+import re
 import subprocess
 import sys
 import xml.etree.ElementTree as ElementTree
@@ -50,6 +51,11 @@ def load(path: Path):
     return yaml.safe_load(path.read_text())
 
 
+def first_version_line(path: Path) -> str:
+    # The pre-check's version-update rule takes the first `version:` line anywhere in the manifest, nested or not.
+    return re.search(r"^\s*version\s*:\s*[\"']?([^\"'\n#]+)", path.read_text(), re.M).group(1).strip()
+
+
 # ---- schema: what Dify's own classes accept ----
 
 @pytest.mark.parametrize("package", [MODEL, TOOLS, *SINGLES])
@@ -57,6 +63,8 @@ def test_manifest_loads(package):
     config = PluginConfiguration(**load(package / "manifest.yaml"))
     assert config.repo and config.author == "steadyrouter"
     data = load(package / "manifest.yaml")
+    assert data["contact"] == "support@steadyrouter.com"  # the Marketplace pre-check requires it
+    assert first_version_line(package / "manifest.yaml") == data["version"]
     assert (package / data["privacy"]).read_text().strip()
     assert (package / "_assets" / data["icon"]).exists()
     readme = (package / "README.md").read_text()

@@ -189,6 +189,7 @@ def manifest(ctx: Context, listing: dict) -> dict:
         "author": ctx.site["slug"],
         "name": listing["name"],
         "repo": ctx.site["repo_url"],
+        "contact": ctx.site["contact"],
         "label": {"en_US": listing["label"]},
         "description": listing["tagline"],
         "icon": "icon.svg",

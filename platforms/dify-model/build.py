@@ -131,6 +131,7 @@ def manifest(ctx: Context) -> dict:
         "author": ctx.site["slug"],
         "name": ctx.site["slug"],
         "repo": ctx.site["repo_url"],
+        "contact": ctx.site["contact"],
         "label": {"en_US": ctx.site["brand"]},
         "description": text(ctx, "tagline"),
         "icon": "icon.svg",
