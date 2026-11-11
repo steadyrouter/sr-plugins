@@ -17,9 +17,9 @@
 
 Adds tools that generate images and videos through one SteadyRouter API key: a tool for any image model, one each for Nano Banana, GPT Image, Seedream, and Qwen Image & Wan, a tool for any video model, one for Seedance, and a task checker for long videos.
 
-Why it is needed: the model provider plugin only covers Dify's model types, which do not include image or video generation. These tools are all in one plugin, with one key, for people who want every model in one place.
+Why it is needed: the model provider plugin only covers Dify's model types, which do not include image or video generation. This is the consolidated plugin requested in #3698 and #3699: every image and video model on SteadyRouter, with one key, in one listing. The image and video model dropdowns are read live from SteadyRouter, so Qwen Image, Wan, Vidu and new models appear without a new plugin version.
 
-Related plugins: the same author has submitted plugins named after single models (Seedance, GPT Image, Seedream, Qwen Image, Wan and Vidu) that use the same API key, because people look for those by model name and want tools with only that model. If you would rather have them consolidated, tell us and we will withdraw the single-model ones.
+Related plugins, following the review in #3698 and #3699: we agree that once this plugin is published, the already-published single-model plugins Seedance by SteadyRouter, GPT Image by SteadyRouter and Seedream by SteadyRouter are marked deprecated and point users here; this plugin covers everything they do. The single-model submissions for Qwen Image, Wan and Vidu are closed and will not be resubmitted. The SteadyRouter model provider plugin is not part of this consolidation: it provides Dify model types (LLM, embedding, rerank, speech-to-text), not image or video tools. Nano Banana Pro (`api16/nano_banana_pro`) is not one of the single-model series either: it is an older plugin its original author published long ago, and its version update comes from the original author's own account.
 
 ## Risk level
 

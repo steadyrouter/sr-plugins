@@ -64,6 +64,8 @@ def test_manifest_loads(package):
     assert config.repo and config.author == "steadyrouter"
     data = load(package / "manifest.yaml")
     assert data["contact"] == "support@steadyrouter.com"  # the Marketplace pre-check requires it
+    if package != MODEL:  # dify-plugins #3701: 1-3 tags from the controlled vocabulary
+        assert data["tags"] and set(data["tags"]) <= {"image", "videos"}, data.get("tags")
     assert first_version_line(package / "manifest.yaml") == data["version"]
     assert (package / data["privacy"]).read_text().strip()
     assert (package / "_assets" / data["icon"]).exists()

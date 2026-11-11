@@ -193,6 +193,7 @@ def manifest(ctx: Context, listing: dict) -> dict:
         "label": {"en_US": listing["label"]},
         "description": listing["tagline"],
         "icon": "icon.svg",
+        "tags": listing["tags"],  # the Marketplace requires 1-3 tags from its controlled vocabulary (dify-plugins #3701)
         "created_at": CREATED_AT.isoformat(),
         "resource": {"memory": 536870912, "permission": {"tool": {"enabled": True}}},
         "plugins": {"tools": ["provider/steadyrouter_media.yaml"]},
@@ -229,6 +230,8 @@ def single_tools(ctx: Context, spec: dict) -> list[dict]:
 
 def write_package(ctx: Context, listing: dict, tools: list[dict], readme: str, privacy: str, icon: str = "logo.svg") -> Path:
     out = fresh_dir(DIST / listing["package"])
+    kinds = {tool["kind"] for tool in tools}
+    listing = {**listing, "tags": (["image"] if kinds - {"video", "check"} else []) + (["videos"] if "video" in kinds else [])}
     copy_tree(HERE / "files", out)
     (out / "README.md").write_text(readme)
     (out / "PRIVACY.md").write_text(privacy)
