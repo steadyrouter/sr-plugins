@@ -63,7 +63,9 @@ def client(wait_minutes: int = DEFAULT_WAIT_MINUTES) -> SRClient:
     key = api_key()
     if not key:
         raise SteadyRouterError("No SteadyRouter API key. Add it in Settings > SteadyRouter, then run again. "
-                                "ComfyUI started with --multi-user cannot use the key.")
+                                "ComfyUI started with --multi-user cannot use the key. "
+                                "No key yet? Sign up at {{get_key_url}}: new accounts get free trial credit to try "
+                                "image generation.")
     options = {"base_url": models.API_BASE, "user_agent": f"steadyrouter-comfyui/{models.VERSION}",
                "sleep": _sleep, "poll_seconds": POLL_SECONDS, "video_wait_seconds": max(0, wait_minutes) * 60}
     if models.TEST_BUILD:  # a build made with --base-url talks to a fake gateway on a private address
@@ -184,6 +186,10 @@ class _ImageNode(IO.ComfyNode):
             return [IO.Combo.Input("size", options=GPT_SIZES, default="auto", optional=True, tooltip="Output size."),
                     quality]
         if cls.KIND == "all":
+            aspect = IO.Combo.Input("aspect_ratio", options=ASPECTS, default="auto", optional=True,
+                                    tooltip="Used by Gemini image models (Nano Banana). GPT Image models take the "
+                                            "nearest size (square, 1536x1024 or 1024x1536) when size is empty. "
+                                            "Other models ignore it.")
             return [free_size, quality, aspect, image_size]
         return [free_size]
 

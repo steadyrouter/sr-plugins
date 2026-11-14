@@ -165,7 +165,8 @@ const imageProperties: INodeProperties[] = [
 				type: 'options',
 				options: opts(ASPECTS),
 				default: 'auto',
-				description: 'Used by Gemini image models (Nano Banana)',
+				description:
+					'Used by Gemini image models (Nano Banana). GPT Image models take the nearest size (square, 1536x1024 or 1024x1536) when Size is empty. Other models ignore it.',
 			},
 			{
 				displayName: 'Number of Images',

@@ -55,6 +55,20 @@ ONE_K_ONLY_MODELS = frozenset({"gemini-3.1-flash-lite-image"})
 ONE_K_NOTE = "This model only supports 1K, so 1K was used. 这个型号只支持 1K，已改用 1K。"
 
 
+# GPT Image models take a size, not an aspect ratio: the ratio picks the nearest of the three sizes they all accept.
+# An explicit size wins. Other size-based models keep their own sizes, so only GPT Image is translated.
+# Same table as the Coze relay (platforms/coze/worker/src/index.ts, GPT_SIZES).
+GPT_IMAGE_SIZES = {"1:1": "1024x1024", "16:9": "1536x1024", "3:2": "1536x1024", "4:3": "1536x1024",
+                   "21:9": "1536x1024", "9:16": "1024x1536", "2:3": "1024x1536", "3:4": "1024x1536"}
+
+
+def gpt_size_for(model: str, size: str | None, aspect_ratio: str | None) -> str | None:
+    """The size to send: the one given, or for a GPT Image model the nearest size to the aspect ratio."""
+    if (size and size != "auto") or family_of(model, gen.FAMILIES) != "gpt_image":
+        return size
+    return GPT_IMAGE_SIZES.get(aspect_ratio or "", size)
+
+
 def image_size_for(model: str | None, image_size: str | None) -> tuple[str | None, str | None]:
     """The quality to send, and a note for the user when that is not the one they asked for."""
     if model in ONE_K_ONLY_MODELS and image_size and image_size not in ("1K", "auto"):
@@ -371,6 +385,7 @@ class SRClient:
             return self._gemini_image(model, prompt, aspect_ratio=aspect_ratio, image_size=image_size,
                                       images=images, limit=limit)
         fields: dict[str, Any] = {"model": model, "prompt": prompt, "n": n}
+        size = gpt_size_for(model, size, aspect_ratio)
         if size and size != "auto":
             fields["size"] = size
         if quality and quality != "auto":

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3
+
+- GPT Image models follow the aspect ratio: with Size empty, they get the nearest size (square, 1536x1024 or 1024x1536).
+- The image model list leaves out gemini-2.5-flash-image, gpt-image-1 and gpt-image-1.5.
+- The credential and README say that new accounts get free trial credit.
+
 ## 0.1.2
 
 - The package now lives in its own repository, github.com/steadyrouter/n8n-nodes-steadyrouter, and is published from there.

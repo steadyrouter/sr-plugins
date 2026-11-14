@@ -23,7 +23,8 @@ export class SteadyRouterApi implements ICredentialType {
 			typeOptions: { password: true },
 			required: true,
 			default: '',
-			description: 'Create a key in the SteadyRouter console under API Keys',
+			description:
+				'Create a key in the SteadyRouter console under API Keys. No key yet? Sign up through the link above: new accounts get free trial credit to try image generation.',
 		},
 	];
 

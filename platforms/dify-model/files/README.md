@@ -8,7 +8,7 @@ This plugin adds SteadyRouter as a model provider in Dify: language models (Open
 
 ## Setup
 
-1. [Create a SteadyRouter account]({{sign_up_url}}) and open **API Keys** → **Create API Key** in the console.
+1. [Create a SteadyRouter account]({{sign_up_url}}) (new accounts get free trial credit to try the models) and open **API Keys** → **Create API Key** in the console.
 2. In Dify, open **Settings** → **Model Provider**, find **SteadyRouter** and paste the key.
 3. Pick a SteadyRouter model in your app's model selector.
 

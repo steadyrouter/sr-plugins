@@ -153,7 +153,7 @@ class Fake:
                 return self._send(404, {"error": {"message": "not found"}})
 
             def _images(self, model):
-                if model == "m-b64":
+                if model == "m-b64" or str(model).startswith("gpt-image-"):
                     return self._send(200, {"data": [{"b64_json": base64.b64encode(fake.png).decode()}]})
                 if model == "m-url":
                     return self._send(200, {"data": [{"url": fake.base + UPSTREAM_PATH}]})

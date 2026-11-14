@@ -34,6 +34,19 @@ def test_comfyui_nodes():
     assert " passed" in run.stdout and "failed" not in run.stdout
 
 
+def test_model_defaults():
+    """Wan's default is set for ComfyUI only; the shared families.yaml default (read by the Coze relay) stays."""
+    sys.path.insert(0, str(ROOT / "tools"))
+    import common
+    from build import load_builder
+    ctx = common.load_context()
+    lists = load_builder("comfyui").model_lists(ctx)
+    assert lists["VIDEO_DEFAULTS"]["wan_video"] == "wan2.6-i2v"
+    assert "wan2.6-i2v" in lists["VIDEO_MODELS"]["wan_video"]
+    assert ctx.families["wan_video"]["default"] == "wan3.0-video"
+    assert lists["IMAGE_DEFAULTS"]["all"] == "gpt-image-2-c"
+
+
 def test_package_contents(tmp_path):
     package = built(tmp_path)
     names = {p.relative_to(package).as_posix() for p in package.rglob("*") if p.is_file()}

@@ -276,6 +276,9 @@ export const EXCLUDE: Record<string, string[]> = {
   "o3-pro"
  ],
  "image-tools": [
+  "gemini-2.5-flash-image",
+  "gpt-image-1",
+  "gpt-image-1.5",
   "mj_imagine",
   "mj_reroll",
   "mj_upscale",

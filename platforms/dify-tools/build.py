@@ -74,6 +74,10 @@ def image_params(kind: str, default: str | None, suggest: str | None = None) -> 
     params = [prompt_param("image", "图片"), model_param(default, suggest), reference_images()]
     aspect = select_param("aspect_ratio", "Aspect ratio", "宽高比", "Used by Gemini image models.",
                           "Gemini 生图型号使用。", ASPECTS, "auto")
+    any_aspect = {**aspect, "human_description": label(
+        "Used by Gemini image models. GPT Image models take the nearest size (square, 1536x1024 or 1024x1536) "
+        "when Size is empty. Other models ignore it.",
+        "Gemini 生图型号使用；GPT Image 型号在尺寸留空时按它选最接近的尺寸（方图、1536x1024、1024x1536）；其他型号不看它。")}
     clarity = select_param("image_size", "Resolution", "清晰度", "Used by Gemini image models. Higher costs more.",
                            "Gemini 生图型号使用。越高越贵。", ["auto", "1K", "2K", "4K"], "auto")
     gpt_size = select_param("size", "Size", "尺寸", "Output size.", "输出尺寸。", GPT_SIZES, "auto")
@@ -85,7 +89,7 @@ def image_params(kind: str, default: str | None, suggest: str | None = None) -> 
     if kind == "gpt_image":
         return params + [gpt_size, quality]
     if kind == "all":
-        return params + [free_size, quality, aspect, clarity]
+        return params + [free_size, quality, any_aspect, clarity]
     return params + [free_size]
 
 
@@ -169,9 +173,13 @@ def tool_source(tool: dict) -> str:
             f"class {cls}({tool['mixin']}, Tool):\n{attrs}\n")
 
 
+def plugin_label(listing: dict) -> dict:
+    return {"en_US": listing["label"], **({"zh_Hans": listing["label_zh"]} if listing.get("label_zh") else {})}
+
+
 def provider_yaml(ctx: Context, listing: dict, tools: list[dict]) -> dict:
     return {
-        "identity": {"author": ctx.site["slug"], "name": PROVIDER, "label": {"en_US": listing["label"]},
+        "identity": {"author": ctx.site["slug"], "name": PROVIDER, "label": plugin_label(listing),
                      "description": listing["tagline"], "icon": "icon.svg"},
         "credentials_for_provider": {"api_key": {
             "type": "secret-input", "required": True, "label": {k: ctx.strings["api_key"][k] for k in LOCALES},
@@ -190,7 +198,7 @@ def manifest(ctx: Context, listing: dict) -> dict:
         "name": listing["name"],
         "repo": ctx.site["repo_url"],
         "contact": ctx.site["contact"],
-        "label": {"en_US": listing["label"]},
+        "label": plugin_label(listing),
         "description": listing["tagline"],
         "icon": "icon.svg",
         "tags": listing["tags"],  # the Marketplace requires 1-3 tags from its controlled vocabulary (dify-plugins #3701)
@@ -269,7 +277,8 @@ def build(ctx: Context) -> Path:
     for spec in load_yaml(HERE / "single.yaml"):
         build_single(ctx, spec)
     ctx = ctx.for_channel(PLATFORM)
-    listing = {"package": PLATFORM, "name": "steadyrouter_image_video", "label": f"{ctx.site['brand']} Image & Video",
+    listing = {"package": PLATFORM, "name": "steadyrouter_image_video", "label": f"{ctx.site['brand']} Image & Video Generation",
+               "label_zh": f"{ctx.site['brand']} 图片和视频生成",
                "tagline": {k: ctx.strings["tools_tagline"][k] for k in LOCALES}}
     readme, privacy = (fill((HERE / "files" / name).read_text(), ctx) for name in ("README.md", "PRIVACY.md"))
     return write_package(ctx, listing, tool_defs(ctx), readme, privacy)

@@ -23,8 +23,11 @@ DISPLAY_NAME = "SteadyRouter"
 COMFYUI_TESTED = "0.43.0"
 REQUIRES_COMFYUI = ">=0.14.0"  # first release whose comfy_api.latest has everything the nodes use (checked in its source)
 CHAT_DEFAULT = "gemini-3.8-flash"
-IMAGE_DEFAULT_FAMILY = "nano_banana"  # default model of the "all image models" node
+IMAGE_DEFAULT_FAMILY = "gpt_image"  # default model of the "all image models" node: the most popular one (user 11-13)
 VIDEO_DEFAULT_FAMILY = "seedance"
+# ComfyUI-only defaults of family nodes, where families.yaml's default (shared with the Coze relay) is off sale.
+# wan_video: wan3.0-video is off sale; wan2.6-i2v is the newest Wan video on sale (user 11-14). It needs a start image.
+VIDEO_DEFAULT_OVERRIDES = {"wan_video": "wan2.6-i2v"}
 RESOLUTION_ORDER = ["480p", "540p", "720p", "1080p", "4k"]
 TEXT_SUFFIXES = {".py", ".md", ".js"}
 
@@ -47,7 +50,7 @@ def model_lists(ctx: Context) -> dict:
     video_defaults = {"all": ctx.families[VIDEO_DEFAULT_FAMILY]["default"]}
     for key in _families(ctx, "video"):
         video_models[key] = sorted(m["name"] for m in videos if m["family"] == key)
-        video_defaults[key] = ctx.families[key]["default"]
+        video_defaults[key] = VIDEO_DEFAULT_OVERRIDES.get(key, ctx.families[key]["default"])
     resolutions, seconds = {}, {}
     for key, names in video_models.items():
         rules = [ctx.video[n] for n in names if n in ctx.video]
@@ -65,6 +68,10 @@ def model_lists(ctx: Context) -> dict:
              for k, v in value.items() if not v] + ([] if chat else ["CHAT_MODELS"])
     if empty:
         raise ValueError(f"comfyui: empty model lists {empty}; check families.yaml against the catalog")
+    missing = [f"{name}[{k}]={d}" for name, lists in (("IMAGE_DEFAULTS", image_models), ("VIDEO_DEFAULTS", video_models))
+               for k, d in out[name].items() if d not in lists[k]]
+    if missing:
+        raise ValueError(f"comfyui: defaults not in their model lists {missing}; check the defaults against the catalog")
     return out
 
 

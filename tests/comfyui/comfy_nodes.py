@@ -159,9 +159,11 @@ def test_release_build_is_not_a_test_build(pkg, tmp_path):
 
 def test_no_key_is_a_clear_error_and_sends_nothing(pkg, fake, monkeypatch):
     (Path(folder_paths.get_user_directory()) / "default" / "comfy.settings.json").unlink()
-    with pytest.raises(pkg.nodes.SteadyRouterError, match="Settings > SteadyRouter"):
+    with pytest.raises(pkg.nodes.SteadyRouterError, match="Settings > SteadyRouter") as error:
         run(pkg, "SteadyRouterChat", model="some-chat", prompt="hi", seed=0)
     assert not fake.requests
+    assert "https://www.steadyrouter.com/sign-up?aff=cCAq" in str(error.value)  # where to get one, with this plugin's code
+    assert "free trial credit" in str(error.value)
 
 
 def test_key_from_settings_only(pkg, fake, monkeypatch):

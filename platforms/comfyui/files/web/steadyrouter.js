@@ -9,7 +9,7 @@ function link() {
 	a.href = GET_KEY_URL;
 	a.target = '_blank';
 	a.rel = 'noopener noreferrer';
-	a.textContent = 'Sign up and create a key';
+	a.textContent = 'Sign up and create a key (new accounts get free trial credit)';
 	return a;
 }
 

@@ -150,6 +150,14 @@ describe('image', () => {
 		assert.deepEqual(body.generationConfig.imageConfig, { aspectRatio: '16:9', imageSize: '2K' });
 	});
 
+	test('gpt image takes the size nearest the aspect ratio, an explicit size wins', async () => {
+		await run({ resource: 'image', operation: 'generate', model: 'gpt-image-2-c', prompt: 'cat', options: { aspectRatio: '9:16' } });
+		await run({ resource: 'image', operation: 'generate', model: 'gpt-image-2-c', prompt: 'cat', options: { aspectRatio: '16:9', size: '1024x1024' } });
+		await run({ resource: 'image', operation: 'generate', model: 'm-b64', prompt: 'cat', options: { aspectRatio: '16:9' } });
+		const sizes = (await seen('/v1/images/generations')).map((r) => r.body.size);
+		assert.deepEqual(sizes.slice(-3), ['1024x1536', '1024x1024', undefined]);
+	});
+
 	test('edit sends the input images as multipart', async () => {
 		const items = [{ json: {}, binary: { a: { data: PNG.toString('base64'), mimeType: 'image/png' }, b: { data: PNG.toString('base64'), mimeType: 'image/png' } } }];
 		const { out } = await run({ resource: 'image', operation: 'edit', model: 'm-b64', prompt: 'merge', binaryPropertyNames: 'a, b', options: {} }, { items });

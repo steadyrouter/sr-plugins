@@ -92,6 +92,28 @@ def test_edit_uses_multipart(fake):
     assert "multipart/form-data" in fake.seen("/v1/images/edits")[0]["ctype"]
 
 
+@pytest.mark.parametrize("ratio,size", [("16:9", "1536x1024"), ("4:3", "1536x1024"), ("9:16", "1024x1536"),
+                                        ("3:4", "1024x1536"), ("1:1", "1024x1024")])
+def test_gpt_image_takes_the_size_nearest_the_aspect_ratio(fake, ratio, size):
+    client(fake).generate_image("gpt-image-2-c", "cat", aspect_ratio=ratio)
+    assert fake.seen("/v1/images/generations")[0]["body"]["size"] == size
+
+
+@pytest.mark.parametrize("model,size,ratio,sent", [
+    ("gpt-image-2-c", "1024x1024", "16:9", "1024x1024"),  # an explicit size wins
+    ("gpt-image-2-c", None, "auto", None),                # auto sends no size
+    ("m-b64", None, "16:9", None),                        # only GPT Image is translated
+])
+def test_gpt_size_translation_leaves_the_rest_alone(fake, model, size, ratio, sent):
+    client(fake).generate_image(model, "cat", size=size, aspect_ratio=ratio)
+    assert fake.seen("/v1/images/generations")[0]["body"].get("size") == sent
+
+
+def test_gpt_image_edit_takes_the_size_too(fake):
+    client(fake).generate_image("gpt-image-2-c", "cat", aspect_ratio="9:16", images=[GeneratedFile(PNG, "image/png")])
+    assert b'name="size"\r\n\r\n1024x1536' in fake.seen("/v1/images/edits")[0]["body"]
+
+
 def test_no_image_in_reply(fake):
     with pytest.raises(SRError, match="no image"):
         client(fake).generate_image("m-empty", "cat")

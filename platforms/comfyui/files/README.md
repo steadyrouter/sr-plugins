@@ -9,7 +9,7 @@ Chat, image and video models in ComfyUI with one SteadyRouter API key. The nodes
 ## Setup
 
 1. Install **SteadyRouter** from the ComfyUI Manager (or the Comfy Registry) and restart ComfyUI.
-2. [Create a SteadyRouter account]({{get_key_url}}), add funds, and open **API Keys** → **Create API Key** in the console.
+2. [Create a SteadyRouter account]({{get_key_url}}) (new accounts get free trial credit to try image generation) and open **API Keys** → **Create API Key** in the console.
 3. In ComfyUI open **Settings** → **SteadyRouter** and paste the key.
 4. Add a node from the **SteadyRouter** category, or search for "SteadyRouter".
 

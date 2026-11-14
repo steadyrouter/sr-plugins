@@ -18,12 +18,32 @@ import {
 	VideoStillRunning,
 	encodeBase64,
 	extensionOf,
+	familyOf,
+	generated,
 	sniff,
 	type ChatMessage,
 	type GeneratedFile,
 	type SRClient,
 } from '../shared/srclient';
 import { properties } from './description';
+
+// GPT Image models take a size, not an aspect ratio: the ratio picks the nearest of the three sizes they all accept.
+// An explicit size wins. Other size-based models keep their own sizes, so only GPT Image is translated.
+const GPT_IMAGE_SIZES: Record<string, string> = {
+	'1:1': '1024x1024',
+	'16:9': '1536x1024',
+	'3:2': '1536x1024',
+	'4:3': '1536x1024',
+	'21:9': '1536x1024',
+	'9:16': '1024x1536',
+	'2:3': '1024x1536',
+	'3:4': '1024x1536',
+};
+
+function gptSizeFor(model: string, size: string | undefined, aspectRatio: string | undefined): string | undefined {
+	if (size || !aspectRatio || familyOf(model, generated.FAMILIES) !== 'gpt_image') return size;
+	return GPT_IMAGE_SIZES[aspectRatio] ?? size;
+}
 
 interface TextOptions {
 	systemMessage?: string;
@@ -105,7 +125,7 @@ async function runImage(ctx: IExecuteFunctions, client: SRClient, operation: str
 		for (const field of fields) images.push(await binaryFile(ctx, i, field));
 	}
 	const files = await client.generateImage(model, prompt, {
-		size: options.size || undefined,
+		size: gptSizeFor(model, options.size || undefined, options.aspectRatio),
 		quality: options.quality,
 		n: options.n ?? 1,
 		aspectRatio: options.aspectRatio,

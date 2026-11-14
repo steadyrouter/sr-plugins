@@ -1,6 +1,7 @@
 // Shared client for api.steadyrouter.com: chat, images, video tasks, safe downloads.
 // Mirrors core/python/srclient/client.py. Rules every platform relies on:
 // - A link from an upstream is downloaded at once and never handed to the user.
+// - A reference image the caller links is downloaded only through fetchReference, under the same rules as any download.
 // - The API key only ever goes to the gateway, never to a download host (the transport adds it only when `auth` is true).
 // - Errors are scrubbed (see errors.ts), so they are safe to display.
 // The platform supplies the transport (n8n helpers, fetch in a Worker, ...), so this file imports nothing platform-specific.
@@ -140,6 +141,18 @@ export function tryDecodeBase64(text: string): Uint8Array | null {
 	} catch {
 		return null;
 	}
+}
+
+/** Image types an image edit takes as a reference (the OpenAI edits format: PNG, JPEG, WebP). */
+const REFERENCE_TYPES = new Set(['image/png', 'image/jpeg', 'image/webp']);
+export const REF_UNREADABLE =
+	'A reference image could not be downloaded, or it is not a PNG, JPEG or WebP image. Use a public https link to the image file itself.';
+
+/** Bytes of a reference image, checked by their content (not by the link or a header). */
+export function referenceImage(data: Uint8Array): GeneratedFile {
+	const mime = sniff(data);
+	if (!mime || !REFERENCE_TYPES.has(mime)) throw new ValidationError(REF_UNREADABLE);
+	return { data, mime };
 }
 
 function parseUrl(url: string, base?: string): URL | null {
@@ -413,6 +426,24 @@ export class SRClient {
 			return this.capped(reply.bytes, limit);
 		}
 		throw new SRError('The generated file could not be downloaded.');
+	}
+
+	/**
+	 * Download a reference image the caller linked, for an image edit (images in generateImage): no key, https only,
+	 * public hosts, at most `limit` bytes and a few redirects, and it must be a PNG, JPEG or WebP image. Anything else
+	 * throws ValidationError(REF_UNREADABLE); too large throws FileTooLarge. Call checkKey() first, so a wrong key
+	 * costs no download.
+	 */
+	async fetchReference(url: string, limit: number): Promise<GeneratedFile> {
+		const got = await this.downloadPublic(url, limit).then(
+			(data) => ({ data }),
+			(failure: unknown) => ({ failure }),
+		);
+		if ('failure' in got) {
+			if (got.failure instanceof FileTooLarge) throw got.failure;
+			throw new ValidationError(REF_UNREADABLE);
+		}
+		return referenceImage(got.data);
 	}
 
 	/** GET /v1/models costs nothing. A wrong key throws SRError. */

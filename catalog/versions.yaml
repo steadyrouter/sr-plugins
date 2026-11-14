@@ -1,13 +1,13 @@
 # Bump a version for each release. Dify refuses a version that already exists.
-dify-model: 0.1.0
-dify-tools: 0.1.0
-dify-nano-banana-pro: 0.2.0
+dify-model: 0.1.1
+dify-tools: 0.1.1
+dify-nano-banana-pro: 0.2.1
 dify-seedream: 0.1.0
 dify-seedance: 0.1.0
 dify-wan: 0.1.0
 dify-vidu: 0.1.0
 dify-gpt-image: 0.1.0
 dify-qwen-image: 0.1.0
-n8n: 0.1.2
-comfyui: 0.1.1
+n8n: 0.1.3
+comfyui: 0.1.2
 coze: 0.1.0

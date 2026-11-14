@@ -14,6 +14,7 @@ import {
 	listModels,
 	literalHostCheck,
 	pricingModels,
+	referenceImage,
 	scrub,
 	videoDownloadHint,
 	type ClientOptions,
@@ -181,6 +182,28 @@ describe('images', () => {
 		const files = await client().generateImage('m-b64', 'cat', { images: [{ data: PNG, mime: 'image/png' }] });
 		assert.deepEqual(files[0].data, PNG);
 		assert.match((await seen('/v1/images/edits'))[0].ctype, /multipart\/form-data/);
+	});
+
+	test('reference image is downloaded without the key', async () => {
+		const file = await client().fetchReference(`${BASE}/upstream/ref.png`, 1024);
+		assert.deepEqual(file, { data: PNG, mime: 'image/png' });
+		assert.equal((await seen('/upstream/ref.png'))[0].auth, null);
+	});
+
+	test('reference image that is not a PNG, JPEG or WebP is refused', async () => {
+		await rejects(client().fetchReference(`${BASE}/upstream/html`, 1024), ValidationError, /PNG, JPEG or WebP/);
+		assert.throws(() => referenceImage(new TextEncoder().encode('GIF89a......')), ValidationError);
+	});
+
+	test('reference image over the limit stops', async () => {
+		await rejects(client().fetchReference(`${BASE}/upstream/huge`, 1024), FileTooLarge);
+	});
+
+	test('reference image on http or a private host is refused', async () => {
+		await rejects(client({ httpsOnly: true }).fetchReference(`${BASE}/upstream/ref.png`, 1024), ValidationError, /public https link/);
+		const c = new SRClient(fetchTransport(), { baseUrl: BASE, httpsOnly: false });
+		await rejects(c.fetchReference(`${BASE}/upstream/ref.png`, 1024), ValidationError, /public https link/);
+		assert.equal((await seen('/upstream/')).length, 0);
 	});
 
 	test('no image in reply', async () => {

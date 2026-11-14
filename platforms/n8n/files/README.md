@@ -27,7 +27,7 @@ Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes
 
 ## Credentials
 
-1. [Create a SteadyRouter account]({{get_key_url}}), add funds, and open **API Keys** → **Create API Key** in the console.
+1. [Create a SteadyRouter account]({{get_key_url}}) (new accounts get free trial credit to try image generation) and open **API Keys** → **Create API Key** in the console.
 2. In n8n, create a **SteadyRouter API** credential and paste the key. Saving it checks the key with a free request.
 
 ## Compatibility

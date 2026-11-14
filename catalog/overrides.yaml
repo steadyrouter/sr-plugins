@@ -22,5 +22,8 @@ exclude:
     mj_reroll: multi-step flow on /mj/, first version leaves it out
     mj_upscale: multi-step flow on /mj/, first version leaves it out
     mj_variation: multi-step flow on /mj/, first version leaves it out
+    gemini-2.5-flash-image: output quality below the bar (user 11-13, same as the Coze plugins)
+    gpt-image-1: output quality below the bar (user 11-13, same as the Coze plugins)
+    gpt-image-1.5: output quality below the bar (user 11-13, same as the Coze plugins)
 # Models served through the chat endpoint instead of /v1/images/generations.
 chat_image_match: ['^gemini-.*image', '^gemini-nano-banana']
